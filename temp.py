@@ -7,6 +7,16 @@ This is a temporary script file.
 
 from tkinter import *
 from tkinter import ttk
+
+data_dict = {'ID': [1, 2, 3, 4, 5], 'free_text': 
+             ['my leg has been hurting', 
+              'i can\'t sleep',
+              'a year ago it was much worse',
+              'it was difficult having covid'
+              ]}
+
+data_frame = pd.DataFrame(data=data_dict)
+
 root = Tk()
 frm = ttk.Frame(root, padding=10)
 frm.grid()
