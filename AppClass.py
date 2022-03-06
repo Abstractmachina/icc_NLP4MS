@@ -9,14 +9,16 @@ class App:
 
     def __init__(self,root):
         root.title("Patient free text explorer")
-        root.geometry("900x640")        
-        
+        root.geometry("900x640")
+               
         
         root.columnconfigure(0, weight=1)
         root.rowconfigure(0, weight=1)       
 
+        self.header_combo_boxes = None
+
         root_frame = self.configureHomePage(root)
-        choose_headers_frame = self.configureHeaderSelectFrame(root)    
+        choose_headers_frame, self.header_combo_boxes = self.configureHeaderSelectFrame(root)    
 
         # Dictionary to store all of our frames -- frames are essentially a "new page" for our application
         # making it so that we do not need to have multiple windows, rather it can be done all in one window.
@@ -24,7 +26,7 @@ class App:
         # are displayed
         
         self.frames_dict = {"root frame":root_frame, "choose headers": choose_headers_frame}
-        self.root = root
+        self.root = root        
 
         # Display the rootframe
         self.frames_dict["root frame"].tkraise()
@@ -65,13 +67,40 @@ class App:
         Configures the choose headers frame
         This frame allows the user to select the relevant headers from their CSV file
 
-        returns: configured homepage frame (type ttk.frame)
+        returns: configured homepage frame (type ttk.frame), combo boxes (type list of combo boxes)
         
         """
+        # Set up the frame, in which all the widgets in this page are placed
         choose_headers = ttk.Frame(root, padding=(3,3,12,12))
         choose_headers.grid(column=0,row=0,sticky=(N,S,E,W))
 
-        return choose_headers
+        ######################## Set up the Labels #######################################################################
+
+
+        ######################## Set up the ComboBoxes ###################################################################
+       
+
+        user_id = ttk.Combobox(choose_headers, textvariable=None)
+        user_id.grid(column=0,row=1,sticky=(N,S,E,W))
+
+        dob = ttk.Combobox(choose_headers, textvariable=None)
+        dob.grid(column=1,row=1,sticky=(N,S,E,W))
+
+        free_txt = ttk.Combobox(choose_headers, textvariable=None)
+        free_txt.grid(column=2,row=1,sticky=(N,S,E,W))
+
+        completed_date = ttk.Combobox(choose_headers, textvariable=None)
+        completed_date.grid(column=3,row=1,sticky=(N,S,E,W))
+
+        ms_type = ttk.Combobox(choose_headers, textvariable=None)
+        ms_type.grid(column=4,row=1,sticky=(N,S,E,W))
+
+        ms_onset_year = ttk.Combobox(choose_headers, textvariable=None)
+        ms_onset_year.grid(column=5,row=1,sticky=(N,S,E,W))
+
+        combo_boxes = [user_id, dob, free_txt, completed_date, ms_type, ms_onset_year]     
+
+        return choose_headers, combo_boxes
         
 
     def loadCSVClick(self):       
@@ -84,8 +113,14 @@ class App:
     def chooseCSVHeaders(self):
         df = pd.read_csv(csv_file)
         # Stores the column headers of the dataframe
-        headers = list(df.columns.values)        
         
+        self.headers = list(df.columns.values)        
+        
+        # Add the CSV headers as options for the combo boxes
+        for combo_box in self.header_combo_boxes:
+            combo_box["values"] = list(self.headers)
+
+
         self.frames_dict["choose headers"].tkraise()       
 
 
