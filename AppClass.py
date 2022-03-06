@@ -75,28 +75,44 @@ class App:
         choose_headers.grid(column=0,row=0,sticky=(N,S,E,W))
 
         ######################## Set up the Labels #######################################################################
+        user_id_l = ttk.Label(choose_headers, text = "Select the column that contains UserIDs", font=("bold"))
+        user_id_l.grid(column=0,row=0,padx=10,pady=10)
 
+        dob_l = ttk.Label(choose_headers, text = "Select the column that contains users' date of birth", font=("bold"))
+        dob_l.grid(column=1,row=0,padx=10,pady=10)
+
+        free_txt_l = ttk.Label(choose_headers, text = "Select the column that contains users' free text", font=("bold"))
+        free_txt_l.grid(column=0,row=2,padx=10,pady=10)
+
+        completed_date_l = ttk.Label(choose_headers, text = "Select the column that contains the date the users completed the survey", font=("bold"))
+        completed_date_l.grid(column=1,row=2,padx=10,pady=10)
+
+        ms_type_l = ttk.Label(choose_headers, text = "Select the column that contains users' MS type", font=("bold"))
+        ms_type_l.grid(column=0,row=4,padx=10,pady=10)
+
+        ms_onset_l = ttk.Label(choose_headers, text = "Select the column that contains users' MS onset year", font=("bold"))
+        ms_onset_l.grid(column=1,row=4,padx=10,pady=10)
 
         ######################## Set up the ComboBoxes ###################################################################
        
 
         user_id = ttk.Combobox(choose_headers, textvariable=None)
-        user_id.grid(column=0,row=1,sticky=(N,S,E,W))
+        user_id.grid(column=0,row=1)
 
         dob = ttk.Combobox(choose_headers, textvariable=None)
-        dob.grid(column=1,row=1,sticky=(N,S,E,W))
+        dob.grid(column=1,row=1)
 
         free_txt = ttk.Combobox(choose_headers, textvariable=None)
-        free_txt.grid(column=2,row=1,sticky=(N,S,E,W))
+        free_txt.grid(column=0,row=3)
 
         completed_date = ttk.Combobox(choose_headers, textvariable=None)
-        completed_date.grid(column=3,row=1,sticky=(N,S,E,W))
+        completed_date.grid(column=1,row=3)
 
         ms_type = ttk.Combobox(choose_headers, textvariable=None)
-        ms_type.grid(column=4,row=1,sticky=(N,S,E,W))
+        ms_type.grid(column=0,row=5)
 
         ms_onset_year = ttk.Combobox(choose_headers, textvariable=None)
-        ms_onset_year.grid(column=5,row=1,sticky=(N,S,E,W))
+        ms_onset_year.grid(column=1,row=5)
 
         combo_boxes = [user_id, dob, free_txt, completed_date, ms_type, ms_onset_year]     
 
@@ -114,11 +130,15 @@ class App:
         df = pd.read_csv(csv_file)
         # Stores the column headers of the dataframe
         
-        self.headers = list(df.columns.values)        
+        self.headers = list(df.columns.values)       
+        self.headers.append("NONE") 
         
         # Add the CSV headers as options for the combo boxes
         for combo_box in self.header_combo_boxes:
             combo_box["values"] = list(self.headers)
+            combo_box.state(["readonly"])
+            # Make the default value "NONE"
+            combo_box.current(len(self.headers)-1)
 
 
         self.frames_dict["choose headers"].tkraise()       
