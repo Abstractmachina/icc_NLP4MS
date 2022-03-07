@@ -12,7 +12,10 @@ class TextSearcher:
     def __init__(self,df):
 
         self.df=df
-        
+        self.current_txt = None
+        self.row_number = 0
+        self.searched = False
+
         # Sets the nltk data path depending on where this application is saved on the users' machine
         cwd = os.getcwd()
         nltk_data_directory = cwd
@@ -83,22 +86,27 @@ class TextSearcher:
 
         """
 
-        for _,row in self.df.iterrows():
-            current_txt = row["cleaned_txt"]
-            print_str, new_txt = self.getPhraseInString(current_txt,phrase,window)
+        df_to_search = self.df.iloc[self.row_number:,:]
+
+        for index,row in df_to_search.iterrows():
+            if self.searched == False:
+                current_txt = row["cleaned_txt"]
+                print_str, self.new_txt = self.getPhraseInString(current_txt,phrase,window)
+            else:
+                print_str,self.new_txt = self.getPhraseInString(self.new_txt,phrase,window)
 
             if print_str == "":
+                self.searched = False
                 continue
             
             occurence_found = True
+            self.searched = True
+            self.row_number=index
 
-            # If button pressed again
-            if new_txt != "finish":
-                print_str, new_txt = self.getPhraseInString(new_txt,phrase,window)
+            return print_str        
 
-            while(new_txt!= "finish"):
-                
-                print_str,new_txt = self.getPhraseInString(new_txt,phrase,window)
+        return "No more occurences"    
+           
 
 
 
