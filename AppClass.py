@@ -27,7 +27,10 @@ class App:
         self.frames_dict = {"root frame":root_frame, "choose headers": choose_headers_frame}
         self.root = root        
 
+        # Configure all the other pages in our application
         self.configureMainMenu()
+        self.configureFreqPage()
+        self.configureSearchPage()
 
         # Display the rootframe
         self.frames_dict["root frame"].tkraise()
@@ -185,6 +188,24 @@ class App:
 
     def configureMainMenu(self):
         main_menu_f = self.addPageFrame("main frame",self.root)
+
+        ############# Configure Buttons ################################################
+        freq_b = ttk.Button(main_menu_f, text="Word Frequency Analysis", command= lambda: self.frames_dict["freq frame"].tkraise())
+        freq_b.grid(column=0,row=0,sticky=(N,S,E,W))
+
+        search_b = ttk.Button(main_menu_f, text="Search the free text", command= lambda: self.frames_dict["search frame"].tkraise())
+        search_b.grid(column=0,row=1,sticky=(N,S,E,W))
+
+        back_b = ttk.Button(main_menu_f, text="Back", command= lambda: self.frames_dict["root frame"].tkraise())
+        back_b.grid(column=0, row=2, sticky=(N,S,E,W))
+
+    def configureFreqPage(self):
+        freq_f = self.addPageFrame("freq frame", self.root)
+
+    def configureSearchPage(self):
+        search_f = self.addPageFrame("search frame", self.root)
+
+    
 
 
        
