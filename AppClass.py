@@ -9,8 +9,7 @@ class App:
 
     def __init__(self,root):
         root.title("Patient free text explorer")
-        root.geometry("900x640")
-               
+        root.geometry("900x640")               
         
         root.columnconfigure(0, weight=1)
         root.rowconfigure(0, weight=1)       
@@ -27,6 +26,8 @@ class App:
         
         self.frames_dict = {"root frame":root_frame, "choose headers": choose_headers_frame}
         self.root = root        
+
+        self.configureMainMenu()
 
         # Display the rootframe
         self.frames_dict["root frame"].tkraise()
@@ -57,7 +58,29 @@ class App:
         instruction_button = ttk.Button(root_frame, text="Instructions", command=self.instructionsClick)
         instruction_button.grid(column=0,row=3,sticky=(N,S,E,W))
 
+        # Need to alter button click command so that it checks whether the CSV file has been loaded and alerts the user to do so if it has not
+        next_button = ttk.Button(root_frame,text="Next", command= lambda: self.frames_dict["main frame"].tkraise())
+        next_button.grid(column=0,row=4, sticky=(N,S,E,W))
+
         return root_frame
+    
+    def addPageFrame(self, frame_name,root):
+        
+        """
+        Inputs (self, frame_name, root), where root is the parent window of the Tk application
+        and frame_name is a string containing the name of the frame
+
+        Creates a new page frame and adds it so the class dictionary that contains all of the frame pages
+
+        returns the newly created frame
+
+        """
+
+        new_frame = ttk.Frame(root, padding=(3,3,12,12))
+        new_frame.grid(column=0,row=0,sticky=(N,S,E,W))
+
+        self.frames_dict[frame_name] = new_frame
+        return new_frame
 
     def configureHeaderSelectFrame(self,root):
 
@@ -121,25 +144,25 @@ class App:
 
         ######################## Set up the Buttons #######################################################################
 
+        # Must be a lambda as command expects a defined function
         done_b = ttk.Button(choose_headers, text="Done", command= lambda: self.frames_dict["root frame"].tkraise())
         done_b.grid(column=0,row=10,columnspan=2,sticky=(N,S,E,W))  
 
         # Insert a blank row before the button to put button at bottom of screen
-        choose_headers.rowconfigure(9,weight=1)
-       
+        choose_headers.rowconfigure(9,weight=1)       
 
         return choose_headers, combo_boxes
         
 
     def loadCSVClick(self):       
         # Only permit CSV files, returns the full file path
-        global csv_file
-        csv_file = filedialog.askopenfilename( title="Select a CSV file", filetypes=(("csv files", "*.csv"),))
+        
+        self.csv_file = filedialog.askopenfilename( title="Select a CSV file", filetypes=(("csv files", "*.csv"),))
         self.chooseCSVHeaders()
 
 
     def chooseCSVHeaders(self):
-        df = pd.read_csv(csv_file)
+        df = pd.read_csv(self.csv_file)
         # Stores the column headers of the dataframe
         
         self.headers = list(df.columns.values)       
@@ -159,6 +182,10 @@ class App:
     
     def instructionsClick(self):
         print("Need to display instructions")
+
+    def configureMainMenu(self):
+        main_menu_f = self.addPageFrame("main frame",self.root)
+
 
        
 
