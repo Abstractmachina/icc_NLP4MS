@@ -99,7 +99,6 @@ class App:
 
         ######################## Set up the ComboBoxes ###################################################################
        
-
         user_id = ttk.Combobox(choose_headers, textvariable=None)
         user_id.grid(column=0,row=4)
 
@@ -118,7 +117,16 @@ class App:
         ms_onset_year = ttk.Combobox(choose_headers, textvariable=None)
         ms_onset_year.grid(column=1,row=8)
 
-        combo_boxes = [user_id, dob, free_txt, completed_date, ms_type, ms_onset_year]     
+        combo_boxes = [user_id, dob, free_txt, completed_date, ms_type, ms_onset_year]   
+
+        ######################## Set up the Buttons #######################################################################
+
+        done_b = ttk.Button(choose_headers, text="Done", command= lambda: self.frames_dict["root frame"].tkraise())
+        done_b.grid(column=0,row=10,columnspan=2,sticky=(N,S,E,W))  
+
+        # Insert a blank row before the button to put button at bottom of screen
+        choose_headers.rowconfigure(9,weight=1)
+       
 
         return choose_headers, combo_boxes
         
