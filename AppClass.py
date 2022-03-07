@@ -15,6 +15,7 @@ class App:
         root.rowconfigure(0, weight=1)       
 
         self.header_combo_boxes = None
+        self.df = None
 
         root_frame = self.configureHomePage(root)
         choose_headers_frame, self.header_combo_boxes = self.configureHeaderSelectFrame(root)    
@@ -165,9 +166,13 @@ class App:
 
 
     def chooseCSVHeaders(self):
-        df = pd.read_csv(self.csv_file)
-        # Stores the column headers of the dataframe
         
+        df = pd.read_csv(self.csv_file)
+
+        # Store the dataframe as an object datamember
+        self.df = df
+
+        # Stores the column headers of the dataframe        
         self.headers = list(df.columns.values)       
         self.headers.append("NONE") 
         
