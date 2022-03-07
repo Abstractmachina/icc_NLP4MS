@@ -240,6 +240,24 @@ class App:
         results.configure(state="disabled")
 
         self.display_search_results = results
+
+        # Configure checkbuttons to allow the user to display additional information from their query
+        user_id_c = ttk.Checkbutton(search_f,text="User ID        ")
+        user_id_c.grid(column=1,row=5)
+
+        dob_c = ttk.Checkbutton(search_f,text="Date of Birth  ")
+        dob_c.grid(column=1,row=6)
+
+        survey_date_c = ttk.Checkbutton(search_f,text="Survey Date    ")
+        survey_date_c.grid(column=1,row=7)
+
+        ms_type_c = ttk.Checkbutton(search_f,text="MS Type        ")
+        ms_type_c.grid(column=1,row=8)
+
+        ms_onset_year_c = ttk.Checkbutton(search_f,text="MS Onset Year  ")
+        ms_onset_year_c.grid(column=1,row=9)
+
+        
        
         # Configure labels
         search_box_l = ttk.Label(search_f,text="Enter your search term below:")
