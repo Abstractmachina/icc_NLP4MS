@@ -4,6 +4,8 @@ from tkinter import filedialog
 
 import pandas as pd
 
+from search import TextSearcher
+
 
 class App:
 
@@ -198,7 +200,7 @@ class App:
         freq_b = ttk.Button(main_menu_f, text="Word Frequency Analysis", command= lambda: self.frames_dict["freq frame"].tkraise())
         freq_b.grid(column=0,row=0,sticky=(N,S,E,W))
 
-        search_b = ttk.Button(main_menu_f, text="Search the free text", command= lambda: self.frames_dict["search frame"].tkraise())
+        search_b = ttk.Button(main_menu_f, text="Search the free text", command= lambda: self.searchEntryButtonClick())
         search_b.grid(column=0,row=1,sticky=(N,S,E,W))
 
         back_b = ttk.Button(main_menu_f, text="Back", command= lambda: self.frames_dict["root frame"].tkraise())
@@ -209,6 +211,69 @@ class App:
 
     def configureSearchPage(self):
         search_f = self.addPageFrame("search frame", self.root)
+
+        # Configure search box for query
+        search_phrase = StringVar()
+        search_box = ttk.Entry(search_f,textvariable=search_phrase)
+        search_box.grid(column=0,row=4,sticky=(N,S,E,W))
+
+        self.search_box = search_box
+
+        # Configure search button
+        search_button = ttk.Button(search_f,text="Search",command= lambda: self.searchButtonClick())
+        search_button.grid(column=0,row=5,sticky=(N,S,E,W))
+
+        # Configure search window list
+        window_list = ttk.Combobox(search_f, textvariable=None)
+        windows = [5,10,15,20,25,30,"All"]
+        window_list["values"] = windows
+        window_list.current(3)
+        window_list.state(["readonly"])
+        window_list.grid(column=1,row=4,sticky=(N,S,E,W))
+
+        self.window_list = window_list
+
+        # Configure the area where query results will be displayed
+        results = Text(search_f, width=100, height=10)
+        results.grid(row=0,column=0,rowspan=3,columnspan=3,sticky=(N,S,E,W))
+        results.insert("1.0","Search results will appear here")
+        results.configure(state="disabled")
+
+        self.display_search_results = results
+       
+        # Configure labels
+        search_box_l = ttk.Label(search_f,text="Enter your search term below:")
+        search_box_l.grid(column=0,row=3)
+
+        window_l = ttk.Label(search_f,text="Choose how many words either side of your term you wish to extract:")
+        window_l.grid(column=1,row=3)
+
+        
+
+    
+    def searchButtonClick(self):
+        """
+        """
+        search_phrase = self.search_box.get()
+        window = self.window_list.get()
+
+        result = self.searcher.findPhraseInText(search_phrase,window,query_list=None)
+        self.display_search_results.configure(state="normal")
+        self.display_search_results.delete('1.0','end')
+        self.display_search_results.insert('1.0',result)
+        self.display_search_results.configure(state="disabled")
+
+
+        
+
+
+
+    def searchEntryButtonClick(self):
+        
+        self.searcher = TextSearcher(self.df)
+        text_header = self.header_combo_boxes[2].get()
+        self.searcher.preProcessText(text_header)
+        self.frames_dict["search frame"].tkraise()
 
     
 

@@ -15,6 +15,7 @@ class TextSearcher:
         self.current_txt = None
         self.row_number = 0
         self.searched = False
+        self.finished = False
 
         # Sets the nltk data path depending on where this application is saved on the users' machine
         cwd = os.getcwd()
@@ -86,6 +87,10 @@ class TextSearcher:
 
         """
 
+        if self.finished == True:
+            return "No more occurences in the text"
+
+
         df_to_search = self.df.iloc[self.row_number:,:]
 
         for index,row in df_to_search.iterrows():
@@ -105,7 +110,8 @@ class TextSearcher:
 
             return print_str        
 
-        return "No more occurences"    
+        self.finished = True
+        return "No more occurences in the text"    
            
 
 
@@ -119,6 +125,11 @@ class TextSearcher:
 
         if start_pos == -1:
             return "","finish"
+        
+        if window == "All":
+            window = len(text)
+        else:
+            window = int(window)
         
         start,_,end_str = text.partition(phrase)
         f1 = False
