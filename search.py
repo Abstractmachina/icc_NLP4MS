@@ -8,13 +8,14 @@ import os
 
 class TextSearcher:
 
-    def __init__(self,df):
+    def __init__(self,df,csv_header_combo_boxes):
 
         self.df=df
         self.current_txt = None
         self.row_number = 0
         self.searched = False
         self.finished = False
+        self.csv_headers = csv_header_combo_boxes
 
         # Sets the nltk data path depending on where this application is saved on the users' machine
         cwd = os.getcwd()
@@ -76,7 +77,7 @@ class TextSearcher:
         self.searched = False
         self.finished = False
 
-    def findPhraseInText(self,phrase, window, query_list):
+    def findPhraseInText(self,phrase, window, query_list=None):
 
         """
         Input phrase (string): the phrase to be searched in text 
@@ -88,7 +89,7 @@ class TextSearcher:
 
         Returns the found text plus additional queries about that user (if any)
 
-        """
+        """      
 
         if self.finished == True:
             return "No more occurences in the text"
@@ -110,6 +111,8 @@ class TextSearcher:
             occurence_found = True
             self.searched = True
             self.row_number=index
+
+           # Combo boxes: [user_id, dob, free_txt, completed_date, ms_type, ms_onset_year]  
 
             return print_str        
 

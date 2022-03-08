@@ -305,20 +305,35 @@ class App:
         self.display_search_results = results
 
         # Configure checkbuttons to allow the user to display additional information from their query
-        user_id_c = ttk.Checkbutton(search_f,text="User ID        ")
-        user_id_c.grid(column=1,row=5)
+        self.user_id_c_sv = IntVar()
+        user_id_c = ttk.Checkbutton(search_f,text="User ID        ",variable=self.user_id_c_sv)
+        user_id_c.grid(column=1,row=6)
 
-        dob_c = ttk.Checkbutton(search_f,text="Date of Birth  ")
-        dob_c.grid(column=1,row=6)
+        self.dob_c_sv = IntVar()
+        dob_c = ttk.Checkbutton(search_f,text="Date of Birth  ",variable=self.dob_c_sv)
+        dob_c.grid(column=1,row=7)
 
-        survey_date_c = ttk.Checkbutton(search_f,text="Survey Date    ")
-        survey_date_c.grid(column=1,row=7)
+        self.survey_date_c_sv = IntVar()
+        survey_date_c = ttk.Checkbutton(search_f,text="Survey Date    ",variable=self.survey_date_c_sv)
+        survey_date_c.grid(column=1,row=8)
 
-        ms_type_c = ttk.Checkbutton(search_f,text="MS Type        ")
-        ms_type_c.grid(column=1,row=8)
+        self.ms_type_c_sv = IntVar()
+        ms_type_c = ttk.Checkbutton(search_f,text="MS Type        ",variable=self.ms_type_c_sv)
+        ms_type_c.grid(column=1,row=9)
 
-        ms_onset_year_c = ttk.Checkbutton(search_f,text="MS Onset Year  ")
-        ms_onset_year_c.grid(column=1,row=9)
+        self.ms_onset_year_c_sv = IntVar()
+        ms_onset_year_c = ttk.Checkbutton(search_f,text="MS Onset Year  ",variable=self.ms_onset_year_c_sv)
+        ms_onset_year_c.grid(column=1,row=10)       
+        
+        # Configure labels
+        search_box_l = ttk.Label(search_f,text="Enter your search term below:")
+        search_box_l.grid(column=0,row=3)
+
+        window_l = ttk.Label(search_f,text="Choose how many words either side of your term you wish to extract:")
+        window_l.grid(column=1,row=3)
+
+        checkbutton_l = ttk.Label(search_f, text="Select additional information to display. If a box is greyed out it means the information\n was not provided when the CSV was loaded in")
+        checkbutton_l.grid(column=1,row=5)
 
         # Store the combo boxes as data members to use in other member functions
         self.user_id_c_s = user_id_c
@@ -326,14 +341,6 @@ class App:
         self.survey_date_c_s = survey_date_c
         self.ms_type_c_s = ms_type_c
         self.ms_onset_year_c_s = ms_onset_year_c
-        
-       
-        # Configure labels
-        search_box_l = ttk.Label(search_f,text="Enter your search term below:")
-        search_box_l.grid(column=0,row=3)
-
-        window_l = ttk.Label(search_f,text="Choose how many words either side of your term you wish to extract:")
-        window_l.grid(column=1,row=3)
 
         
     def clearButtonClick(self):
@@ -367,6 +374,7 @@ class App:
         self.display_search_results.insert("1.0","Search results will appear here")
         self.display_search_results.configure(state="disabled")
 
+     
 
 
     
@@ -389,7 +397,20 @@ class App:
         # Prevent the user from altering the window, unless the clear button is pressed
         self.window_list.config(state="disabled")
 
-        result = self.searcher.findPhraseInText(search_phrase,window,query_list=None)
+        # Define the additional queries to display
+        query_l = []
+        if self.user_id_c_sv.get():
+            query_l.append("user_id")
+        if self.dob_c_sv.get():
+            query_l.append("dob")
+        if self.survey_date_c_sv.get():
+            query_l.append("survey date")
+        if self.ms_type_c_sv.get():
+            query_l.append("ms type")
+        if self.ms_onset_year_c_sv.get():
+            query_l.append("ms year")
+
+        result = self.searcher.findPhraseInText(search_phrase,window,query_list=query_l)
         self.display_search_results.configure(state="normal")
         self.display_search_results.delete('1.0','end')
         self.display_search_results.insert('1.0',result)
@@ -406,7 +427,8 @@ class App:
         Defines the behaviour for when the text search button on the main menu is clicked
 
         Instatiates an instance of the TextSearcher class as a data member, runs the preprocessing
-        of the CSV, and displays the search page 
+        of the CSV, dynamically disables the combo boxes according to the choose header combobox values
+        and displays the search page 
 
         """
         
@@ -425,9 +447,10 @@ class App:
             self.ms_onset_year_c_s.configure(state="disabled")
 
 
-        self.searcher = TextSearcher(self.df)
+        self.searcher = TextSearcher(self.df,self.header_combo_boxes)
         text_header = self.header_combo_boxes[2].get()
         self.searcher.preProcessText(text_header)
+        self.clearButtonClick()
         self.frames_dict["search frame"].tkraise()
 
     
