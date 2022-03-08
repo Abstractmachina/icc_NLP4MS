@@ -320,6 +320,12 @@ class App:
         ms_onset_year_c = ttk.Checkbutton(search_f,text="MS Onset Year  ")
         ms_onset_year_c.grid(column=1,row=9)
 
+        # Store the combo boxes as data members to use in other member functions
+        self.user_id_c_s = user_id_c
+        self.dob_c_s = dob_c
+        self.survey_date_c_s = survey_date_c
+        self.ms_type_c_s = ms_type_c
+        self.ms_onset_year_c_s = ms_onset_year_c
         
        
         # Configure labels
@@ -404,6 +410,21 @@ class App:
 
         """
         
+        # Disable the combo boxes for those that the user has not told us are in the CSV file
+        # Combo boxes: [user_id, dob, free_txt, completed_date, ms_type, ms_onset_year]  
+        
+        if self.header_combo_boxes[0].get() == "NONE":
+            self.user_id_c_s.configure(state="disabled")
+        if self.header_combo_boxes[1].get() == "NONE":
+            self.dob_c_s.configure(state="disabled")
+        if self.header_combo_boxes[3].get() == "NONE":
+            self.survey_date_c_s.configure(state="disabled")
+        if self.header_combo_boxes[4].get() == "NONE":
+            self.ms_type_c_s.configure(state="disabled")
+        if self.header_combo_boxes[5].get() == "NONE":
+            self.ms_onset_year_c_s.configure(state="disabled")
+
+
         self.searcher = TextSearcher(self.df)
         text_header = self.header_combo_boxes[2].get()
         self.searcher.preProcessText(text_header)
