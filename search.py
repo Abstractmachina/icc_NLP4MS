@@ -15,6 +15,7 @@ class TextSearcher:
         self.row_number = 0
         self.searched = False
         self.finished = False
+        self.occurence_found = False
         self.csv_headers = csv_header_combo_boxes
 
         # Sets the nltk data path depending on where this application is saved on the users' machine
@@ -76,6 +77,7 @@ class TextSearcher:
         self.current_txt = None
         self.searched = False
         self.finished = False
+        self.occurence_found = False
 
     def findPhraseInText(self,phrase, window, query_list=None):
 
@@ -108,15 +110,34 @@ class TextSearcher:
                 self.searched = False
                 continue
             
-            occurence_found = True
+            self.occurence_found = True
             self.searched = True
             self.row_number=index
 
-           # Combo boxes: [user_id, dob, free_txt, completed_date, ms_type, ms_onset_year]  
+            # Combo boxes: [user_id, dob, free_txt, completed_date, ms_type, ms_onset_year] 
+            # Build the query based on additional parameters
+            query = ""
+            if "user_id" in query_list:
+                query += "User ID: " + str(row[str(self.csv_headers[0].get())]) + "\n"
+            if "dob" in query_list:
+                query += "User Date of Birth: " + str(row[str(self.csv_headers[1].get())]) + "\n"
+            if "survey date" in query_list:
+                query += "Survey completed on: " + str(row[str(self.csv_headers[3].get())]) + "\n"
+            if "ms type" in query_list:
+                query += "User MS Type: " + str(row[str(self.csv_headers[4].get())]) + "\n"
+            if "ms year" in query_list:
+                query += "Onset year of MS: " + str(row[str(self.csv_headers[5].get())]) + "\n"
+            
+            if query != "":
+                query += "\n\n"
+                print_str = query + print_str
 
             return print_str        
 
         self.finished = True
+        if self.occruence_found == False:
+            return "No matches in any text"
+
         return "No more occurences in the text"    
            
 
