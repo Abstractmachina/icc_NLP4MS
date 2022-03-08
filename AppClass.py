@@ -222,6 +222,10 @@ class App:
         # Configure search button
         search_button = ttk.Button(search_f,text="Search",command= lambda: self.searchButtonClick())
         search_button.grid(column=0,row=5,sticky=(N,S,E,W))
+        
+        # Configure back button
+        back_b = ttk.Button(search_f, text="Back", command= lambda: self.frames_dict["main frame"].tkraise())
+        back_b.grid(column=0, row=6, sticky=(N,S,E,W))
 
         # Configure search window list
         window_list = ttk.Combobox(search_f, textvariable=None)
