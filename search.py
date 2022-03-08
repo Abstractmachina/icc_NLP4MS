@@ -70,7 +70,11 @@ class TextSearcher:
         
         self.df["cleaned_txt"] = proccesed_list
         
-
+    def reset(self):
+        self.row_number = 0
+        self.current_txt = None
+        self.searched = False
+        self.finished = False
 
     def findPhraseInText(self,phrase, window, query_list):
 
@@ -172,6 +176,9 @@ class TextSearcher:
         print_str = " ".join(start)
 
         return print_str,end_str
+    
+
+    
 
 
 

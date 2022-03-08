@@ -222,10 +222,14 @@ class App:
         # Configure search button
         search_button = ttk.Button(search_f,text="Search",command= lambda: self.searchButtonClick())
         search_button.grid(column=0,row=5,sticky=(N,S,E,W))
+
+        # Configure clear button
+        clear_b = ttk.Button(search_f, text="Clear", command=lambda: self.clearButtonClick())
+        clear_b.grid(column=0,row=6,sticky=(N,S,E,W))
         
         # Configure back button
         back_b = ttk.Button(search_f, text="Back", command= lambda: self.frames_dict["main frame"].tkraise())
-        back_b.grid(column=0, row=6, sticky=(N,S,E,W))
+        back_b.grid(column=0, row=7, sticky=(N,S,E,W))
 
         # Configure search window list
         window_list = ttk.Combobox(search_f, textvariable=None)
@@ -271,19 +275,50 @@ class App:
         window_l.grid(column=1,row=3)
 
         
+    def clearButtonClick(self):
+            
+        # Reset search information stored in the searcher
+        self.searcher.reset()
+
+        # Allow user to enter text in the search box again
+        self.search_box.config(state="normal")
+
+        # Delete entry in the search box
+        self.search_box.delete(0,"end")  
+
+        # Allow the user to alter the window again
+        self.window_list.config(state="normal")
+
+        # Reset the window list to 20
+        self.window_list.current(3)        
+
+        # Reset the text displayed in the text box
+        self.display_search_results.configure(state="normal")
+        self.display_search_results.delete('1.0','end')
+        self.display_search_results.insert("1.0","Search results will appear here")
+        self.display_search_results.configure(state="disabled")
+
+
 
     
     def searchButtonClick(self):
-        """
-        """
+        
         search_phrase = self.search_box.get()
         window = self.window_list.get()
+
+        # Prevent the user from altering text, unless the clear button is pressed
+        self.search_box.config(state="disabled")
+
+        # Prevent the user from altering the window, unless the clear button is pressed
+        self.window_list.config(state="disabled")
 
         result = self.searcher.findPhraseInText(search_phrase,window,query_list=None)
         self.display_search_results.configure(state="normal")
         self.display_search_results.delete('1.0','end')
         self.display_search_results.insert('1.0',result)
         self.display_search_results.configure(state="disabled")
+
+
 
 
         
