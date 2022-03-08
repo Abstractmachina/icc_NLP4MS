@@ -1,4 +1,8 @@
 import pandas as pd
+from tkinter import * 
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, 
+NavigationToolbar2Tk)
 
 
 #================================================================
@@ -101,3 +105,31 @@ class DataQueryBuilder:
     def withCompletedDate_webEDSS(self):
         self.filterValues.append("CompletedDate_webEDSS")
         return self
+
+#================================================================
+
+class DataDisplayer:
+ 
+    """
+    Display/Download Graphs in App Feature
+    """
+ 
+    #Embeds MatplotLib Chart into a Window.
+    def display(plot, title, window):
+        fig = Figure(figsize = (5,5), dpi = 100)
+        canvas = FigureCanvasTkAgg(fig, master = window)
+        canvas.draw()
+        canvas.get_tik_widget().pack()
+        toolbar = NavigationToolbar2Tk(canvas, window)
+        toolbar.update()
+        canvas.get_tik_widget().pack()
+ 
+        window.title(title)
+        window.geometry("750x750")
+        plot_button = Button(master = window, 
+                     command = plot,
+                     height = 2, 
+                     width = 10,
+                     text = "Plot")
+        plot_button.pack()
+ 
