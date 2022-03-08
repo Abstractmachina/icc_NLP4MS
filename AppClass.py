@@ -10,6 +10,16 @@ from search import TextSearcher
 class App:
 
     def __init__(self,root):
+
+        """
+        Initalisation for the App class
+
+        Configures all the pages of the app (in terms of their user interface)
+
+        Sets up a dictionary to store all of the App's pages
+
+        """
+
         root.title("Patient free text explorer")
         root.geometry("900x640")               
         
@@ -161,13 +171,31 @@ class App:
         
 
     def loadCSVClick(self):       
-        # Only permit CSV files, returns the full file path
         
+        """
+        Opens a file dialog window that only allows the user to choose a csv file
+        
+        After a file is selected, set up the relevant data and open the chooseCSVHeaders page
+
+        """
+
+        # Only permit CSV files, returns the full file path        
         self.csv_file = filedialog.askopenfilename( title="Select a CSV file", filetypes=(("csv files", "*.csv"),))
         self.chooseCSVHeaders()
 
 
     def chooseCSVHeaders(self):
+
+        """
+        Reads in the user CSV file as a pandas dataframe 
+        and stores the CSV headers as a data variable
+
+        Set all of the headers as options for the combo boxes for the user
+        to choose 
+
+        Finally, displays the choose headers page
+
+        """
         
         df = pd.read_csv(self.csv_file)
 
@@ -191,9 +219,21 @@ class App:
 
     
     def instructionsClick(self):
+        
+        """
+        Opens the instruction page which tells the user how to use our software
+
+        """
         print("Need to display instructions")
 
     def configureMainMenu(self):
+
+        """
+        Configures the layout of the main menu of our program
+        which is what the user sees after selecting the csv file and pressing next
+
+        """
+
         main_menu_f = self.addPageFrame("main frame",self.root)
 
         ############# Configure Buttons ################################################
@@ -210,6 +250,21 @@ class App:
         freq_f = self.addPageFrame("freq frame", self.root)
 
     def configureSearchPage(self):
+
+        """
+        Configures the layout of the search page, which allows the user to search the free text
+        
+        The user can select a phrase to search, along with how many additional words either side
+        of that phrase they wish to display
+
+        Search results are displayed in the Text box, and the user must press clear before they
+        can edit their search phrase or window, once they have pressed search for a first time
+
+        The user can also select additional information to extract and display in their search results
+        depending on the headers that they have selected from their CSV file
+
+        """
+
         search_f = self.addPageFrame("search frame", self.root)
 
         # Configure search box for query
@@ -276,6 +331,14 @@ class App:
 
         
     def clearButtonClick(self):
+
+        """
+        Defines the behaviour for when the clear button is clicked
+
+        Clears all relevant information and allows the user to search for
+        a different phrase and window
+
+        """
             
         # Reset search information stored in the searcher
         self.searcher.reset()
@@ -302,6 +365,14 @@ class App:
 
     
     def searchButtonClick(self):
+
+        """
+        Defines the behaviour for when the searcj button is clicked
+
+        Gets the search results from the TextSearcher class, and outputs
+        this result to the Text box on the page
+
+        """
         
         search_phrase = self.search_box.get()
         window = self.window_list.get()
@@ -319,13 +390,19 @@ class App:
         self.display_search_results.configure(state="disabled")
 
 
-
-
         
 
 
 
     def searchEntryButtonClick(self):
+
+        """
+        Defines the behaviour for when the text search button on the main menu is clicked
+
+        Instatiates an instance of the TextSearcher class as a data member, runs the preprocessing
+        of the CSV, and displays the search page 
+
+        """
         
         self.searcher = TextSearcher(self.df)
         text_header = self.header_combo_boxes[2].get()
