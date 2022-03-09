@@ -91,22 +91,20 @@ class TextSearcher:
 
         Returns the found text plus additional queries about that user (if any)
 
-        """      
-
-        if self.finished == True:
-            return "No more occurences in the text"
+        """    
 
 
         df_to_search = self.df.iloc[self.row_number:,:]
+        print_str = ""
 
         for index,row in df_to_search.iterrows():
             if self.searched == False:
                 current_txt = row["cleaned_txt"]
-                print_str, self.new_txt = self.getPhraseInString(current_txt,phrase,window)
+                new_str, self.new_txt = self.getPhraseInString(current_txt,phrase,window)
             else:
-                print_str,self.new_txt = self.getPhraseInString(self.new_txt,phrase,window)
+                new_str,self.new_txt = self.getPhraseInString(self.new_txt,phrase,window)
 
-            if print_str == "":
+            if new_str == "":
                 self.searched = False
                 continue
             
@@ -130,15 +128,18 @@ class TextSearcher:
             
             if query != "":
                 query += "\n\n"
-                print_str = query + print_str
+                new_str = query + new_str
 
-            return print_str        
+            print_str += new_str
+            print_str += "\n\n\n"
+
+                   
 
         self.finished = True
-        if self.occruence_found == False:
+        if self.occurence_found == False:
             return "No matches in any text"
 
-        return "No more occurences in the text"    
+        return print_str  
            
 
 

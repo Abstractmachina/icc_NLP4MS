@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
+from click import command
 
 import pandas as pd
 
@@ -297,12 +298,17 @@ class App:
         self.window_list = window_list
 
         # Configure the area where query results will be displayed
-        results = Text(search_f, width=100, height=10)
+        results = Text(search_f, width=105, height=20)
         results.grid(row=0,column=0,rowspan=3,columnspan=3,sticky=(N,S,E,W))
         results.insert("1.0","Search results will appear here")
         results.configure(state="disabled")
 
         self.display_search_results = results
+
+        # Configure the text scrollbar
+        txt_scroll = ttk.Scrollbar(search_f, orient=VERTICAL, command=results.yview)
+        txt_scroll.grid(row=0,column=3,rowspan=3,sticky=(N,S))
+        results["yscrollcommand"] = txt_scroll.set
 
         # Configure checkbuttons to allow the user to display additional information from their query
         self.user_id_c_sv = IntVar()
