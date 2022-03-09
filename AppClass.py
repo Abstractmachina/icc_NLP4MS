@@ -1,7 +1,6 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
-from click import command
 
 import pandas as pd
 
