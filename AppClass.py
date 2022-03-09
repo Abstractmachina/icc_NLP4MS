@@ -276,16 +276,20 @@ class App:
         self.search_box = search_box
 
         # Configure search button
-        search_button = ttk.Button(search_f,text="Search",command= lambda: self.searchButtonClick())
+        search_button = ttk.Button(search_f,text="Search",command= lambda: self.searchButtonClick_sf())
         search_button.grid(column=0,row=5,sticky=(N,S,E,W))
 
+        # Configure download button
+        download_b = ttk.Button(search_f, text="Download results", command= lambda: self.downloadButtonClick_sf())
+        download_b.grid(column=0, row=6, sticky=(N,S,E,W))
+
         # Configure clear button
-        clear_b = ttk.Button(search_f, text="Clear", command=lambda: self.clearButtonClick())
-        clear_b.grid(column=0,row=6,sticky=(N,S,E,W))
+        clear_b = ttk.Button(search_f, text="Clear", command=lambda: self.clearButtonClick_sf())
+        clear_b.grid(column=0,row=7,sticky=(N,S,E,W))
         
         # Configure back button
         back_b = ttk.Button(search_f, text="Back", command= lambda: self.frames_dict["main frame"].tkraise())
-        back_b.grid(column=0, row=7, sticky=(N,S,E,W))
+        back_b.grid(column=0, row=8, sticky=(N,S,E,W))
 
         # Configure search window list
         window_list = ttk.Combobox(search_f, textvariable=None)
@@ -349,7 +353,7 @@ class App:
         self.ms_onset_year_c_s = ms_onset_year_c
 
         
-    def clearButtonClick(self):
+    def clearButtonClick_sf(self):
 
         """
         Defines the behaviour for when the clear button is clicked
@@ -381,10 +385,23 @@ class App:
         self.display_search_results.configure(state="disabled")
 
      
+    def downloadButtonClick_sf(self):
+        """
+        """
+        # Returns a file object in write mode
+        save_file = filedialog.asksaveasfile(mode="w", defaultextension=".txt")
 
+        # The above returns none if the user exits the dialog without pressing save
+        if save_file == None:
+            return
+        
+        # Get the search results to write to the file
+        search_results = self.display_search_results.get("1.0","end")
+        save_file.write(search_results)
+        
 
     
-    def searchButtonClick(self):
+    def searchButtonClick_sf(self):
 
         """
         Defines the behaviour for when the searcj button is clicked
@@ -456,7 +473,7 @@ class App:
         self.searcher = TextSearcher(self.df,self.header_combo_boxes)
         text_header = self.header_combo_boxes[2].get()
         self.searcher.preProcessText(text_header)
-        self.clearButtonClick()
+        self.clearButtonClick_sf()
         self.frames_dict["search frame"].tkraise()
 
     
