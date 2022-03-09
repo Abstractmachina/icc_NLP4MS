@@ -302,9 +302,10 @@ class App:
         self.window_list = window_list
 
         # Configure the area where query results will be displayed
-        results = Text(search_f, width=105, height=20)
+        results = Text(search_f, width=95, height=20)
         results.grid(row=0,column=0,rowspan=3,columnspan=3,sticky=(N,S,E,W))
         results.insert("1.0","Search results will appear here")
+        results.configure(font="16")
         results.configure(state="disabled")
 
         self.display_search_results = results
@@ -404,7 +405,7 @@ class App:
     def searchButtonClick_sf(self):
 
         """
-        Defines the behaviour for when the searcj button is clicked
+        Defines the behaviour for when the search button is clicked
 
         Gets the search results from the TextSearcher class, and outputs
         this result to the Text box on the page
@@ -437,6 +438,21 @@ class App:
         self.display_search_results.configure(state="normal")
         self.display_search_results.delete('1.0','end')
         self.display_search_results.insert('1.0',result)
+
+        # Highlight all occurnces of the search phrase
+        phrase_len = len(search_phrase)
+        start_pos = self.display_search_results.search(search_phrase,"1.0","end")
+
+        
+        while start_pos != "":
+            tag_end = start_pos + "+" + str(phrase_len) + "c"
+            self.display_search_results.tag_add("highlight",start_pos,tag_end)
+            self.display_search_results.tag_config("highlight", background= "yellow", foreground= "black")           
+
+            start_pos = self.display_search_results.search(search_phrase,tag_end,"end")
+
+
+
         self.display_search_results.configure(state="disabled")
 
 
@@ -484,7 +500,8 @@ class App:
 
 
 
-
+# Responsible for creating an instance of the app and running the app
+# TODO: should move this into its own main function
 root = Tk()
 App(root)
 root.mainloop()
