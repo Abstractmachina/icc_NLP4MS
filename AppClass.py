@@ -251,6 +251,8 @@ class App:
 
     def configureFreqPage(self):
         freq_f = self.addPageFrame("freq frame", self.root)
+        back_b = ttk.Button(freq_f, text="Back", command= lambda: self.frames_dict["main frame"].tkraise())
+        back_b.grid(column=0, row=0, sticky=(N,S,E,W))
 
     def configureSearchPage(self):
 
