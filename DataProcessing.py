@@ -133,3 +133,8 @@ class DataDisplayer:
                      text = "Plot")
         plot_button.pack()
  
+
+ #===============================================================
+ #Utility functions
+def min_max_scaling(self, data, minV, maxV):
+    return (data - minV) / (maxV - minV)
