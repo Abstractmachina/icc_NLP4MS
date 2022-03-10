@@ -228,6 +228,46 @@ class App:
 
         """
         print("Need to display instructions")
+        
+        
+
+
+
+    def searchEntryButtonClick(self):
+
+        """
+        Defines the behaviour for when the text search button on the main menu is clicked
+
+        Instatiates an instance of the TextSearcher class as a data member, runs the preprocessing
+        of the CSV, dynamically disables the combo boxes according to the choose header combobox values
+        and displays the search page 
+
+        """
+        
+        # Disable the combo boxes for those that the user has not told us are in the CSV file
+        # Combo boxes: [user_id, dob, free_txt, completed_date, ms_type, ms_onset_year]  
+        
+        if self.header_combo_boxes[0].get() == "NONE":
+            self.user_id_c_s.configure(state="disabled")
+        if self.header_combo_boxes[1].get() == "NONE":
+            self.dob_c_s.configure(state="disabled")
+        if self.header_combo_boxes[3].get() == "NONE":
+            self.survey_date_c_s.configure(state="disabled")
+        if self.header_combo_boxes[4].get() == "NONE":
+            self.ms_type_c_s.configure(state="disabled")
+        if self.header_combo_boxes[5].get() == "NONE":
+            self.ms_onset_year_c_s.configure(state="disabled")
+
+
+        self.searcher = TextSearcher(self.df,self.header_combo_boxes)
+        text_header = self.header_combo_boxes[2].get()
+        self.searcher.preProcessText(text_header)
+        self.clearButtonClick_sf()
+        self.frames_dict["search frame"].tkraise()
+
+    
+
+
 
     def configureMainMenu(self):
 
@@ -243,7 +283,7 @@ class App:
         freq_b = ttk.Button(main_menu_f, text="Word Frequency Analysis", command= lambda: self.frames_dict["freq frame"].tkraise())
         freq_b.grid(column=0,row=0,sticky=(N,S,E,W))
 
-        search_b = ttk.Button(main_menu_f, text="Search the free text", command= lambda: self.searchEntryButtonClick())
+        search_b = ttk.Button(main_menu_f, text="Search the free text", command=self.searchEntryButtonClick)
         search_b.grid(column=0,row=1,sticky=(N,S,E,W))
 
         back_b = ttk.Button(main_menu_f, text="Back", command= lambda: self.frames_dict["root frame"].tkraise())
@@ -461,78 +501,7 @@ class App:
 
 
         
-
-
-
-    def searchEntryButtonClick(self):
-
-        """
-        Defines the behaviour for when the text search button on the main menu is clicked
-
-        Instatiates an instance of the TextSearcher class as a data member, runs the preprocessing
-        of the CSV, dynamically disables the combo boxes according to the choose header combobox values
-        and displays the search page 
-
-        """
-        
-        # Disable the combo boxes for those that the user has not told us are in the CSV file
-        # Combo boxes: [user_id, dob, free_txt, completed_date, ms_type, ms_onset_year]  
-        
-        if self.header_combo_boxes[0].get() == "NONE":
-            self.user_id_c_s.configure(state="disabled")
-        if self.header_combo_boxes[1].get() == "NONE":
-            self.dob_c_s.configure(state="disabled")
-        if self.header_combo_boxes[3].get() == "NONE":
-            self.survey_date_c_s.configure(state="disabled")
-        if self.header_combo_boxes[4].get() == "NONE":
-            self.ms_type_c_s.configure(state="disabled")
-        if self.header_combo_boxes[5].get() == "NONE":
-            self.ms_onset_year_c_s.configure(state="disabled")
-
-
-        self.searcher = TextSearcher(self.df,self.header_combo_boxes)
-        text_header = self.header_combo_boxes[2].get()
-        self.searcher.preProcessText(text_header)
-        self.clearButtonClick_sf()
-        self.frames_dict["search frame"].tkraise()
-
-    def modelsClick(self):
-        """
-        Configures the model page, when the model prediction is clicked. 
-        Here, the model is easily replacable (we use an adapter)
-        """
-        model_frame = self.addPageFrame("model frame", self.root)
-        
-        l = Label(model_frame, text="Please enter the text you wish to predict: ")
-        l.pack(side=TOP)
-        # Configure large text box
-        self.text_entry = Text(model_frame, undo = True)
-        self.text_entry.pack(side=TOP)
-
-        # Configure back button
-        back_b = ttk.Button(model_frame, text="Back", command= lambda: self.frames_dict["root frame"].tkraise())
-        back_b.pack(padx=5, pady=15, side=RIGHT)
-
-        # Configure predict button
-        predict_b = ttk.Button(model_frame, text="Predict", command=self.predictModelPopUp)
-        predict_b.pack(padx=5, pady=20, side=RIGHT)
-
-
-    def predictModelPopUp(self):
-        # get main window position
-        root_x = root.winfo_rootx()
-        root_y = root.winfo_rooty()
-
-        # add offset
-        win_x = root_x + 300
-        win_y = root_y + 100
-
-        # Popup window
-        modelPopupWindow = Toplevel()
-        modelPopupWindow.geometry(f'+{win_x}+{win_y}')
-        modelPopupWindow.wm_title("Prediction")
-        l = Label(modelPopupWindow, text="The MS type predicted from the given text is:")
-        l.grid(row=0, column=0)
+       
 
         predict_text = self.text_entry.get("1.0", 'end-1c')
         prediction = predict(predict_text)
