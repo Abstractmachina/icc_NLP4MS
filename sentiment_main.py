@@ -4,7 +4,7 @@ import sys
 sys.path.append("S:\ICLMScProject - Imperial MSc project\Taole\sentimentAnalysis")
 #import dataProcessing as dp
 
-from sentimentAnalysis import SentimentAnalyzer 
+from VaderSentimentAnalyzer import VaderSentimentAnalyzer 
 
 #from sentimentAnalysis import getPolarityScore
 #import nltk
@@ -20,11 +20,11 @@ import DataProcessing as dp
 ######################################################
 def main():
     
-    path = "S:\ICLMScProject - Imperial MSc project\Taole\FreeTextProcessed_20220218_T.csv"
+    path = "C:\\Users\\taole\\Imperial_local\\2_NLP4MS\\nlp-ui-project\\example_csv.csv"
     
     dat = dp.DataQueryBuilder.query(path).withUserId().withValue().withCompletedDate().build().execute()
     
-    analyzer = SentimentAnalyzer()
+    analyzer = VaderSentimentAnalyzer()
     sentimentHistory = analyzer.buildSentimentHistory(dat, cap = 50)
     #analyzer.plotSentimentHistory(sentimentHistory)
     
@@ -44,10 +44,7 @@ def main():
     #sentiment distribution
     #################################################
     
-    """
-    still needs to be cleaned up!
 
-    
     #calc sentiments   
     numPts= 1000
     data = dat_raw.filter(["Value"])
@@ -84,7 +81,7 @@ def main():
                 f.write("\n==================\n")
                 f.write("\n")
                 printCountNeu += 1
-   """ 
+   
                 
             
     #calc distribution
