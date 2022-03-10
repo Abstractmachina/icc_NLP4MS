@@ -42,8 +42,7 @@ class App:
 
         # Configure all the other pages in our application
         self.configureMainMenu()
-        self.configureFreqPage()
-        self.configureSearchPage()
+
 
         # Display the rootframe
         self.frames_dict["root frame"].tkraise()
@@ -278,21 +277,34 @@ class App:
         """
 
         main_menu_f = self.addPageFrame("main frame",self.root)
-
+        self.configureFreqPage()
+        self.configureSearchPage()
+        self.configureSentimentPage()
         ############# Configure Buttons ################################################
         freq_b = ttk.Button(main_menu_f, text="Word Frequency Analysis", command= lambda: self.frames_dict["freq frame"].tkraise())
         freq_b.grid(column=0,row=0,sticky=(N,S,E,W))
 
         search_b = ttk.Button(main_menu_f, text="Search the free text", command=self.searchEntryButtonClick)
         search_b.grid(column=0,row=1,sticky=(N,S,E,W))
+        
+        sentiment_b = ttk.Button(main_menu_f, text="Perform sentiment analysis", command= lambda: self.frames_dict["sentiment frame"].tkraise())
+        sentiment_b.grid(column=0,row=2,sticky=(N,S,E,W))
 
         back_b = ttk.Button(main_menu_f, text="Back", command= lambda: self.frames_dict["root frame"].tkraise())
-        back_b.grid(column=0, row=2, sticky=(N,S,E,W))
+        back_b.grid(column=0, row=3, sticky=(N,S,E,W))
+        
 
     def configureFreqPage(self):
         freq_f = self.addPageFrame("freq frame", self.root)
         back_b = ttk.Button(freq_f, text="Back", command= lambda: self.frames_dict["main frame"].tkraise())
         back_b.grid(column=0, row=0, sticky=(N,S,E,W))
+        
+    def configureSentimentPage(self):
+        freq_f = self.addPageFrame("sentiment frame", self.root)
+        back_b = ttk.Button(freq_f, text="Back", command= lambda: self.frames_dict["main frame"].tkraise())
+        back_b.grid(column=0, row=1, sticky=(N,S,E,W))
+        #action_b = ttk.Button(freq_f, text="Run")
+        #action_b.grid(column=0, row=0, sticky=(N,S,E,W))
 
     def configureSearchPage(self):
 
