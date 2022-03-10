@@ -1,5 +1,4 @@
 
-#from sentimentAnalysis import getPolarityScore
 #import nltk
 #nltk.data.path.append("S:\ICLMScProject - Imperial MSc project/nltk_data")
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
@@ -9,7 +8,7 @@ from datetime import datetime
 import numpy as np
 
 ######################################################
-class SentimentAnalyzer:
+class VaderSentimentAnalyzer:
     
     def __init__(self):
         #self.sentiments
@@ -30,7 +29,7 @@ class SentimentAnalyzer:
 
     def buildSentimentHistory(self, inputData, minN = 3, cap = 0):
         '''
-        Build sentiment table sorted by UserId. User must have a minimum of 
+        Build sentiment table sorted by UserId with cap specifying number of users. User must have a minimum of 
         minN data points to be added to the table.
         
         Parameters:
@@ -72,47 +71,41 @@ class SentimentAnalyzer:
         print("Finished Calculating Sentiments")
         return sentiments
     
-    
-    def plotSentimentHistory(self, sentimentHistory):
-        """
-        Parameters:
-            -sentimentHistory --pd.DataFrame with structure:
-                ["UserId", "CompletedDate", "Sent_Neg", "Sent_Neu", "Sent_Pos", "Sent_Comp"]
-                
-        """
-        print("Building sentiment history plot...")
-        uniqueId = pd.unique(sentimentHistory.loc[:,"UserId"])
-        fig, ax = plt.subplots(2,1, figsize=(13,10))
-        for user in range(len(uniqueId)):
-            
-            
-            dataPts = sentimentHistory.loc[sentimentHistory["UserId"] == uniqueId[user]]
-            
-            #check if there are multiple entries for same date.
-            #if so, collapse into averaged score
-            uniqueDates = pd.unique(dataPts.loc[:, "CompletedDate"])
-            for date in range(len(uniqueDates)):
-                sameDate = dataPts.loc[dataPts["CompletedDate"] == uniqueDates[date]]
-                if len(sameDate) > 1:
-                    avgScore = [uniqueId[user], uniqueDates[date], 
-                                sameDate["Sent_Neg"].mean(), sameDate["Sent_Neu"].mean(),
-                                sameDate["Sent_Pos"].mean(), sameDate["Sent_Comp"].mean()]
-                    dataPts = dataPts.loc[dataPts["CompletedDate"] != uniqueDates[date]]
-                    dataPts.loc[len(dataPts)] = avgScore
-                
-            sortedPts = dataPts.sort_values(by="CompletedDate")
 
-            
-            if sortedPts.iloc[0]["Sent_Comp"] < sortedPts.iloc[-1]["Sent_Comp"]:
-                ax[0].plot(sortedPts["CompletedDate"], sortedPts["Sent_Comp"])
-            else:
-                ax[1].plot(sortedPts["CompletedDate"], sortedPts["Sent_Comp"])
-                
-        ax[0].set_title("Improved Outcome")
-        ax[1].set_title("Deteriorated Outcome")
-        plt.show()
-            
-        return
+    
+    def BuildSentimentHistory(self, inputData, userId, minN = 3):
+        """
+        Build sentiment history of one user. 
+        Parameters:
+            -inputData  --  pd.DataFrame: UserId and Value (string) 
+                            required.
+            -userId     --  self explanatory.
+            -minN       --  minimum number of data points to be considered.
+        Returns:
+            -pd.DataFrame with structure:
+             ["UserId", "CompletedDate", "Sent_Neg", "Sent_Neu", "Sent_Pos", "Sent_Comp"]
+             sorted by UserId
+        """
+        dataPts = inputData.loc[inputData["UserId"] == userId]
+        if len(dataPts) < minN:
+            print("No match found!")
+            return
+
+        col = ["UserId", "CompletedDate", "Sent_Neg", "Sent_Neu", "Sent_Pos", "Sent_Comp"]
+        sentiments = pd.DataFrame(columns = col)
+        idx = 0
+        for index, row in dataPts.iterrows():
+            s = self.calculateSentiment(str(row['Value']))
+            #process date format. some are just strings.
+            date = str(row["CompletedDate"])            
+            dateProcessed = datetime.strptime(date , "%d/%m/%Y")
+            content = [userId, dateProcessed, s["neg"], s["neu"], s["pos"], s["compound"]]
+            sentiments.loc[idx] = content
+            idx += 1
+        
+        return sentiments
+    
+    
         
     def buildEDSSHistory(self, inputData, minN = 3, cap = 0):
         uniqueUserId = pd.unique(inputData.loc[:,"UserId"])
@@ -166,13 +159,50 @@ class SentimentAnalyzer:
         
         plt.show()
         return
+    
+    def calcSentiments(self, inputData, numPts = 0) :
+        """
+        Build sentiment history of one user. 
+        Parameters:
+            -inputData  --  pd.DataFrame: UserId and Value (string) 
+                            required.
+            -numPts     --  Number of data pts to be calculated.
+                            if 0, will calculate all pts in set.
+        Returns:
+            -np.array with structure: ["compound", "neg", "neu", "pos"]
+        """
+        #calc sentiments   
+        data = inputData.filter(["Value"])
+        sens = np.zeros((numPts, 4))
+
+        count = 0
+        for idx, row in data.iterrows():
+            if idx % int(numPts/10) == 0:
+                print(f"Processing sentiments {idx/numPts * 100}% ...")
+            if numPts != 0 and count == numPts:
+                break
+            res = self.calculateSentiment(str(row['Value']));
+            sens[idx] = res["compound"], res["neg"] , res["neu"] , res["pos"]
+            count+=1
             
             
-        
-        
-    def min_max_scaling(self, data):
-        minV = np.min(data)
-        maxV = np.max(data)
-        return (data - minV) / (maxV - minV)
-    
-    
+    def _collapseSameDateEntries(userId, dataPts) :
+        """ Checks if there are several entries for the same date. If there are,
+            entries will be collapsed into one with mean taken for the sentiments.
+
+        Args:
+            userId (int): Unique user ID belonging to the data points.
+            dataPts (pd.DataFrame): 
+                ["UserId", "CompletedDate", 
+                "Sent_Neg", "Sent_Neu", "Sent_Pos", "Sent_Comp"]
+        """
+        uniqueDates = pd.unique(dataPts.loc[:, "CompletedDate"])
+        for date in range(len(uniqueDates)):
+            sameDate = dataPts.loc[dataPts["CompletedDate"] == uniqueDates[date]]
+            if len(sameDate) > 1:
+                avgScore = [userId, uniqueDates[date], 
+                            sameDate["Sent_Neg"].mean(), sameDate["Sent_Neu"].mean(),
+                            sameDate["Sent_Pos"].mean(), sameDate["Sent_Comp"].mean()]
+                dataPts = dataPts.loc[dataPts["CompletedDate"] != uniqueDates[date]]
+                dataPts.loc[len(dataPts)] = avgScore
+        return
