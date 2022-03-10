@@ -1,12 +1,15 @@
+from operator import mod
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
+from tkinter.messagebox import showinfo
+from tkinter.scrolledtext import ScrolledText
 from click import command
 
 import pandas as pd
 
 from search import TextSearcher
-
+from predict_adapter import predict
 
 class App:
 
@@ -74,6 +77,8 @@ class App:
         load_csv_button.grid(column=1, row=3,sticky=(N,S,E,W))
         instruction_button = ttk.Button(root_frame, text="Instructions", command=self.instructionsClick)
         instruction_button.grid(column=0,row=3,sticky=(N,S,E,W))
+        model_button = ttk.Button(root_frame, text="Predict MS Type", command=self.modelsClick)
+        model_button.grid(column=1,row=4,sticky=(N,S,E,W))
 
         # Need to alter button click command so that it checks whether the CSV file has been loaded and alerts the user to do so if it has not
         next_button = ttk.Button(root_frame,text="Next", command= lambda: self.frames_dict["main frame"].tkraise())
@@ -476,12 +481,51 @@ class App:
         self.clearButtonClick_sf()
         self.frames_dict["search frame"].tkraise()
 
-    
+    def modelsClick(self):
+        """
+        Configures the model page, when the model prediction is clicked. 
+        Here, the model is easily replacable (we use an adapter)
+        """
+        model_frame = self.addPageFrame("model frame", self.root)
+        
+        l = Label(model_frame, text="Please enter the text you wish to predict: ")
+        l.pack(side=TOP)
+        # Configure large text box
+        self.text_entry = Text(model_frame, undo = True)
+        self.text_entry.pack(side=TOP)
+
+        # Configure back button
+        back_b = ttk.Button(model_frame, text="Back", command= lambda: self.frames_dict["root frame"].tkraise())
+        back_b.pack(padx=5, pady=15, side=RIGHT)
+
+        # Configure predict button
+        predict_b = ttk.Button(model_frame, text="Predict", command=self.predictModelPopUp)
+        predict_b.pack(padx=5, pady=20, side=RIGHT)
 
 
-       
+    def predictModelPopUp(self):
+        # get main window position
+        root_x = root.winfo_rootx()
+        root_y = root.winfo_rooty()
 
+        # add offset
+        win_x = root_x + 300
+        win_y = root_y + 100
 
+        # Popup window
+        modelPopupWindow = Toplevel()
+        modelPopupWindow.geometry(f'+{win_x}+{win_y}')
+        modelPopupWindow.wm_title("Prediction")
+        l = Label(modelPopupWindow, text="The MS type predicted from the given text is:")
+        l.grid(row=0, column=0)
+
+        predict_text = self.text_entry.get("1.0", 'end-1c')
+        prediction = predict(predict_text)
+        ans = Label(modelPopupWindow, text=prediction)
+        ans.grid(row=1, column=0)
+
+        b = ttk.Button(modelPopupWindow, text="Okay", command=modelPopupWindow.destroy)
+        b.grid(row=3, column=0)
 
 
 
