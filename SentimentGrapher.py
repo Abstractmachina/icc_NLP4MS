@@ -78,4 +78,25 @@ class SentimentGrapher:
         ax[1].set_title("Deteriorated Outcome")
         plt.show()
         return
+    
+    @staticmethod
+    def plot_EDSS_sentiment(userId, edss_history, sentiment_history):
+        
+        data_edss = edss_history.loc[edss_history["UserId"] == userId]
+        data_sent = sentiment_history.loc[sentiment_history["UserId"] == userId]
+        
+        #if no matching user, ignore
+        if len(data_sent) == 0 or len(data_edss) == 0:
+            print("No matches found.")
+            return
+        
+        sorted_edss = data_edss.sort_values(by="CompletedDate")
+        sorted_sent = data_sent.sort_values(by="CompletedDate")
+        plt.figure()
+        
+        plt.plot(sorted_edss["CompletedDate"], sorted_edss["EDSS"])
+        plt.plot(sorted_sent["CompletedDate"], sorted_sent["Sent_Comp"])
+        
+        plt.show()
+        return
             
