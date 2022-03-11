@@ -1,10 +1,11 @@
 import numpy as np
 
-import sys
-sys.path.append("S:\ICLMScProject - Imperial MSc project\Taole\sentimentAnalysis")
+#import sys
+#sys.path.append("S:\ICLMScProject - Imperial MSc project\Taole\sentimentAnalysis")
 #import dataProcessing as dp
 
-from VaderSentimentAnalyzer import VaderSentimentAnalyzer 
+from SentimentAnalyzer import SentimentAnalyzer
+from SentimentGrapher import SentimentGrapher as graph
 
 #from sentimentAnalysis import getPolarityScore
 #import nltk
@@ -24,19 +25,21 @@ def main():
     
     dat = dp.DataQueryBuilder.query(path).withUserId().withValue().withCompletedDate().build().execute()
     
-    analyzer = VaderSentimentAnalyzer()
-    sentimentHistory = analyzer.buildSentimentHistory(dat, cap = 50)
-    #analyzer.plotSentimentHistory(sentimentHistory)
+    analyzer = SentimentAnalyzer()
+    sentimentHistory = analyzer.buildSentimentHistory(dat, minN=2, cap = 50)
+    graph.plotSentimentHistory(sentimentHistory)
+    return
     
-    
-    path2 = "S:\ICLMScProject - Imperial MSc project\Taole\EDSSProcessed_20220120.csv"
+    path2 = "C:\\Users\\taole\\Imperial_local\\2_NLP4MS\\nlp-ui-project\\edss_example.csv"
     dat2 = dp.DataQueryBuilder.query(path2).withUserId().withCompletedDate_webEDSS().withWebEDSS().build().execute()
     
-    edss_history = analyzer.buildEDSSHistory(dat2, cap = 50)
+    print(dat2)
+    
+    edss_history = analyzer.buildEDSSHistory(inputData = dat2, dateFormat = "%d.%m.%Y", minN = 2, cap = 50)
     uniqueUser = pd.unique(edss_history.loc[:,"UserId"])
     
-    for i in range(30):
-        analyzer.plot_EDSS_sentiment(uniqueUser[i], edss_history, sentimentHistory)
+    for i in range(len(uniqueUser)):
+        graph.plot_EDSS_sentiment(uniqueUser[i], edss_history, sentimentHistory)
     
     return
 

@@ -18,11 +18,9 @@ class DataQuery:
         self.path = path;
         self.filterValues = filterVals
     
-    def execute(self):
-        '''
-        Return:
-            -pandas DataFrame
-        '''
+    def execute(self) -> pd.DataFrame:
+        """Execute query and return a pd.DataFrame;
+        # """
         dat_raw = pd.read_csv(self.path)
         dat = dat_raw.filter(self.filterValues)
         return dat
@@ -49,6 +47,14 @@ class DataQueryBuilder:
     def build(self):
         return DataQuery(self.path, self.filterValues)
         
+    def add(self, customHeader) :
+        """Append a custom header to the query string.
+        Args:
+            customHeader (string): Match with header in CSV file.
+
+        """
+        self.filterValues.append(customHeader)
+        return self
     
     def withUserId(self):
         self.filterValues.append("UserId")

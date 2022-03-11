@@ -6,17 +6,33 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 import numpy as np
 from VaderSentimentAdapter import VaderSentimentAdapter
+import DataProcessing as dp
 
 ######################################################
 class SentimentAnalyzer():
     
     def __init__(self):
+        self.rawData = pd.DataFrame
         self.sentimentHistory = pd.DataFrame()
         self.sentimentSet = pd.DataFrame()
-        #adapter returns single sentiment as a dict with keys
+        self.comboTable = pd.DataFrame()
+        self.EDSS = pd.DataFrame()
+        self.HADS = pd.DataFrame()
+        #adapter must return single sentiment as a dict with keys
         #["neg", "neu", "pos", "compound"].
         self.adapter = VaderSentimentAdapter()
         pass
+        
+    def processInput(self, csvPath, userId = "UserId", date = "CompletedDate", value = "Value") :
+        qb = dp.DataQueryBuilder.query(csvPath).add(userId).add(date).add(value)
+        df = qb.build().execute()
+        standardizedHeaders = {userId : "UserId",
+                              date : "Date",
+                              value: "Value"}
+        df.rename(columns = standardizedHeaders, inplace=True)
+        
+        self.rawData = df
+        return
         
     def calcSentiments(self, inputData = pd.DataFrame, numPts = 10) -> pd.DataFrame:
         """Calculate sentiments by entry. Will process all data points
@@ -131,6 +147,63 @@ class SentimentAnalyzer():
             idx += 1
         
         return sentiments
+    
+    ##################################################################################
+    #                       EDSS & HADS
+    #################################################################################
+    def processEDSS(self, csvPath, userId = "UserId", date = "CompletedDate_webEDSS",
+                    score = "webEDSS") :
+        """Import CSV file for EDSS scoring, assign standardized header names and 
+        store in class member self.EDSS.
+
+        Args:
+            csvPath (str): Full file path to CSV file.
+            userId (str, optional): Defaults to "UserId".
+            date (str, optional): Defaults to "CompletedDate_webEDSS".
+            score (str, optional): Defaults to "webEDSS".
+        """
+        qb = dp.DataQueryBuilder.query(csvPath).add(userId).add(date).add(score)
+        df = qb.build().execute()
+        standardizedHeaders = {userId : "UserId",
+                              date : "Date",
+                              score: "EDSS"}
+        df.rename(columns = standardizedHeaders, inplace=True)
+        
+        self.EDSS = df
+        return
+    
+    def processHADS(self, csvPath, userId = "UserId", date = "CompletedDate",
+                    anxietySums = "anxiety_sums", 
+                    anxietySums_norm = "anxiety_sums_norm",
+                    depressionSums = "depression_sums", 
+                    depressionSums_norm = "depression_sums_norm") :
+        """Import CSV file for HADS scoring, assign standardized header names and 
+        store in class member self.HADS.
+
+        Args:
+            csvPath (str): Full file path to CSV file.
+            userId (str, optional): Defaults to "UserId".
+            date (str, optional): Defaults to "CompletedDate".
+            anxietySums (str, optional): Defaults to "anxiety_sums".
+            anxietySums_norm (str, optional): Defaults to "anxiety_sums_norm".
+            depressionSums (str, optional): Defaults to "depression_sums".
+            depressionSums_norm (str, optional): Defaults to "depression_sums_norm".
+        """
+        qb = dp.DataQueryBuilder.query(csvPath)
+        qb = qb.add(userId).add(date)
+        qb = qb.add(anxietySums).add(anxietySums_norm)
+        qb = qb.add(depressionSums).add(depressionSums_norm)
+        df = qb.build().execute()
+        
+        standardizedHeaders = {userId : "UserId",
+                              date : "Date",
+                              anxietySums: "Anxiety",
+                              anxietySums_norm: "Anxiety Norm",
+                              depressionSums: "Depression",
+                              depressionSums_norm: "Depression Norm"}
+        df.rename(columns = standardizedHeaders, inplace=True)
+        self.HADS = df
+        return
     
     
         

@@ -80,6 +80,10 @@ class SentimentGrapher:
         return
     
     @staticmethod
+    def plotDisabilityScore() :
+        return    
+    
+    @staticmethod
     def plot_EDSS_sentiment(userId, edss_history, sentiment_history):
         
         data_edss = edss_history.loc[edss_history["UserId"] == userId]

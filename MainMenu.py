@@ -40,7 +40,7 @@ class MainMenu:
         search_b = ttk.Button(self.frame, text="Search the free text", command=self.search_page.searchEntryButtonClick)
         search_b.grid(column=0,row=1,sticky=(N,S,E,W))
         
-        sentiment_b = ttk.Button(self.frame, text="Perform sentiment analysis", command= lambda: self.app.displayFrame("sent frame"))
+        sentiment_b = ttk.Button(self.frame, text="User Analysis", command= lambda: self.app.displayFrame("sent frame"))
         sentiment_b.grid(column=0,row=2,sticky=(N,S,E,W))
 
         back_b = ttk.Button(self.frame, text="Back", command= lambda: self.app.displayFrame("home frame"))
