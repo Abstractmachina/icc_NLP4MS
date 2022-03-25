@@ -4,6 +4,10 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, 
 NavigationToolbar2Tk)
 
+import csv
+import random
+import lipsum
+import time
 
 #================================================================
 class DataQuery:
@@ -144,3 +148,54 @@ class DataDisplayer:
  #Utility functions
 def min_max_scaling(self, data, minV, maxV):
     return (data - minV) / (maxV - minV)
+
+#===============================================================
+#                   RANDOM CSV GENERATOR
+#===============================================================
+
+def generateCSV(N):
+    headers = ["UserId","Value","CompletedDate", "webEDSS", "Anxiety", "Depression"]
+    filename = "dummyCSV.csv"
+    
+    with open(filename, "w") as csvfile:
+        csvwriter = csv.writer(csvfile)
+        
+        csvwriter.writerow(headers)
+        
+        for i in range(N):
+            row = []
+            row.append(random.randrange(0,N/4)) #userid
+            txt = lipsum.generate_words(random.randrange(50, 500))
+            row.append(txt) #value
+            date = str_time_prop("1/1/2000", "25/3/2021", "%d/%m/%Y", random.random())
+            row.append(date)
+            row.append(random.randrange(0,10)) #EDSS disability
+            row.append(random.randrange(0, 21)) #anxiety
+            row.append(random.randrange(0,21)) #depression
+            csvwriter.writerow(row)
+            
+        
+    return
+
+def str_time_prop(start, end, time_format, prop):
+    """Get a time at a proportion of a range of two formatted times.
+
+    start and end should be strings specifying times formatted in the
+    given format (strftime-style), giving an interval [start, end].
+    prop specifies how a proportion of the interval to be taken after
+    start.  The returned time will be in the specified format.
+    """
+
+    stime = time.mktime(time.strptime(start, time_format))
+    etime = time.mktime(time.strptime(end, time_format))
+
+    ptime = stime + prop * (etime - stime)
+
+    return time.strftime(time_format, time.localtime(ptime))
+
+
+def random_date(start, end, prop):
+    return str_time_prop(start, end, '%m/%d/%Y', prop)
+
+if __name__ == "__main__":
+    generateCSV(100)

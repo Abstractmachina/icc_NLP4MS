@@ -5,6 +5,8 @@ from click import command
 
 import pandas as pd
 
+from SentimentAnalyzer import SentimentAnalyzer
+
 
 class SentimentPage:
 
@@ -46,18 +48,28 @@ class SentimentPage:
         
         
         ##options frame
+        
+        
         f2_options = ttk.Frame(f_controls)
         f2_options.grid(row =2)
         
         l_options = ttk.Label(f2_options, text = "Options")
         l_options.grid(row = 0)
-        check_sa = ttk.Checkbutton(f2_options, text = "Sentiment Analysis")
+        
+        self.sa_on = IntVar()
+        check_sa = ttk.Checkbutton(f2_options, text = "Sentiment Analysis", variable=self.sa_on)
         check_sa.grid(row = 1)
-        check_disabl = ttk.Checkbutton(f2_options, text = "Disability Score (EDSS)")
+        
+        self.disabl_on = IntVar()
+        check_disabl = ttk.Checkbutton(f2_options, text = "Disability Score (EDSS)", variable=self.disabl_on)
         check_disabl.grid(row = 2)
-        check_anx = ttk.Checkbutton(f2_options, text = "Anxiety Score (HADS)")
+        
+        self.anx_on = IntVar()
+        check_anx = ttk.Checkbutton(f2_options, text = "Anxiety Score (HADS)", variable=self.anx_on)
         check_anx.grid(row = 3)
-        check_combine = ttk.Checkbutton(f2_options, text = "Combine")
+        
+        self.combine_on = IntVar()
+        check_combine = ttk.Checkbutton(f2_options, text = "Combine", variable=self.combine_on)
         check_combine.grid(row = 4)
         
         
@@ -65,7 +77,8 @@ class SentimentPage:
         f2_freeText_options = ttk.Frame(f_controls)
         f2_freeText_options.grid(row = 3)
         
-        ch_freetxt = ttk.Checkbutton(f2_freeText_options, text = "List Free Text")
+        self.freetxt_on = IntVar()
+        ch_freetxt = ttk.Checkbutton(f2_freeText_options, text = "List Free Text", variable= self.freetxt_on)
         ch_freetxt.grid(row = 0)
         
         
@@ -91,7 +104,20 @@ class SentimentPage:
         results.configure(font="16")
         results.configure(state="disabled")
         
+        return
+        
         
     def generate(self) :
+        """
         print ("generating")
+        print("Options:")
+        print(f"Sentiment Analysis: {self.sa_on.get()}")
+        print(f"Disability Score: {self.disabl_on.get()}")
+        print(f"Anxiety Score: {self.anx_on.get()}")
+        print(f"combine: {self.combine_on.get()}")
+        print(f"free text: {self.freetxt_on.get()}")
+        """
+        analyzer = SentimentAnalyzer()
+        analyzer.buildSentimentHistory()
+        
         return
