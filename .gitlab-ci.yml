@@ -3,12 +3,12 @@ image: python:latest
 requirements:
     stage: build
     script:
-        pip install -r requirements.txt
+        - pip install -r requirements.txt
 
 
 
 pytest:
     stage: test
     script:
-        pip list
-        python -m pytest -v
+        - pip list
+        - python -m pytest -v
