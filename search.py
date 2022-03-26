@@ -41,7 +41,7 @@ class TextSearcher:
         """
         Input: text (string)
 
-        Removes punctuation and special characters from string
+        Removes punctuation from string
         and converts it to lower case
 
         Returns cleaned text (string)
@@ -69,7 +69,7 @@ class TextSearcher:
         proccesed_list = []
         for _,row in self.df.iterrows():
             proccesed_list.append(self.clean(row[text_col_name]))
-        
+
         self.df["cleaned_txt"] = proccesed_list
         
     def reset(self):
