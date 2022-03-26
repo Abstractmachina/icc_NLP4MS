@@ -10,4 +10,5 @@ requirements:
 pytest:
     stage: test
     script:
-        python pytest -v
+        pip list
+        python -m pytest -v
