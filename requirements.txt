@@ -2,7 +2,6 @@ nltk
 pandas
 pytest
 matplotlib
-random
 lipsum
 time
 numpy
