@@ -10,4 +10,4 @@ requirements:
 pytest:
     stage: test
     script:
-        python -m pytest -v
+        python pytest -v
