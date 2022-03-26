@@ -31,7 +31,7 @@ class DummyTextSearcher:
         completed_date = None
         ms_type = None
         ms_onset_year = None
-        
+
         self.combo_boxes = [user_id, dob, free_txt, completed_date, ms_type, ms_onset_year]   
 
         self.searcher = TextSearcher(self.df,self.combo_boxes)
@@ -101,3 +101,4 @@ def test_search(search_tester):
     assert search_tester.searcher.findPhraseInText("lady capulet", "1",[]) == "enter lady capulet lady\n\n\nlady capulet what\n\n\nday lady capulet what\n\n\nday lady capulet o\n\n\n"
     search_tester.searcher.reset()  
 
+# TODO: add tests for the additional information that can be extracted when searching the text
