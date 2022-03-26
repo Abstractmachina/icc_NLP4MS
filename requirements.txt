@@ -3,6 +3,5 @@ pandas
 pytest
 matplotlib
 lipsum
-time
 numpy
 
