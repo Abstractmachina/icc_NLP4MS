@@ -10,8 +10,8 @@ class DummyTextSearcher:
     def __init__(self):
         # Load in test dataframe:
         self.df = pd.read_csv("search_test.csv")
-        self.root = Tk()        
-
+           
+        """
         # Create test combo-boxes:
         user_id = ttk.Combobox(self.root, textvariable=None)
 
@@ -24,7 +24,14 @@ class DummyTextSearcher:
         ms_type = ttk.Combobox(self.root, textvariable=None)
 
         ms_onset_year = ttk.Combobox(self.root, textvariable=None)
-
+        """
+        user_id = None
+        dob = None
+        free_txt = None
+        completed_date = None
+        ms_type = None
+        ms_onset_year = None
+        
         self.combo_boxes = [user_id, dob, free_txt, completed_date, ms_type, ms_onset_year]   
 
         self.searcher = TextSearcher(self.df,self.combo_boxes)
@@ -92,4 +99,5 @@ def test_search(search_tester):
     search_tester.searcher.reset()    
 
     assert search_tester.searcher.findPhraseInText("lady capulet", "1",[]) == "enter lady capulet lady\n\n\nlady capulet what\n\n\nday lady capulet what\n\n\nday lady capulet o\n\n\n"
+    search_tester.searcher.reset()  
 
