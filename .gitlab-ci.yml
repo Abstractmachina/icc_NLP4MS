@@ -1,0 +1,9 @@
+image: python:latest
+
+pytest:
+    stage: test
+    script:
+        - pwd
+        - pip install -r requirements.txt
+        - pip list
+        - pytest -v
