@@ -23,6 +23,9 @@ class TextSearcher:
         nltk_data_directory = cwd
         nltk_data_directory += "//nltk_data"
         nltk.data.path.append(nltk_data_directory)
+        nltk_data_directory = cwd
+        nltk_data_directory += "\\nltk_data"
+        nltk.data.path.append(nltk_data_directory)
 
     def removePunctuation(self,text):
         
