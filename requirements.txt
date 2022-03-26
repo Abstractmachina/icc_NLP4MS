@@ -1,0 +1,15 @@
+nltk
+pandas
+pytest
+tkinter
+matplotlib
+csv
+random
+lipsum
+time
+abc
+pickle
+os
+string
+numpy
+enum
