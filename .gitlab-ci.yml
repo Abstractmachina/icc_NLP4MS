@@ -1,5 +1,10 @@
 image: python:latest
 
+requirements:
+    stage: build
+    script:
+        pip install requirements.txt
+
 pytest:
     stage: test
     script:
