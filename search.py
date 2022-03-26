@@ -21,7 +21,7 @@ class TextSearcher:
         # Sets the nltk data path depending on where this application is saved on the users' machine
         cwd = os.getcwd()
         nltk_data_directory = cwd
-        nltk_data_directory += "\\nltk_data"
+        nltk_data_directory += "//nltk_data"
         nltk.data.path.append(nltk_data_directory)
 
     def removePunctuation(self,text):
