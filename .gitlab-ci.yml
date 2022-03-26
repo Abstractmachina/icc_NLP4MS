@@ -1,0 +1,6 @@
+image: python:latest
+
+pytest:
+    stage: test
+    script:
+        pytest -v
