@@ -4,11 +4,14 @@ requirements:
     stage: build
     script:
         - pip install -r requirements.txt
+        - pip list
+        - pwd
 
 
 
 pytest:
     stage: test
     script:
+        - pwd
         - pip list
         - python -m pytest -v
