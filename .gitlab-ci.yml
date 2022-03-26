@@ -5,7 +5,11 @@ requirements:
     script:
         pip install -r requirements.txt
 
+
+
 pytest:
     stage: test
     script:
-        python -m pytest -v
+        export PYTHONPATH="$PYTHONPATH:."
+        python -c "import sys;print(sys.path)"
+        pytest -v
