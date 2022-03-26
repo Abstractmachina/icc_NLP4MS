@@ -1,17 +1,9 @@
 image: python:latest
 
-requirements:
-    stage: build
-    script:
-        - pip install -r requirements.txt
-        - pip list
-        - pwd
-
-
-
 pytest:
     stage: test
     script:
         - pwd
+        - pip install -r requirements.txt
         - pip list
-        - python -m pytest -v
+        - pytest -v
