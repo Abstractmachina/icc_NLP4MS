@@ -74,4 +74,22 @@ def test_pre_process(search_tester):
     assert cleaned_df["cleaned_txt"][13] == "once more into the brink"
     assert cleaned_df["cleaned_txt"][11] == "a test box with different cases now test punctuation done"
 
+def test_search(search_tester):
+    """ Test the searching of a phrase in a given window"""
+    search_tester.searcher.preProcessText("free_txt")
+
+    assert search_tester.searcher.findPhraseInText("brink", "All",[]) == "once more into the brink \n\n\n"
+    search_tester.searcher.reset()    
+    assert search_tester.searcher.findPhraseInText("brink", "5",[]) == "once more into the brink \n\n\n"
+    search_tester.searcher.reset()    
+    assert search_tester.searcher.findPhraseInText("brink", "1",[]) == "the brink \n\n\n"
+    search_tester.searcher.reset()    
+    assert search_tester.searcher.findPhraseInText("once more into the brink", "1",[]) == " once more into the brink \n\n\n"
+    search_tester.searcher.reset()    
+    assert search_tester.searcher.findPhraseInText("once more into the brink", "All",[]) == " once more into the brink \n\n\n"
+    search_tester.searcher.reset()    
+    assert search_tester.searcher.findPhraseInText("once more into the brink", "20",[]) == " once more into the brink \n\n\n"
+    search_tester.searcher.reset()    
+
+    assert search_tester.searcher.findPhraseInText("lady capulet", "1",[]) == "enter lady capulet lady\n\n\nlady capulet what\n\n\nday lady capulet what\n\n\nday lady capulet o\n\n\n"
 
