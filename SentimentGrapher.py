@@ -1,6 +1,19 @@
+import tkinter as tk
+from tkinter import ttk
+
+import matplotlib
 import matplotlib.pyplot as plt
+matplotlib.use("TkAgg")
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, 
+NavigationToolbar2Tk)
+from matplotlib.figure import Figure
+
+
+
 import enum
 import pandas as pd
+
+from Interfaces import ISentimentGraphAdapter
 
 class SentimentScoreType(enum.Enum) :
     COMPOUND = 0
@@ -8,7 +21,12 @@ class SentimentScoreType(enum.Enum) :
     NEUTRAL = 2
     POSITIVE = 3
 
-class SentimentGrapher:
+class SentimentGrapher (ISentimentGraphAdapter):
+    """Graphs sentiments with matplotlib for Tkinter.
+
+    Args:
+        ISentimentGraphAdapter (_type_): _description_
+    """
     def __init__(self) -> None:
         pass
     
@@ -53,7 +71,7 @@ class SentimentGrapher:
         
         
     @staticmethod
-    def plotSentimentHistory(sentimentHistory):
+    def plotSentimentHistory(sentimentHistory, tk_page):
         """Plot sentiment history of a collection of users. 
         Args:
             sentimentHistory (pd.DataFrame): 
@@ -61,6 +79,25 @@ class SentimentGrapher:
                 "Sent_Neg", "Sent_Neu", "Sent_Pos", "Sent_Comp"]
                 
         """
+        
+        
+        f = Figure(figsize=(5,5), dpi=100)
+        a = f.add_subplot(111)
+        a.plot([1,2,3,4,5,6,7,8],[5,6,1,3,8,9,3,5])
+
+        canvas = FigureCanvasTkAgg(f, tk_page)
+        canvas.draw()
+        #canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+        canvas.get_tk_widget().grid(row=1, column = 0)
+        
+        #toolbar = NavigationToolbar2Tk(canvas, tk_page)
+        #toolbar.update()
+        #canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+        canvas._tkcanvas.grid(row=1, column = 0)
+        
+        
+        
+        return
         print("Building sentiment history plot...")
         uniqueId = pd.unique(sentimentHistory.loc[:,"UserId"])
         fig, ax = plt.subplots(2,1, figsize=(13,10))
@@ -78,6 +115,7 @@ class SentimentGrapher:
         ax[1].set_title("Deteriorated Outcome")
         plt.show()
         return
+    
     
     @staticmethod
     def plotDisabilityScore() :

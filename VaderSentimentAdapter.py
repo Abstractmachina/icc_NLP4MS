@@ -3,7 +3,8 @@ from Interfaces import ISentimentAdapter
 import pandas as pd
 
 class VaderSentimentAdapter(ISentimentAdapter):
-    def calculateSentiment(self, text):
+    @staticmethod
+    def calculateSentiment(text):
         """Calculates the sentiment score of a given body of text
         based on the Vader lexicon.
         Note: inaccurate when word count is too low. E.g. "no"
@@ -14,6 +15,7 @@ class VaderSentimentAdapter(ISentimentAdapter):
             dict: keys = ["neg", "neu", "pos", "compound"] 
                 Please ensure naming convention.
         """
+        a = SentimentIntensityAnalyzer()
         result = pd.DataFrame()
-        result = SentimentIntensityAnalyzer().polarity_scores(text)
+        result = a.polarity_scores(text)
         return result

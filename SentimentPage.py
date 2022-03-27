@@ -1,3 +1,4 @@
+from sys import displayhook
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
@@ -6,6 +7,7 @@ from click import command
 import pandas as pd
 
 from SentimentAnalyzer import SentimentAnalyzer
+from SentimentGrapher import SentimentGrapher as sg
 
 
 class SentimentPage:
@@ -38,9 +40,10 @@ class SentimentPage:
         l_searchInstructions = ttk.Label(f2_search, text= "Enter User ID")
         l_searchInstructions.grid(row=0)
         
-        search_phrase = StringVar(value = "Enter User ID Here")
+        search_phrase = StringVar()
         search_box = ttk.Entry(f2_search,textvariable=search_phrase)
         search_box.grid(row=1)
+        self.searchBox = search_box
         
         b_generate = ttk.Button(f2_search, text = "Generate", 
                                 command = lambda: self.generate())
@@ -103,21 +106,49 @@ class SentimentPage:
         results.insert("1.0","Result will appear here")
         results.configure(font="16")
         results.configure(state="disabled")
+        self.displayFrame = f_display
         
         return
         
         
     def generate(self) :
-        """
-        print ("generating")
-        print("Options:")
-        print(f"Sentiment Analysis: {self.sa_on.get()}")
-        print(f"Disability Score: {self.disabl_on.get()}")
-        print(f"Anxiety Score: {self.anx_on.get()}")
-        print(f"combine: {self.combine_on.get()}")
-        print(f"free text: {self.freetxt_on.get()}")
-        """
+        #store entered user id
+        #TODO: sanity check, only ints allowed
+        userId = int(self.searchBox.get())
+        self.searchBox.delete(0, "end")
+        
+        #clear display frame
+        for widget in self.displayFrame.winfo_children():
+            widget.destroy()
+        
+        
+        
         analyzer = SentimentAnalyzer()
-        analyzer.buildSentimentHistory()
+        analyzer.importFile(
+            "C:\\Users\\taole\\Imperial_local\\2_NLP4MS\\nlp-ui-project\\dummy_free2.csv")
+        #TODO: diagnosis date not imported correctly
+        
+        
+        
+        user = analyzer.rawData.loc[analyzer.rawData["UserId"] == userId].iloc[0]
+        
+        userInfo = f"""
+        User ID:            {userId}
+        Date of Birth:      {user.loc["DOB"]}
+        Gender:             {user.loc["Gender"]}
+        MSTYPE:             {user.loc["MS_Type"]}
+        MS Onset Date:      {user.loc["OnsetDate"]}
+        MS Diagnosis Date:  {user.loc["DiagnosisDate"]}
+        """
+        print(userInfo)
+        r = Text(self.displayFrame, width = 95, height = 10)
+        r.insert("end", userInfo)
+        r.configure(font="10")
+        r.configure(state= "disabled")
+        r.grid(row=0, column = 0, sticky=(N,S,E,W))
+        sentimentHistory = analyzer.buildSentimentHistory_single(userId = userId)
+        #print(sentimentHistory)
+        
+        sg.plotSentimentHistory(sentimentHistory, self.displayFrame)
         
         return

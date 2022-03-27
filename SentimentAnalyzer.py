@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 import numpy as np
 from VaderSentimentAdapter import VaderSentimentAdapter
-import DataProcessing as dp
+from DataProcessing import DataQueryBuilder as builder
+
 
 ######################################################
 class SentimentAnalyzer():
@@ -23,12 +24,28 @@ class SentimentAnalyzer():
         self.adapter = VaderSentimentAdapter()
         pass
         
-    def processInput(self, csvPath, userId = "UserId", date = "CompletedDate", value = "Value") :
-        qb = dp.DataQueryBuilder.query(csvPath).add(userId).add(date).add(value)
+    def importFile(self, csvPath, 
+                   userId = "UserId", date = "CompletedDate", 
+                   value = "Value", edss = "WebEDSS",
+                   anx ="Anxiety", depr = "Depression", 
+                   dob = "DOB", gender = "Gender", 
+                   mstype = "MS_Type", onsetDate ="OnsetDate", 
+                   diagnosisdate = "DiagnosisDate") :
+        qb = builder.query(csvPath).add(userId).add(date).add(value)
+        qb.add(edss).add(anx).add(depr).add(dob).add(gender)
+        qb.add(mstype).add(onsetDate).add(diagnosisdate)
         df = qb.build().execute()
-        standardizedHeaders = {userId : "UserId",
-                              date : "Date",
-                              value: "Value"}
+        standardizedHeaders = { userId : "UserId",
+                                date : "CompletedDate",
+                                value: "Value",
+                                edss : "WebEDSS",
+                                anx :"Anxiety", 
+                                depr : "Depression", 
+                                dob : "DOB", 
+                                gender : "Gender", 
+                                mstype : "MS_Type", 
+                                onsetDate :"OnsetDate", 
+                                diagnosisdate : "DiagnosisDate"}
         df.rename(columns = standardizedHeaders, inplace=True)
         
         self.rawData = df
@@ -116,7 +133,7 @@ class SentimentAnalyzer():
         return sentiments
     
 
-    def BuildSentimentHistory(self, inputData = pd.DataFrame, userId = int, minN = 3) -> pd.DataFrame:
+    def buildSentimentHistory_single(self, inputData = None, userId = int, minN = 3) -> pd.DataFrame:
         """
         Build sentiment history of one user. 
         Parameters:
@@ -129,6 +146,9 @@ class SentimentAnalyzer():
              ["UserId", "CompletedDate", "Sent_Neg", "Sent_Neu", "Sent_Pos", "Sent_Comp"]
              sorted by UserId
         """
+        
+        if inputData == None:
+            inputData = self.rawData
         dataPts = inputData.loc[inputData["UserId"] == userId]
         if len(dataPts) < minN:
             print("No match found!")
@@ -138,7 +158,7 @@ class SentimentAnalyzer():
         sentiments = pd.DataFrame(columns = col)
         idx = 0
         for index, row in dataPts.iterrows():
-            s = VaderSentimentAdapter.calculateSentiment(str(row['Value']))
+            s = VaderSentimentAdapter.calculateSentiment(str(row["Value"]))
             #process date format. some are just strings.
             date = str(row["CompletedDate"])            
             dateProcessed = datetime.strptime(date , "%d/%m/%Y")
@@ -162,7 +182,7 @@ class SentimentAnalyzer():
             date (str, optional): Defaults to "CompletedDate_webEDSS".
             score (str, optional): Defaults to "webEDSS".
         """
-        qb = dp.DataQueryBuilder.query(csvPath).add(userId).add(date).add(score)
+        qb = builder.query(csvPath).add(userId).add(date).add(score)
         df = qb.build().execute()
         standardizedHeaders = {userId : "UserId",
                               date : "Date",
@@ -189,18 +209,16 @@ class SentimentAnalyzer():
             depressionSums (str, optional): Defaults to "depression_sums".
             depressionSums_norm (str, optional): Defaults to "depression_sums_norm".
         """
-        qb = dp.DataQueryBuilder.query(csvPath)
+        qb = builder.query(csvPath)
         qb = qb.add(userId).add(date)
-        qb = qb.add(anxietySums).add(anxietySums_norm)
-        qb = qb.add(depressionSums).add(depressionSums_norm)
+        qb = qb.add(anxietySums)
+        qb = qb.add(depressionSums)
         df = qb.build().execute()
         
         standardizedHeaders = {userId : "UserId",
                               date : "Date",
                               anxietySums: "Anxiety",
-                              anxietySums_norm: "Anxiety Norm",
-                              depressionSums: "Depression",
-                              depressionSums_norm: "Depression Norm"}
+                              depressionSums: "Depression"}
         df.rename(columns = standardizedHeaders, inplace=True)
         self.HADS = df
         return

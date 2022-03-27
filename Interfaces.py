@@ -15,4 +15,10 @@ class ISentimentAdapter(abc.ABC) :
 
 
 
-
+class ISentimentGraphAdapter(abc.ABC):
+    @abc.abstractclassmethod
+    def plotSentimentHistory():
+        pass
+    @abc.abstractclassmethod
+    def testFunction():
+        pass
