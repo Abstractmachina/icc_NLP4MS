@@ -5,6 +5,9 @@ import nltk
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.probability import FreqDist
+from nltk.util import everygrams
+from nltk.lm import MLE
+from nltk.lm.preprocessing import padded_everygram_pipeline
 import os
 
 class FrequencyAnalyser:
@@ -25,6 +28,9 @@ class FrequencyAnalyser:
 
         # Load NLTK Enlgish stopwords
         self.stop_words = stopwords.words("english")
+
+        # Load Medical Terms
+        self.loadMedicalCorpus()
 
     def loadMedicalCorpus(self):
         """ Loads in the medical corpus downloaded 
@@ -66,7 +72,7 @@ class FrequencyAnalyser:
         # If not instance, return
         return
 
-    def removeStopWords(self,text,extra_stop_words):
+    def removeStopWords(self,text,extra_stop_words=[]):
         """ Input: text: list of strings (words)
                    extra_stop_words: list of words
 
@@ -104,12 +110,45 @@ class FrequencyAnalyser:
             # We also want stopwords removed from the medical lexicon
             self.medical_terms = self.removeStopWords(self.medical_terms)
         
+        # Special padding characters to prevent n-grams overlapping from users
+        # We assume a maximimum of n=4 quad?grams
+        for entry in tokenized_txt:
+            entry +=["</s>","</s>","</s>","</s>"]
+
         # Create a new column in the stored data frame with the processed text
-        self.df["processed_txt"] = tokenized_txt
+        self.df["processed_txt"] = tokenized_txt  
 
 
     def getFrequencyOfNgram(self,phrase,ngram=1,stopwords=True,medical=False,duplicates=False):
-        """"""
+        """
+            Inputs: Phrase (string) - the phrase to return the frequency of
+                   ngram (int, max=4) - number of words in the phrase
+                   stopwords (bool) - True (default) if stopwords should be removed
+                   medical (bool) - True if only words in the medical lexicon should be considered (default False)
+                   duplicates (bool)  - True if multiple of the same words per user should count towards frequency (default False)
+
+            Method: Calculates the frequency of a given phrase in the free text
+
+            Returns: Frequency of phrase (int)
+
+        """
+
+        self.preProcess(stopwords)
+
+        if medical == False and duplicates == True:
+            # Combine all text entries
+            all_text = []
+            for index,row in self.df.iterrows():
+                if row["processed_txt"] != None:
+                    for word in row["processed_txt"]:
+                        all_text.append(word)
+            # Create frequency distribution
+            n_grams = list(everygrams(all_text,ngram,ngram))
+            n_grams = [' '.join(word) for word in n_grams]
+            
+            freq_dist = FreqDist(n_grams)
+            return freq_dist[phrase]       
+
     
     def getMostFrequentNgrams(self,phrase,ngram=1,size=10,stopwords=True,medical=False,duplicates=False):
         """"""
