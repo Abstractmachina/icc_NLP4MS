@@ -90,6 +90,43 @@ class FrequencyAnalyser:
             if lower_case not in self.stop_words and lower_case not in extra_stop_words:
                 new_text.append(lower_case)
         return new_text
+    
+    def generateNgrams(self,n,source_txt):
+        
+        ngrams_all = []
+        for index,entry in enumerate(source_txt):
+            ngrams = list(everygrams(entry,n,n))
+            ngrams = [' '.join(word) for word in ngrams]
+            ngrams_all.append(ngrams)
+        
+        return ngrams_all
+
+    def addUnique(self,dictionary,contents,id):
+        for entry in contents:
+            if id in dictionary:
+                if entry not in dictionary[id]:
+                    current_entry = dictionary[id] 
+                    current_entry += [entry]
+                    dictionary[id] = current_entry
+            else:
+                dictionary[id] = [entry]
+        return dictionary
+
+
+    def flattenList(self,list):
+        return [word for entries in list for word in entries]
+
+    def combineDfCol(self,row_hd,ngram):
+        all_text = []
+        for index,row in self.df.iterrows():
+            if row[row_hd] != None:
+                for entry in row[row_hd]:
+                    all_text.append(entry)
+            
+        n_grams = list(everygrams(all_text,ngram,ngram))
+        n_grams = [' '.join(word) for word in n_grams]
+
+        return n_grams
 
     def preProcess(self):
         """ Input: remove_stopwords (boolean)
@@ -143,56 +180,135 @@ class FrequencyAnalyser:
         self.df["all_txt_med"] = tokenized_txt_med 
         self.df["no_stop_txt_med"] = tokenized_txt_no_stop_med
         
+        """ Create bigrams, trigrams and quadgrams for all text"""
+        self.df["all_txt_bigrams"] = self.generateNgrams(2,tokenized_txt)
+        self.df["all_txt_trigrams"] = self.generateNgrams(3,tokenized_txt)
+        self.df["all_txt_quadgrams"] = self.generateNgrams(4,tokenized_txt)
+
+        """ Create bigrams, trigrams and quadgrams for text without stopwords"""
+        self.df["no_stop_bigrams"] = self.generateNgrams(2,tokenized_txt_no_stop)
+        self.df["no_stop_trigrams"] = self.generateNgrams(3,tokenized_txt_no_stop)
+        self.df["no_stop_quadgrams"] = self.generateNgrams(4,tokenized_txt_no_stop)
+
+        """ Create bigrams, trigrams and quadgrams for all medical words in text"""
+        self.df["all_txt_bigrams_med"] = self.generateNgrams(2,tokenized_txt_med)
+        self.df["all_txt_trigrams_med"] = self.generateNgrams(3,tokenized_txt_med)
+        self.df["all_txt_quadgrams_med"] = self.generateNgrams(4,tokenized_txt_med)
+
+        """ Create bigrams, trigrams and quadgrams for medical words without stopwords"""
+        self.df["no_stop_bigrams_med"] = self.generateNgrams(2,tokenized_txt_no_stop_med)
+        self.df["no_stop_trigrams_med"] = self.generateNgrams(3,tokenized_txt_no_stop_med)
+        self.df["no_stop_quadgrams_med"] = self.generateNgrams(4,tokenized_txt_no_stop_med)
+
+        """ Create unique values for each user"""
+        
+
+ 
         """ Get unique all words for each user"""
-        self.seen_user_words = {}
-        for index,row in self.df.iterrows():
-            if row["all_txt"] != None:
-                for word in row["all_txt"]:
-                    if row[self.id_hd] in self.seen_user_words:
-                        if word in self.seen_user_words[row[self.id_hd]]:
-                            continue
-                        current_words = self.seen_user_words[row[self.id_hd]] 
-                        current_words += [word]
-                        self.seen_user_words[row[self.id_hd]] = current_words
-                    else:
-                        self.seen_user_words[row[self.id_hd]] = [word]
+        self.seen_user_words_all = {}
+        self.seen_user_bigrams_all = {}
+        self.seen_user_trigrams_all = {}
+        self.seen_user_quadgrams_all= {}
 
-        self.seen_user_words = list(self.seen_user_words.values())
-        
-        # Want just a list of words, currently we have a list of lists
-        self.seen_user_words = [word for entries in self.seen_user_words for word in entries]
-
-        """ Get unique words without stopwords for each user"""
         self.seen_user_words_no_stop = {}
-        for index,row in self.df.iterrows():
-            if row["no_stop_txt"] != None:
-                for word in row["no_stop_txt"]:
-                    if row[self.id_hd] in self.seen_user_words_no_stop:
-                        if word in self.seen_user_words_no_stop[row[self.id_hd]]:
-                            continue
-                        current_words = self.seen_user_words_no_stop[row[self.id_hd]] 
-                        current_words += [word]
-                        self.seen_user_words_no_stop[row[self.id_hd]] = current_words
-                    else:
-                        self.seen_user_words_no_stop[row[self.id_hd]] = [word]
-        
-        self.seen_user_words_no_stop = list(self.seen_user_words_no_stop.values())
+        self.seen_user_bigrams_no_stop = {}
+        self.seen_user_trigrams_no_stop = {}
+        self.seen_user_quadgrams_no_stop= {}
 
-        # Want just a list of words, currently we have a list of lists
-        self.seen_user_words_no_stop = [word for entries in self.seen_user_words_no_stop for word in entries]
+        self.seen_user_words_all_med = {}
+        self.seen_user_bigrams_all_med = {}
+        self.seen_user_trigrams_all_med = {}
+        self.seen_user_quadgrams_all_med= {}
+
+        self.seen_user_words_no_stop_med = {}
+        self.seen_user_bigrams_no_stop_med = {}
+        self.seen_user_trigrams_no_stop_med = {}
+        self.seen_user_quadgrams_no_stop_med= {}
+
+
+        """ Generate Lexicons """
        
-        
-        # Special padding characters to prevent n-grams overlapping from users
-        # We assume a maximimum of n=4 quad?grams
-        for entry in tokenized_txt:
-            entry +=["</s>","</s>","</s>","</s>"]
-
-        
 
 
+        for index,row in self.df.iterrows():
+            
+            """ Generate unique values (1 per user for all user entries) for each ngram """
+            if row["all_txt"] != None:
+                self.seen_user_words_all = self.addUnique(self.seen_user_words_all,row["all_txt"],row[self.id_hd])
+            if row["all_txt_bigrams"] != None:
+                self.seen_user_bigrams_all = self.addUnique(self.seen_user_bigrams_all,row["all_txt_bigrams"],row[self.id_hd])
+            if row["all_txt_trigrams"] != None:
+                self.seen_user_trigrams_all = self.addUnique(self.seen_user_trigrams_all,row["all_txt_trigrams"],row[self.id_hd])
+            if row["all_txt_quadgrams"] != None:
+                self.seen_user_quadgrams_all = self.addUnique(self.seen_user_quadgrams_all,row["all_txt_quadgrams"],row[self.id_hd])
+            if row["no_stop_txt"] != None:
+                self.seen_user_words_no_stop = self.addUnique(self.seen_user_words_no_stop,row["no_stop_txt"],row[self.id_hd])
+            if row["no_stop_bigrams"] != None:
+                self.seen_user_bigrams_no_stop = self.addUnique(self.seen_user_bigrams_no_stop,row["no_stop_bigrams"],row[self.id_hd]) 
+            if row["no_stop_trigrams"] != None:
+                self.seen_user_trigrams_no_stop = self.addUnique(self.seen_user_trigrams_no_stop,row["no_stop_trigrams"],row[self.id_hd]) 
+            if row["no_stop_quadgrams"] != None:
+                self.seen_user_quadgrams_no_stop = self.addUnique(self.seen_user_quadgrams_no_stop,row["no_stop_quadgrams"],row[self.id_hd]) 
+            if row["all_txt_med"] != None:
+                self.seen_user_words_all_med = self.addUnique(self.seen_user_words_all_med,row["all_txt_med"],row[self.id_hd])
+            if row["all_txt_bigrams_med"] != None:
+                self.seen_user_bigrams_all_med = self.addUnique(self.seen_user_bigrams_all_med,row["all_txt_bigrams_med"],row[self.id_hd])
+            if row["all_txt_trigrams_med"] != None:
+                self.seen_user_trigrams_all_med = self.addUnique(self.seen_user_trigrams_all_med,row["all_txt_trigrams_med"],row[self.id_hd])
+            if row["all_txt_quadgrams_med"] != None:
+                self.seen_user_quadgrams_all_med = self.addUnique(self.seen_user_quadgrams_all_med,row["all_txt_quadgrams_med"],row[self.id_hd])
+            if row["no_stop_txt_med"] != None:
+                self.seen_user_words_no_stop_med = self.addUnique(self.seen_user_words_no_stop_med,row["no_stop_txt_med"],row[self.id_hd])
+            if row["no_stop_bigrams_med"] != None:
+                self.seen_user_bigrams_no_stop_med = self.addUnique(self.seen_user_bigrams_no_stop_med,row["no_stop_bigrams_med"],row[self.id_hd])
+            if row["no_stop_trigrams_med"] != None:
+                self.seen_user_trigrams_no_stop_med = self.addUnique(self.seen_user_trigrams_no_stop_med,row["no_stop_trigrams_med"],row[self.id_hd])
+            if row["no_stop_quadgrams_med"] != None:
+                self.seen_user_quadgrams_no_stop_med = self.addUnique(self.seen_user_quadgrams_no_stop_med,row["no_stop_quadgrams_med"],row[self.id_hd])           
 
+        """ Get and store lexicon of ngrams without duplicates"""
+        self.unique_words_all = self.flattenList(list(self.seen_user_words_all.values()))
+        self.unique_bigrams_all = self.flattenList(list(self.seen_user_bigrams_all.values()))
+        self.unique_trigrams_all = self.flattenList(list(self.seen_user_trigrams_all.values()))
+        self.unique_quadgrams_all = self.flattenList(list(self.seen_user_quadgrams_all.values()))
 
-    def getFrequencyOfNgram(self,phrase,ngram=1,stopwords=True,medical=False,duplicates=False):
+        self.unique_words_no_stop = self.flattenList(list(self.seen_user_words_no_stop.values()))
+        self.unique_bigrams_no_stop = self.flattenList(list(self.seen_user_bigrams_no_stop.values()))
+        self.unique_trigrams_no_stop = self.flattenList(list(self.seen_user_trigrams_no_stop.values()))
+        self.unique_quadgrams_no_stop = self.flattenList(list(self.seen_user_quadgrams_no_stop.values()))
+
+        self.unique_words_all_med = self.flattenList(list(self.seen_user_words_all_med.values()))
+        self.unique_bigrams_all_med = self.flattenList(list(self.seen_user_bigrams_all_med.values()))
+        self.unique_trigrams_all_med = self.flattenList(list(self.seen_user_trigrams_all_med.values()))
+        self.unique_quadgrams_all_med = self.flattenList(list(self.seen_user_quadgrams_all_med.values()))
+
+        self.unique_words_no_stop_med = self.flattenList(list(self.seen_user_words_no_stop_med.values()))
+        self.unique_bigrams_no_stop_med = self.flattenList(list(self.seen_user_bigrams_no_stop_med.values()))
+        self.unique_trigrams_no_stop_med = self.flattenList(list(self.seen_user_trigrams_no_stop_med.values()))
+        self.unique_quadgrams_no_stop_med = self.flattenList(list(self.seen_user_quadgrams_no_stop_med.values()))
+
+        """Get and store lexicon of ngrams with duplicates"""
+        self.words_all = self.flattenList(list(self.df["all_txt"]))
+        self.bigrams_all = self.flattenList(list(self.df["all_txt_bigrams"]))
+        self.trigrams_all = self.flattenList(list(self.df["all_txt_trigrams"]))
+        self.quadgrams_all = self.flattenList(list(self.df["all_txt_quadgrams"]))
+
+        self.words_no_stop = self.flattenList(list(self.df["no_stop_txt"]))
+        self.bigrams_no_stop = self.flattenList(list(self.df["no_stop_bigrams"]))
+        self.trigrams_no_stop = self.flattenList(list(self.df["no_stop_trigrams"]))
+        self.quadgrams_no_stop = self.flattenList(list(self.df["no_stop_quadgrams"]))
+
+        self.words_all_med = self.flattenList(list(self.df["all_txt_med"]))
+        self.bigrams_all_med = self.flattenList(list(self.df["all_txt_bigrams_med"]))
+        self.trigrams_all_med = self.flattenList(list(self.df["all_txt_trigrams_med"]))
+        self.quadgrams_all_med = self.flattenList(list(self.df["all_txt_quadgrams_med"]))
+
+        self.words_no_stop_med = self.flattenList(list(self.df["no_stop_txt_med"]))
+        self.bigrams_no_stop_med = self.flattenList(list(self.df["no_stop_bigrams_med"]))
+        self.trigrams_no_stop_med = self.flattenList(list(self.df["no_stop_trigrams_med"]))
+        self.quadgrams_no_stop_med = self.flattenList(list(self.df["no_stop_quadgrams_med"]))
+         
+    def getFrequencyOfNgram(self,phrase,ngram=1,stopwords=True,medical=False,allow_duplicates=False):
         """
             Inputs: Phrase (string) - the phrase to return the frequency of
                    ngram (int, max=4) - number of words in the phrase
@@ -206,36 +322,91 @@ class FrequencyAnalyser:
 
         """
 
-        if stopwords:
-            txt_head = "no_stop_txt"
+        if stopwords and medical and allow_duplicates:
+            if ngram == 1:
+                n_grams = self.words_no_stop_med
+            elif ngram == 2:
+                n_grams = self.bigrams_no_stop_med
+            elif ngram == 3:
+                n_grams = self.trigrams_no_stop_med
+            elif ngram == 4:
+                n_grams = self.quadgrams_no_stop_med
+        
+        elif stopwords and allow_duplicates:
+            if ngram == 1:
+                n_grams = self.words_no_stop
+            elif ngram == 2:
+                n_grams = self.bigrams_no_stop
+            elif ngram == 3:
+                n_grams = self.trigrams_no_stop
+            elif ngram == 4:
+                n_grams = self.quadgrams_no_stop
+        
+        elif stopwords and medical:
+            if ngram == 1:
+                n_grams = self.unique_words_no_stop_med
+            elif ngram == 2:
+                n_grams = self.unique_bigrams_no_stop_med
+            elif ngram == 3:
+                n_grams = self.unique_trigrams_no_stop_med
+            elif ngram == 4:
+                n_grams = self.unique_quadgrams_no_stop_med
+
+        
+        elif stopwords:
+            if ngram == 1:
+                n_grams = self.unique_words_no_stop
+            elif ngram == 2:
+                n_grams = self.unique_bigrams_no_stop
+            elif ngram == 3:
+                n_grams = self.unique_trigrams_no_stop
+            elif ngram == 4:
+                n_grams = self.unique_quadgrams_no_stop
+
+        
+        elif medical and allow_duplicates:
+            if ngram == 1:
+                n_grams = self.words_all_med
+            elif ngram == 2:
+                n_grams = self.bigrams_all_med
+            elif ngram == 3:
+                n_grams = self.trigrams_all_med
+            elif ngram == 4:
+                n_grams = self.quadgrams_all_med
+        
+        elif medical:
+            if ngram == 1:
+                n_grams = self.unique_words_all_med
+            elif ngram == 2:
+                n_grams = self.unique_bigrams_all_med
+            elif ngram == 3:
+                n_grams = self.unique_trigrams_all_med
+            elif ngram == 4:
+                n_grams = self.unique_quadgrams_all_med
+        
+        elif allow_duplicates:
+            if ngram == 1:
+                n_grams = self.words_all
+            elif ngram == 2:
+                n_grams = self.bigrams_all
+            elif ngram == 3:
+                n_grams = self.trigrams_all
+            elif ngram == 4:
+                n_grams = self.quadgrams_all
+        
         else:
-            txt_head = "all_txt"
-        if medical:
-            txt_head += "_med"
+            if ngram == 1:
+                n_grams = self.unique_words_all
+            elif ngram == 2:
+                n_grams = self.unique_bigrams_all
+            elif ngram == 3:
+                n_grams = self.unique_trigrams_all
+            elif ngram == 4:
+                n_grams = self.unique_quadgrams_all
+               
+        freq_dist = FreqDist(n_grams)
+        return freq_dist[phrase]   
 
-
-        if duplicates == True:
-            
-            # Combine all text entries
-            all_text = []
-            for index,row in self.df.iterrows():
-                if row[txt_head] != None:
-                    for word in row[txt_head]:
-                        all_text.append(word)
-            # Create frequency distribution
-            n_grams = list(everygrams(all_text,ngram,ngram))
-            n_grams = [' '.join(word) for word in n_grams]
-            freq_dist = FreqDist(n_grams)
-            return freq_dist[phrase]     
-
-        if medical == False and duplicates == False:
-            if stopwords:
-                n_grams = list(everygrams(self.seen_user_words_no_stop,ngram,ngram))  
-            else:
-                n_grams = list(everygrams(self.seen_user_words,ngram,ngram))  
-            n_grams = [' '.join(word) for word in n_grams]
-            freq_dist = FreqDist(n_grams)
-            return freq_dist[phrase]   
 
     
     def getMostFrequentNgrams(self,phrase,ngram=1,size=10,stopwords=True,medical=False,duplicates=False):
