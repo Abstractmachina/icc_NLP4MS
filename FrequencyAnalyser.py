@@ -6,16 +6,15 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.probability import FreqDist
 from nltk.util import everygrams
-from nltk.lm import MLE
-from nltk.lm.preprocessing import padded_everygram_pipeline
 import os
 
 class FrequencyAnalyser:
-    def __init__(self,df,txt_hd):
+    def __init__(self,df,txt_hd,id_hd):
         
         
         self.df = df
         self.txt_hd = txt_hd
+        self.id_hd = id_hd
 
         # Sets the nltk data path depending on where this application is saved on the users' machine
         cwd = os.getcwd()
@@ -31,6 +30,9 @@ class FrequencyAnalyser:
 
         # Load Medical Terms
         self.loadMedicalCorpus()
+
+        # Preprocess text
+        self.preProcess()
 
     def loadMedicalCorpus(self):
         """ Loads in the medical corpus downloaded 
@@ -89,7 +91,7 @@ class FrequencyAnalyser:
                 new_text.append(lower_case)
         return new_text
 
-    def preProcess(self,remove_stopwords):
+    def preProcess(self):
         """ Input: remove_stopwords (boolean)
 
             Method: Adds a new column to the dataframe with the free text
@@ -98,25 +100,96 @@ class FrequencyAnalyser:
             
             Returns: Nothing (modifies stored dataframe)
         """
+
         # Creates a list, where each element in the list corresponds to a list of
         # preprocessed words for that users' free text entry
         tokenized_txt = [self.wordTokenize(text) for text in self.df[self.txt_hd]]
 
-        if remove_stopwords:
-            for index,entry in enumerate(tokenized_txt):
-                new_entry = self.removeStopWords(entry)
-                tokenized_txt[index] = new_entry
+        """ Create text for all terms with duplicates and no stopwords """
+        tokenized_txt_no_stop = [None] * len(tokenized_txt)        
+        for index,entry in enumerate(tokenized_txt):
+            new_entry = self.removeStopWords(entry)
+            tokenized_txt_no_stop[index] = new_entry
             
-            # We also want stopwords removed from the medical lexicon
-            self.medical_terms = self.removeStopWords(self.medical_terms)
+        # We also want stopwords removed from the medical lexicon
+        self.medical_terms_no_stop = self.removeStopWords(self.medical_terms)
+
+        # Convert medical terms to sets for faster lookup
+        self.medical_terms = set(self.medical_terms)
+        self.medical_terms_no_stop = set(self.medical_terms_no_stop)
+
+        """ Create text for medical terms with duplicates and stopwords """
+        tokenized_txt_med = [None] * len(tokenized_txt) 
+        for index,entry in enumerate(tokenized_txt):
+            new_entry = []
+            for word in entry:
+                if word in self.medical_terms:
+                    new_entry.append(word)
+            tokenized_txt_med[index] = new_entry
+        
+        """ Create text for medical terms with duplicates and no stopwords """
+        tokenized_txt_no_stop_med = [None] * len(tokenized_txt) 
+        for index,entry in enumerate(tokenized_txt):
+            new_entry = []
+            for word in entry:
+                if word in self.medical_terms_no_stop:
+                    new_entry.append(word)
+            tokenized_txt_no_stop_med[index] = new_entry
+        
+        
+        # Create a new column in the stored data frame with the processed text
+        self.df["all_txt"] = tokenized_txt  
+        self.df["no_stop_txt"] = tokenized_txt_no_stop
+        self.df["all_txt_med"] = tokenized_txt_no_stop_med 
+        self.df["stop_txt_med"] = tokenized_txt_med
+        
+        """ Get unique all words for each user"""
+        self.seen_user_words = {}
+        for index,row in self.df.iterrows():
+            if row["all_txt"] != None:
+                for word in row["all_txt"]:
+                    if row[self.id_hd] in self.seen_user_words:
+                        if word in self.seen_user_words[row[self.id_hd]]:
+                            continue
+                        current_words = self.seen_user_words[row[self.id_hd]] 
+                        current_words += [word]
+                        self.seen_user_words[row[self.id_hd]] = current_words
+                    else:
+                        self.seen_user_words[row[self.id_hd]] = [word]
+
+        self.seen_user_words = list(self.seen_user_words.values())
+        
+        # Want just a list of words, currently we have a list of lists
+        self.seen_user_words = [word for entries in self.seen_user_words for word in entries]
+
+        """ Get unique words without stopwords for each user"""
+        self.seen_user_words_no_stop = {}
+        for index,row in self.df.iterrows():
+            if row["no_stop_txt"] != None:
+                for word in row["no_stop_txt"]:
+                    if row[self.id_hd] in self.seen_user_words_no_stop:
+                        if word in self.seen_user_words_no_stop[row[self.id_hd]]:
+                            continue
+                        current_words = self.seen_user_words_no_stop[row[self.id_hd]] 
+                        current_words += [word]
+                        self.seen_user_words_no_stop[row[self.id_hd]] = current_words
+                    else:
+                        self.seen_user_words_no_stop[row[self.id_hd]] = [word]
+        
+        self.seen_user_words_no_stop = list(self.seen_user_words_no_stop.values())
+
+        # Want just a list of words, currently we have a list of lists
+        self.seen_user_words_no_stop = [word for entries in self.seen_user_words_no_stop for word in entries]
+       
         
         # Special padding characters to prevent n-grams overlapping from users
         # We assume a maximimum of n=4 quad?grams
         for entry in tokenized_txt:
             entry +=["</s>","</s>","</s>","</s>"]
 
-        # Create a new column in the stored data frame with the processed text
-        self.df["processed_txt"] = tokenized_txt  
+        
+
+
 
 
     def getFrequencyOfNgram(self,phrase,ngram=1,stopwords=True,medical=False,duplicates=False):
@@ -133,21 +206,34 @@ class FrequencyAnalyser:
 
         """
 
-        self.preProcess(stopwords)
+        if stopwords:
+            txt_head = "no_stop_txt"
+        else:
+            txt_head = "all_txt"
+
 
         if medical == False and duplicates == True:
+            
             # Combine all text entries
             all_text = []
             for index,row in self.df.iterrows():
-                if row["processed_txt"] != None:
-                    for word in row["processed_txt"]:
+                if row[txt_head] != None:
+                    for word in row[txt_head]:
                         all_text.append(word)
             # Create frequency distribution
             n_grams = list(everygrams(all_text,ngram,ngram))
             n_grams = [' '.join(word) for word in n_grams]
-            
             freq_dist = FreqDist(n_grams)
-            return freq_dist[phrase]       
+            return freq_dist[phrase]     
+
+        if medical == False and duplicates == False:
+            if stopwords:
+                n_grams = list(everygrams(self.seen_user_words_no_stop,ngram,ngram))  
+            else:
+                n_grams = list(everygrams(self.seen_user_words,ngram,ngram))  
+            n_grams = [' '.join(word) for word in n_grams]
+            freq_dist = FreqDist(n_grams)
+            return freq_dist[phrase]   
 
     
     def getMostFrequentNgrams(self,phrase,ngram=1,size=10,stopwords=True,medical=False,duplicates=False):
