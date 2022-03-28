@@ -15,10 +15,12 @@ class ISentimentAdapter(abc.ABC) :
 
 
 
-class ISentimentGraphAdapter(abc.ABC):
+class ISentimentGraphAdapter(abc.ABCMeta):
+    def __init__(self):
+        raise NotImplementedError()
     @abc.abstractclassmethod
-    def plotSentimentHistory():
-        pass
-    @abc.abstractclassmethod
-    def testFunction():
-        pass
+    def plotSentimentHistory(self):
+        raise NotImplementedError()
+    @abc.abstractmethod
+    def testFunction(self):
+        raise NotImplementedError()

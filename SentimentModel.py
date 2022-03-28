@@ -10,7 +10,7 @@ from DataProcessing import DataQueryBuilder as builder
 
 
 ######################################################
-class SentimentAnalyzer():
+class SentimentModel():
     
     def __init__(self):
         self.rawData = pd.DataFrame
@@ -50,6 +50,19 @@ class SentimentAnalyzer():
         
         self.rawData = df
         return
+    
+    def getUserInfo(self, userId) -> str:
+        #generate user info header
+        user = self.rawData.loc[self.rawData["UserId"] == userId].iloc[0]
+        userInfo = f"""
+        User ID:            {userId}
+        Date of Birth:      {user.loc["DOB"]}
+        Gender:             {user.loc["Gender"]}
+        MSTYPE:             {user.loc["MS_Type"]}
+        MS Onset Date:      {user.loc["OnsetDate"]}
+        MS Diagnosis Date:  {user.loc["DiagnosisDate"]}"""
+        return userInfo
+        
         
     def calcSentiments(self, inputData = pd.DataFrame, numPts = 10) -> pd.DataFrame:
         """Calculate sentiments by entry. Will process all data points
@@ -223,7 +236,36 @@ class SentimentAnalyzer():
         self.HADS = df
         return
     
-    
+    def buildEDSSHistory_single(self, userId, minN = 3) -> pd.DataFrame:
+        """_summary_
+
+        Args:
+            inputData (pd.DataFrame): _description_
+            dateFormat (str): example "%Y-%m-%d"
+            minN (int, optional): Minimum number of data pts per user. Defaults to 3.
+            cap (int, optional): Function finishes when cap is reached. Defaults to 0.
+
+        Returns:
+            _type_: _description_
+        """
+
+        col = ["UserId", "CompletedDate", "EDSS"]
+        EDSS = pd.DataFrame(columns = col)
+        dataPts = self.rawData.loc[self.rawData["UserId"] == userId]
+        
+        if len(dataPts) < minN:
+            print("Insufficient data points!")
+            return
+        
+        idx = 0
+        for index, row in dataPts.iterrows():
+            date = str(row["CompletedDate_webEDSS"])
+            dateProcessed = datetime.strptime(date, "%d/%m/%Y")
+            
+            content = [userId, dateProcessed, row["webEDSS"]]
+            EDSS.loc[idx] = content
+            idx+=1
+        return EDSS
         
     def buildEDSSHistory(self, inputData = pd.DataFrame, dateFormat = str, minN = 3, cap = 0):
         """_summary_
@@ -268,6 +310,8 @@ class SentimentAnalyzer():
             
         print("Finished building EDSS")
         return EDSS
+    
+    
     
     
             

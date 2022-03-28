@@ -1,13 +1,11 @@
-from sys import displayhook
+import os
+
 from tkinter import *
-from tkinter import ttk
-from tkinter import filedialog
-from click import command
+from tkinter import ttk, filedialog
 
 import pandas as pd
 
-from SentimentAnalyzer import SentimentAnalyzer
-from SentimentGrapher import SentimentGrapher as sg
+from SentimentController import SentimentController
 
 
 class SentimentPage:
@@ -16,6 +14,10 @@ class SentimentPage:
         self.root = root
         self.frame = frame
         self.app = app
+        self.searchBox = None   #search box that contains user input
+        self.displayFrame = None #frame where generated profile is displayed
+        self.controller = SentimentController()
+        self.controller.setUserView(self)
         self.configureSentimentPage()
 
     def configureSentimentPage(self):
@@ -33,10 +35,20 @@ class SentimentPage:
         f_controls = ttk.Frame(self.frame)
         f_controls.grid(column=0, row = 1, sticky = (N,S))
         
+        ##load CSV
+        f2_loadCSV = ttk.Frame(f_controls)
+        f2_loadCSV.grid(row = 0)
+        
+        l_loadFile = ttk.Label(f2_loadCSV, text="Load CSV File")
+        l_loadFile.grid(row = 0)
+        b_loadFile = ttk.Button(f2_loadCSV, text = "Open File", command = lambda: self.loadFile_clicked())
+        b_loadFile.grid(row = 1)
+        
         
         ##search area
         f2_search = ttk.Frame(f_controls)
-        f2_search.grid(row = 0)
+        f2_search.grid(row = 1)
+        
         l_searchInstructions = ttk.Label(f2_search, text= "Enter User ID")
         l_searchInstructions.grid(row=0)
         
@@ -46,13 +58,11 @@ class SentimentPage:
         self.searchBox = search_box
         
         b_generate = ttk.Button(f2_search, text = "Generate", 
-                                command = lambda: self.generate())
+                                command = lambda: self.generate_clicked())
         b_generate.grid(row = 2)
         
         
         ##options frame
-        
-        
         f2_options = ttk.Frame(f_controls)
         f2_options.grid(row =2)
         
@@ -110,8 +120,14 @@ class SentimentPage:
         
         return
         
+    def loadFile_clicked(self):
+        file = filedialog.askopenfile(mode="r", filetypes=[("CSV Files", "*.csv")])
+        if file:
+            filepath = os.path.abspath(file.name)
+            self.controller.loadCSV(filepath)
+        return
         
-    def generate(self) :
+    def generate_clicked(self) :
         #store entered user id
         #TODO: sanity check, only ints allowed
         userId = int(self.searchBox.get())
@@ -120,35 +136,25 @@ class SentimentPage:
         #clear display frame
         for widget in self.displayFrame.winfo_children():
             widget.destroy()
-        
-        
-        
-        analyzer = SentimentAnalyzer()
-        analyzer.importFile(
-            "C:\\Users\\taole\\Imperial_local\\2_NLP4MS\\nlp-ui-project\\dummy_free2.csv")
-        #TODO: diagnosis date not imported correctly
-        
-        
-        
-        user = analyzer.rawData.loc[analyzer.rawData["UserId"] == userId].iloc[0]
-        
-        userInfo = f"""
-        User ID:            {userId}
-        Date of Birth:      {user.loc["DOB"]}
-        Gender:             {user.loc["Gender"]}
-        MSTYPE:             {user.loc["MS_Type"]}
-        MS Onset Date:      {user.loc["OnsetDate"]}
-        MS Diagnosis Date:  {user.loc["DiagnosisDate"]}
-        """
-        print(userInfo)
+
+        #create user info header
+        userInfo = self.controller.buildUserInfo(userId)    
         r = Text(self.displayFrame, width = 95, height = 10)
         r.insert("end", userInfo)
         r.configure(font="10")
         r.configure(state= "disabled")
         r.grid(row=0, column = 0, sticky=(N,S,E,W))
-        sentimentHistory = analyzer.buildSentimentHistory_single(userId = userId)
-        #print(sentimentHistory)
         
-        sg.plotSentimentHistory(sentimentHistory, self.displayFrame)
+        self.controller.buildUserGraphs(userId, self.displayFrame, self.sa_on, self.disabl_on,
+                                        self.anx_on, self.combine_on)
+        # if self.sa_on:
+        #     #generate sentiment history
+        #     sentimentHistory = self.controller.model.buildSentimentHistory_single(userId = userId)
+        #     sg.plotSentimentHistory_single(sentimentHistory, self.displayFrame)
         
+        # # if self.disabl_on:
+        # #     edssHistory = analyzer.buildEDSSHistory_single(userId)
+        # #     sg.plotEDSSHistory()
+            
+            
         return
