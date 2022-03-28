@@ -140,8 +140,8 @@ class FrequencyAnalyser:
         # Create a new column in the stored data frame with the processed text
         self.df["all_txt"] = tokenized_txt  
         self.df["no_stop_txt"] = tokenized_txt_no_stop
-        self.df["all_txt_med"] = tokenized_txt_no_stop_med 
-        self.df["stop_txt_med"] = tokenized_txt_med
+        self.df["all_txt_med"] = tokenized_txt_med 
+        self.df["no_stop_txt_med"] = tokenized_txt_no_stop_med
         
         """ Get unique all words for each user"""
         self.seen_user_words = {}
@@ -210,9 +210,11 @@ class FrequencyAnalyser:
             txt_head = "no_stop_txt"
         else:
             txt_head = "all_txt"
+        if medical:
+            txt_head += "_med"
 
 
-        if medical == False and duplicates == True:
+        if duplicates == True:
             
             # Combine all text entries
             all_text = []
