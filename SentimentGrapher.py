@@ -71,6 +71,35 @@ class SentimentGrapher (ISentimentGraphAdapter):
         
         
     @staticmethod
+    def plotSentimentHistory_single(sentimentHistory, tk_frame):
+        """Plot sentiment history of a single user. 
+        Args:
+            sentimentHistory (pd.DataFrame): 
+                ["UserId", "CompletedDate", 
+                "Sent_Neg", "Sent_Neu", "Sent_Pos", "Sent_Comp"]
+                
+        """
+        
+        #build matplotlib fifure
+        f = Figure(figsize=(6,3), dpi=100)
+        ax = f.add_subplot(111)
+        sortedPts = sentimentHistory.sort_values(by="CompletedDate")
+        ax.plot(sortedPts["CompletedDate"], sortedPts["Sent_Comp"])
+        
+        #add to tkinter canvas
+        canvas = FigureCanvasTkAgg(f, tk_frame)
+        canvas.draw()
+        #canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+        canvas.get_tk_widget().grid(row=1, column = 0)
+        
+        #matplotlib tool. not needed atm
+        #toolbar = NavigationToolbar2Tk(canvas, tk_page)
+        #toolbar.update()
+        #canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+        canvas._tkcanvas.grid(row=1, column = 0)
+        return
+    
+    @staticmethod
     def plotSentimentHistory(sentimentHistory, tk_page):
         """Plot sentiment history of a collection of users. 
         Args:
@@ -80,22 +109,18 @@ class SentimentGrapher (ISentimentGraphAdapter):
                 
         """
         
+        #build matplotlib fifure
+        f = Figure(figsize=(6,3), dpi=100)
+        ax = f.add_subplot(111)
+        sortedPts = sentimentHistory.sort_values(by="CompletedDate")
+        ax.plot(sortedPts["CompletedDate"], sortedPts["Sent_Comp"])
         
-        f = Figure(figsize=(5,5), dpi=100)
-        a = f.add_subplot(111)
-        a.plot([1,2,3,4,5,6,7,8],[5,6,1,3,8,9,3,5])
-
+        #add to tkinter canvas
         canvas = FigureCanvasTkAgg(f, tk_page)
         canvas.draw()
         #canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
         canvas.get_tk_widget().grid(row=1, column = 0)
-        
-        #toolbar = NavigationToolbar2Tk(canvas, tk_page)
-        #toolbar.update()
-        #canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         canvas._tkcanvas.grid(row=1, column = 0)
-        
-        
         
         return
         print("Building sentiment history plot...")
@@ -115,7 +140,6 @@ class SentimentGrapher (ISentimentGraphAdapter):
         ax[1].set_title("Deteriorated Outcome")
         plt.show()
         return
-    
     
     @staticmethod
     def plotDisabilityScore() :
@@ -141,4 +165,6 @@ class SentimentGrapher (ISentimentGraphAdapter):
         
         plt.show()
         return
+    
+    
             
