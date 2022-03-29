@@ -41,7 +41,8 @@ class SentimentPage:
         
         l_loadFile = ttk.Label(f2_loadCSV, text="Load CSV File")
         l_loadFile.grid(row = 0)
-        b_loadFile = ttk.Button(f2_loadCSV, text = "Open File", command = lambda: self.loadFile_clicked())
+        b_loadFile = ttk.Button(f2_loadCSV, text = "Open File", 
+                                command = lambda: self.loadFile_click())
         b_loadFile.grid(row = 1)
         
         
@@ -57,10 +58,6 @@ class SentimentPage:
         search_box.grid(row=1)
         self.searchBox = search_box
         
-        b_generate = ttk.Button(f2_search, text = "Generate", 
-                                command = lambda: self.generate_clicked())
-        b_generate.grid(row = 2)
-        
         
         ##options frame
         f2_options = ttk.Frame(f_controls)
@@ -70,19 +67,18 @@ class SentimentPage:
         l_options.grid(row = 0)
         
         self.sa_on = IntVar()
-        check_sa = ttk.Checkbutton(f2_options, text = "Sentiment Analysis", variable=self.sa_on)
+        check_sa = ttk.Checkbutton(f2_options, text = "Sentiment Analysis", 
+                                   variable=self.sa_on)
         check_sa.grid(row = 1)
         
         self.disabl_on = IntVar()
-        check_disabl = ttk.Checkbutton(f2_options, text = "Disability Score (EDSS)", variable=self.disabl_on)
+        check_disabl = ttk.Checkbutton(f2_options,text = "Disability Score (EDSS)", 
+                                       variable=self.disabl_on)
         check_disabl.grid(row = 2)
         
-        self.anx_on = IntVar()
-        check_anx = ttk.Checkbutton(f2_options, text = "Anxiety Score (HADS)", variable=self.anx_on)
-        check_anx.grid(row = 3)
-        
         self.combine_on = IntVar()
-        check_combine = ttk.Checkbutton(f2_options, text = "Combine", variable=self.combine_on)
+        check_combine = ttk.Checkbutton(f2_options, text = "Combine", 
+                                        variable=self.combine_on)
         check_combine.grid(row = 4)
         
         
@@ -91,7 +87,8 @@ class SentimentPage:
         f2_freeText_options.grid(row = 3)
         
         self.freetxt_on = IntVar()
-        ch_freetxt = ttk.Checkbutton(f2_freeText_options, text = "List Free Text", variable= self.freetxt_on)
+        ch_freetxt = ttk.Checkbutton(f2_freeText_options, text = "List Free Text", 
+                                     variable= self.freetxt_on)
         ch_freetxt.grid(row = 0)
         
         
@@ -99,11 +96,14 @@ class SentimentPage:
         f2_footer = ttk.Frame(f_controls)
         f2_footer.grid(row = 4)
         
+        b_generate = ttk.Button(f2_footer, text = "Generate", 
+                                command = lambda: self.generate_click())
+        b_generate.grid(row = 0)
         b_download = ttk.Button(f2_footer, text="Download")
-        b_download.grid(row=0, sticky=(N,S,E,W))
+        b_download.grid(row=1, sticky=(N,S,E,W))
         b_back = ttk.Button(f2_footer, text="Back", 
                             command= lambda: self.app.displayFrame("main frame"))
-        b_back.grid(row=1, sticky=(N,S,E,W))
+        b_back.grid(row=2, sticky=(N,S,E,W))
         
         
         ########################################################################
@@ -120,14 +120,15 @@ class SentimentPage:
         
         return
         
-    def loadFile_clicked(self):
-        file = filedialog.askopenfile(mode="r", filetypes=[("CSV Files", "*.csv")])
+    def loadFile_click(self):
+        file = filedialog.askopenfile(mode="r", 
+                                      filetypes=[("CSV Files", "*.csv")])
         if file:
             filepath = os.path.abspath(file.name)
             self.controller.loadCSV(filepath)
         return
         
-    def generate_clicked(self) :
+    def generate_click(self) :
         #store entered user id
         #TODO: sanity check, only ints allowed
         userId = int(self.searchBox.get())
@@ -138,23 +139,22 @@ class SentimentPage:
             widget.destroy()
 
         #create user info header
-        userInfo = self.controller.buildUserInfo(userId)    
+        
+        userInfo = self.controller.buildUserInfo(userId)
         r = Text(self.displayFrame, width = 95, height = 10)
         r.insert("end", userInfo)
         r.configure(font="10")
         r.configure(state= "disabled")
         r.grid(row=0, column = 0, sticky=(N,S,E,W))
+        r_scroll = ttk.Scrollbar(self.displayFrame, orient=VERTICAL, command=r.yview)
+        r_scroll.grid(row=0, column=1, rowspan = 1, sticky=(N,S))
+        r["yscrollcommand"] = r_scroll.set
         
-        self.controller.buildUserGraphs(userId, self.displayFrame, self.sa_on, self.disabl_on,
-                                        self.anx_on, self.combine_on)
-        # if self.sa_on:
-        #     #generate sentiment history
-        #     sentimentHistory = self.controller.model.buildSentimentHistory_single(userId = userId)
-        #     sg.plotSentimentHistory_single(sentimentHistory, self.displayFrame)
-        
-        # # if self.disabl_on:
-        # #     edssHistory = analyzer.buildEDSSHistory_single(userId)
-        # #     sg.plotEDSSHistory()
+        self.controller.buildUserGraphs(userId, self.displayFrame, 
+                                        self.sa_on, self.disabl_on,
+                                        self.combine_on)
             
+        #list free text
+        
             
         return

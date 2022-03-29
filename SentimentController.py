@@ -1,5 +1,6 @@
+from math import comb
 from SentimentModel import SentimentModel
-from SentimentGrapher import SentimentGrapher as sg
+from SentimentGrapher import SentimentGrapher_tk as sg
 
 class SentimentController:
     def __init__(self) :
@@ -13,21 +14,21 @@ class SentimentController:
     
     
     def loadCSV(self, filepath):
-        #"C:\\Users\\taole\\Imperial_local\\2_NLP4MS\\nlp-ui-project\\dummy_free2.csv"
         self.model.importFile(filepath)
     
     def buildUserInfo(self, userId) -> str:
         #TODO: diagnosis date not imported correctly
         return self.model.getUserInfo(userId)
     
-    def buildUserGraphs(self, tk_frame, userId, sent_on, disabl_on,
-                                        anx_on, combine_on):
-        if sent_on:
-            #generate sentiment history
-            sentimentHistory = self.model.buildSentimentHistory_single(userId = userId)
-            print(sentimentHistory)
-            sg.plotSentimentHistory_single(sentimentHistory, tk_frame)
+    def buildUserGraphs(self, userId, tk_frame, sent_on, disabl_on, combine_on):
+        sHist = None
+        dHist = None
+        if sent_on.get() or combine_on.get():
+            sHist = self.model.buildSentimentHistory_single(userId)
+        if disabl_on.get() or combine_on.get():
+            dHist = self.model.buildEDSSHistory_single(userId)
         
-        # if self.disabl_on:
-        #     edssHistory = analyzer.buildEDSSHistory_single(userId)
-        #     sg.plotEDSSHistory()
+        sg.plotUserGraphs(  tk_frame, sent_on.get(), 
+                            disabl_on.get(), combine_on.get(), 
+                            sentimentHistory=sHist, edssHistory=dHist)
+        return
