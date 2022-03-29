@@ -31,6 +31,16 @@ class FrequencyPage:
 
         self.ngram_list = ngram_list
 
+        # Configure most frequent number list
+        most_frequent_list = ttk.Combobox(self.frame, textvariable=None)
+        sizes = [5,10,15,20,25,30]
+        most_frequent_list["values"] = sizes
+        most_frequent_list.current(3)
+        most_frequent_list.state(["readonly"])
+        most_frequent_list.grid(column=1,row=3,sticky=(N,S,E,W))
+
+        self.most_frequent_list = most_frequent_list
+
 
         # Configure the area where frequency results will be displayed
         results = Text(self.frame, width=95, height=20)
@@ -56,6 +66,14 @@ class FrequencyPage:
         # Configure search button
         freq_search_button = ttk.Button(self.frame,text="Get phrase frequency",command= lambda: self.freqSearchButtonClick())
         freq_search_button.grid(column=0,row=5,sticky=(N,S,E,W))
+
+        # Configure list freq button
+        list_freq_button = ttk.Button(self.frame,text="List most frequent n-grams",command= lambda: self.listMostFrequentNgramsClick())
+        list_freq_button.grid(column=0,row=6,sticky=(N,S,E,W))
+
+        # Configure graoh freq button
+        graph_freq_button = ttk.Button(self.frame,text="Plot most frequent n-grams",command= lambda: self.graphMostFreqNgramsClick())
+        graph_freq_button.grid(column=0,row=7,sticky=(N,S,E,W))
 
         # Configure checkbuttons to allow the user to display additional information from their query
         self.remove_stopwords = IntVar()
@@ -114,3 +132,67 @@ class FrequencyPage:
         self.display_results.delete('1.0','end')
         self.display_results.insert('1.0',result)
         self.display_results.configure(state="disabled")
+
+    def listMostFrequentNgramsClick(self):
+
+        ngrams = int(self.ngram_list.get())
+        size = int(self.most_frequent_list.get())
+
+        # Build Boolean variables
+        remove_stopwords = False
+        medical_only = False
+        allow_duplicates = True
+        allow_duplicates_across_entries = False
+
+        if self.remove_stopwords.get():
+            remove_stopwords = True
+        if self.medical_only.get():
+            medical_only = True
+        if self.unique_only.get():
+            allow_duplicates = False
+        if self.different_entries_only.get():
+            allow_duplicates_across_entries = True
+
+        if allow_duplicates == False:
+            allow_duplicates_across_entries = False
+
+        frequency_list = self.analyser.getMostFrequentNgrams(ngrams,size,remove_stopwords,medical_only,allow_duplicates,allow_duplicates_across_entries)
+        
+
+        result = "Most frequent "
+        result += str(size)
+        result += " "
+        result += str(ngrams)
+        result += " ngrams are: \n"
+        result += frequency_list
+
+        
+        self.display_results.configure(state="normal")
+        self.display_results.delete('1.0','end')
+        self.display_results.insert('1.0',result)
+        self.display_results.configure(state="disabled")
+
+    def graphMostFreqNgramsClick(self):
+
+        ngrams = int(self.ngram_list.get())
+        size = int(self.most_frequent_list.get())
+
+        # Build Boolean variables
+        remove_stopwords = False
+        medical_only = False
+        allow_duplicates = True
+        allow_duplicates_across_entries = False
+
+        if self.remove_stopwords.get():
+            remove_stopwords = True
+        if self.medical_only.get():
+            medical_only = True
+        if self.unique_only.get():
+            allow_duplicates = False
+        if self.different_entries_only.get():
+            allow_duplicates_across_entries = True
+
+        if allow_duplicates == False:
+            allow_duplicates_across_entries = False
+
+        self.analyser.graphMostFrequentNgrams(ngrams,size,remove_stopwords,medical_only,allow_duplicates,allow_duplicates_across_entries)

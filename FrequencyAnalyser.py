@@ -7,6 +7,8 @@ from nltk.corpus import stopwords
 from nltk.probability import FreqDist
 from nltk.util import everygrams
 import os
+from io import StringIO
+import sys
 
 class FrequencyAnalyser:
     def __init__(self,df,txt_hd,id_hd):
@@ -416,24 +418,9 @@ class FrequencyAnalyser:
         self.createLexiconsOfUniqueUserWords()
         self.createLexiconsOfNoDuplicatesPerEntry() 
 
-        
+    def getNgrams(self,ngram,stopwords,medical,allow_duplicates,allow_duplicates_across_entries):
          
-    def getFrequencyOfNgram(self,phrase,ngram=1,stopwords=True,medical=False,allow_duplicates=False,allow_duplcates_across_entries=False):
-        """
-            Inputs: Phrase (string) - the phrase to return the frequency of
-                   ngram (int, max=4) - number of words in the phrase
-                   stopwords (bool) - True (default) if stopwords should be removed
-                   medical (bool) - True if only words in the medical lexicon should be considered (default False)
-                   duplicates (bool)  - True if multiple of the same words per user should count towards frequency (default False)
-
-            Method: Calculates the frequency of a given phrase in the free text
-
-            Returns: Frequency of phrase (int)
-
-        """
-
-
-        if stopwords and medical and allow_duplcates_across_entries:
+        if stopwords and medical and allow_duplicates_across_entries:
             if ngram == 1:
                 n_grams = self.no_dup_words_no_stop_med
             elif ngram == 2:
@@ -443,7 +430,7 @@ class FrequencyAnalyser:
             elif ngram == 4:
                 n_grams = self.no_dup_quadgrams_no_stop_med
         
-        elif stopwords and allow_duplcates_across_entries:
+        elif stopwords and allow_duplicates_across_entries:
             if ngram == 1:
                 n_grams = self.no_dup_words_no_stop
             elif ngram == 2:
@@ -453,7 +440,7 @@ class FrequencyAnalyser:
             elif ngram == 4:
                 n_grams = self.no_dup_quadgrams_no_stop
         
-        elif medical and allow_duplcates_across_entries:
+        elif medical and allow_duplicates_across_entries:
             if ngram == 1:
                 n_grams = self.no_dup_words_all_med
             elif ngram == 2:
@@ -463,7 +450,7 @@ class FrequencyAnalyser:
             elif ngram == 4:
                 n_grams = self.no_dup_quadgrams_all_med
 
-        elif allow_duplcates_across_entries:
+        elif allow_duplicates_across_entries:
             if ngram == 1:
                 n_grams = self.no_dup_words_all
             elif ngram == 2:
@@ -554,15 +541,55 @@ class FrequencyAnalyser:
                 n_grams = self.unique_trigrams_all
             elif ngram == 4:
                 n_grams = self.unique_quadgrams_all
+
+        return n_grams
+
+         
+    def getFrequencyOfNgram(self,phrase,ngram=1,stopwords=True,medical=False,allow_duplicates=False,allow_duplicates_across_entries=False):
+        """
+            Inputs: Phrase (string) - the phrase to return the frequency of
+                   ngram (int, max=4) - number of words in the phrase
+                   stopwords (bool) - True (default) if stopwords should be removed
+                   medical (bool) - True if only words in the medical lexicon should be considered (default False)
+                   duplicates (bool)  - True if multiple of the same words per user should count towards frequency (default False)
+
+            Method: Calculates the frequency of a given phrase in the free text
+
+            Returns: Frequency of phrase (int)
+
+        """
+
+        n_grams = self.getNgrams(ngram,stopwords,medical,allow_duplicates,allow_duplicates_across_entries)
+        
                
         freq_dist = FreqDist(n_grams)
         return freq_dist[phrase]   
 
 
     
-    def getMostFrequentNgrams(self,phrase,ngram=1,size=10,stopwords=True,medical=False,duplicates=False):
+    def getMostFrequentNgrams(self,ngram=1,size=10,stopwords=True,medical=False,allow_duplicates=False,allow_duplicates_across_entries=False):
         """"""
+
+        n_grams = self.getNgrams(ngram,stopwords,medical,allow_duplicates,allow_duplicates_across_entries)
+        freq_dist = FreqDist(n_grams)
+
+        # Freq Dist Tabulate outputs table to stdout, so we need to temporarily redirect the output stream
+        usual_stdout = sys.stdout
+        most_frequent_table = StringIO()
+        sys.stdout = most_frequent_table
+        freq_dist.tabulate(size)
+        most_frequent_table = most_frequent_table.getvalue()
+
+        sys.stdout = usual_stdout
+     
+        return most_frequent_table
+
     
-    def graphMostFrequentNgrams(self):
+    def graphMostFrequentNgrams(self,ngram=1,size=10,stopwords=True,medical=False,allow_duplicates=False,allow_duplicates_across_entries=False):
         """"""
+        n_grams = self.getNgrams(ngram,stopwords,medical,allow_duplicates,allow_duplicates_across_entries)
+        freq_dist = FreqDist(n_grams)
+
+        freq_dist.plot(size)
+        
 
