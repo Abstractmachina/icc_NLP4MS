@@ -1,14 +1,13 @@
-import os
-
 from tkinter import *
 from tkinter import ttk, filedialog
+import tkinter as tk
+from turtle import bgcolor
 
-import pandas as pd
+from pyparsing import col
 
 from SentimentController import SentimentController
 
-
-class SentimentPage:
+class TrendPage:
 
     def __init__(self,root,frame,app):
         self.root = root
@@ -18,18 +17,22 @@ class SentimentPage:
         self.displayFrame = None #frame where generated profile is displayed
         self.controller = SentimentController()
         self.controller.setUserView(self)
-        self.configureSentimentPage()
+        self.configureTrendPage()
 
-    def configureSentimentPage(self):
+        
+    def configureTrendPage(self):
         ########################################################################
         #Header Frame
         ########################################################################
-        f_header = ttk.Frame(self.frame, height = 30)
+        headerStyle = ttk.Style()
+        headerStyle.configure("header.TFrame", background = "blue")
+        f_header = ttk.Frame(self.frame, style = "header.TFrame", height = 30)
+        #f_header.config(bgcolor = "blue")
         f_header.grid(column =0, row = 0)
-        l_pageTitle = ttk.Label(f_header, text ="USER ANALYSIS")
+        l_pageTitle = ttk.Label(f_header, text ="TREND ANALYSIS")
         l_pageTitle.grid(column=0,row=0)
         
-        ########################################################################
+         ########################################################################
         #Control frame
         ########################################################################
         f_controls = ttk.Frame(self.frame)
@@ -44,20 +47,7 @@ class SentimentPage:
         b_loadFile = ttk.Button(f2_loadCSV, text = "Open File", 
                                 command = lambda: self.loadFile_click())
         b_loadFile.grid(row = 1)
-        
-        
-        ##search area
-        f2_search = ttk.Frame(f_controls)
-        f2_search.grid(row = 1)
-        
-        l_searchInstructions = ttk.Label(f2_search, text= "Enter User ID")
-        l_searchInstructions.grid(row=0)
-        
-        search_phrase = StringVar()
-        search_box = ttk.Entry(f2_search,textvariable=search_phrase)
-        search_box.grid(row=1)
-        self.searchBox = search_box
-        
+               
         
         ##options frame
         f2_options = ttk.Frame(f_controls)
@@ -66,15 +56,23 @@ class SentimentPage:
         l_options = ttk.Label(f2_options, text = "Options")
         l_options.grid(row = 0)
         
+        l_numUsers = ttk.Label(f2_options, text = "Number of Users")
+        l_numUsers.grid(row = 1, column= 0)
+        
+        vcmd = (self.root.register(self.isInt), '%S')
+        numUsers = StringVar()
+        e_numUsers = ttk.Entry(f2_options, validate="all", validatecommand=vcmd, textvariable=numUsers)
+        e_numUsers.grid(row=1, column = 1)
+        
         self.sa_on = IntVar()
-        check_sa = ttk.Checkbutton(f2_options, text = "Sentiment Analysis", 
+        check_sa = ttk.Checkbutton(f2_options, text = "Sentiment Trend", 
                                    variable=self.sa_on)
-        check_sa.grid(row = 1)
+        check_sa.grid(row = 2)
         
         self.disabl_on = IntVar()
-        check_disabl = ttk.Checkbutton(f2_options,text = "Disability Score (EDSS)", 
+        check_disabl = ttk.Checkbutton(f2_options,text = "EDSS Trend", 
                                        variable=self.disabl_on)
-        check_disabl.grid(row = 2)
+        check_disabl.grid(row = 3)
         
         self.combine_on = IntVar()
         check_combine = ttk.Checkbutton(f2_options, text = "Combine", 
@@ -82,14 +80,33 @@ class SentimentPage:
         check_combine.grid(row = 4)
         
         
-        ##free text options
-        f2_freeText_options = ttk.Frame(f_controls)
-        f2_freeText_options.grid(row = 3)
+        l_distribution = ttk.Label(f2_options, text = "Sentiment Distribution")
+        l_distribution.grid(row = 5)
         
-        self.freetxt_on = IntVar()
-        ch_freetxt = ttk.Checkbutton(f2_freeText_options, text = "List Free Text", 
-                                     variable= self.freetxt_on)
-        ch_freetxt.grid(row = 0)
+        self.distroNeg_on = IntVar()
+        check_distroNeg = ttk.Checkbutton(f2_options, text="Negative", 
+                                          variable=self.distroNeg_on)
+        check_distroNeg.grid(row = 6)
+        
+        self.distroNeu_on = IntVar()
+        check_distroNeu = ttk.Checkbutton(f2_options, text="Neutral", 
+                                          variable=self.distroNeu_on)
+        check_distroNeu.grid(row = 7)
+        
+        self.distroPos_on = IntVar()
+        check_distroPos = ttk.Checkbutton(f2_options, text="Positive", 
+                                          variable=self.distroPos_on)
+        check_distroPos.grid(row = 8)
+        
+        self.distroComp_on = IntVar()
+        check_distroComp = ttk.Checkbutton(f2_options, text="Compound", 
+                                          variable=self.distroComp_on)
+        check_distroComp.grid(row = 9)
+        
+        self.scatter_on = IntVar()
+        check_scatter = ttk.Checkbutton(f2_options, text="Scatter", 
+                                          variable=self.scatter_on)
+        check_scatter.grid(row = 10)
         
         
         ##control footer frame
@@ -119,46 +136,9 @@ class SentimentPage:
         self.displayFrame = f_display
         
         return
-        
-    def loadFile_click(self):
-        file = filedialog.askopenfile(mode="r", 
-                                      filetypes=[("CSV Files", "*.csv")])
-        if file:
-            filepath = os.path.abspath(file.name)
-            self.controller.loadCSV(filepath)
-        return
-        
-    def generate_click(self) :
-        #store entered user id
-        #TODO: sanity check, only ints allowed
-        userId = int(self.searchBox.get())
-        self.searchBox.delete(0, "end")
-        
-        #clear display frame
-        for widget in self.displayFrame.winfo_children():
-            widget.destroy()
-
-        #build graphs
-        self.controller.buildUserGraphs(userId, self.displayFrame, 
-                                        self.sa_on, self.disabl_on,
-                                        self.combine_on)
-            
-        #create user info header
-        userInfo = self.controller.buildUserInfo(userId)
-        r = Text(self.displayFrame, width = 95, height = 10)
-        r.insert("end", userInfo)
-        
-        #list free text
-        if self.freetxt_on.get():
-            ft = self.controller.getFreeTxt(userId)
-            r.insert("end", ft)
-            
-        r.configure(font="10")
-        r.configure(state= "disabled")
-        r.grid(row=0, column = 0, sticky=(N,S,E,W))
-        
-            
-        r_scroll = ttk.Scrollbar(self.displayFrame, orient=VERTICAL, command=r.yview)
-        r_scroll.grid(row=0, column=1, rowspan = 1, sticky=(N,S))
-        r["yscrollcommand"] = r_scroll.set
-        return
+    
+    def isInt(S):
+        if S in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
+            return True
+        #t3.bell() # .bell() plays that ding sound telling you there was invalid input
+        return False
