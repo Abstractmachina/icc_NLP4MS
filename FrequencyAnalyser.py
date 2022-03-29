@@ -11,12 +11,13 @@ from io import StringIO
 import sys
 
 class FrequencyAnalyser:
-    def __init__(self,df,txt_hd,id_hd):
+    def __init__(self,df,txt_hd,id_hd,ms_type=None):
         
         
         self.df = df
         self.txt_hd = txt_hd
         self.id_hd = id_hd
+        self.ms_type = ms_type
 
         # Sets the nltk data path depending on where this application is saved on the users' machine
         cwd = os.getcwd()
@@ -222,77 +223,335 @@ class FrequencyAnalyser:
         self.df["no_stop_bigrams_med"] = self.generateNgrams(2,self.tokenized_txt_no_stop_med)
         self.df["no_stop_trigrams_med"] = self.generateNgrams(3,self.tokenized_txt_no_stop_med)
         self.df["no_stop_quadgrams_med"] = self.generateNgrams(4,self.tokenized_txt_no_stop_med)
-
+    
+ 
     def buildUniqueDictionaries(self,row):
 
         """ Generate unique values (1 per user for all user entries) for each ngram """
         if row["all_txt"] != None:
             self.seen_user_words_all = self.addUnique(self.seen_user_words_all,row["all_txt"],row[self.id_hd])
+            if row[self.ms_type] == "Benign":
+                self.seen_user_words_all_b = self.addUnique(self.seen_user_words_all_b,row["all_txt"],row[self.id_hd])
+            elif row[self.ms_type] == "PPMS":
+                self.seen_user_words_all_p = self.addUnique(self.seen_user_words_all_p,row["all_txt"],row[self.id_hd])
+            elif row[self.ms_type] == "SPMS":
+                self.seen_user_words_all_s = self.addUnique(self.seen_user_words_all_s,row["all_txt"],row[self.id_hd])
+            elif row[self.ms_type] == "RRMS":
+                self.seen_user_words_all_r = self.addUnique(self.seen_user_words_all_r,row["all_txt"],row[self.id_hd])
         if row["all_txt_bigrams"] != None:
-           self.seen_user_bigrams_all = self.addUnique(self.seen_user_bigrams_all,row["all_txt_bigrams"],row[self.id_hd])
+            self.seen_user_bigrams_all = self.addUnique(self.seen_user_bigrams_all,row["all_txt_bigrams"],row[self.id_hd])
+            if row[self.ms_type] == "Benign":
+                self.seen_user_bigrams_all_b = self.addUnique(self.seen_user_bigrams_all_b,row["all_txt_bigrams"],row[self.id_hd])
+            elif row[self.ms_type] == "PPMS":
+                self.seen_user_bigrams_all_p = self.addUnique(self.seen_user_bigrams_all_p,row["all_txt_bigrams"],row[self.id_hd])
+            elif row[self.ms_type] == "SPMS":
+                self.seen_user_bigrams_all_s = self.addUnique(self.seen_user_bigrams_all_s,row["all_txt_bigrams"],row[self.id_hd])
+            elif row[self.ms_type] == "RRMS":
+                self.seen_user_bigrams_all_r = self.addUnique(self.seen_user_bigrams_all_r,row["all_txt_bigrams"],row[self.id_hd])           
         if row["all_txt_trigrams"] != None:
             self.seen_user_trigrams_all = self.addUnique(self.seen_user_trigrams_all,row["all_txt_trigrams"],row[self.id_hd])
+            if row[self.ms_type] == "Benign":
+                self.seen_user_trigrams_all_b = self.addUnique(self.seen_user_trigrams_all_b,row["all_txt_trigrams"],row[self.id_hd])
+            elif row[self.ms_type] == "PPMS":
+                self.seen_user_trigrams_all_p = self.addUnique(self.seen_user_trigrams_all_p,row["all_txt_trigrams"],row[self.id_hd])
+            elif row[self.ms_type] == "SPMS":
+                self.seen_user_trigrams_all_s = self.addUnique(self.seen_user_trigrams_all_s,row["all_txt_trigrams"],row[self.id_hd])
+            elif row[self.ms_type] == "RRMS":
+                self.seen_user_trigrams_all_r = self.addUnique(self.seen_user_trigrams_all_r,row["all_txt_trigrams"],row[self.id_hd])
         if row["all_txt_quadgrams"] != None:
-           self.seen_user_quadgrams_all = self.addUnique(self.seen_user_quadgrams_all,row["all_txt_quadgrams"],row[self.id_hd])
+            self.seen_user_quadgrams_all = self.addUnique(self.seen_user_quadgrams_all,row["all_txt_quadgrams"],row[self.id_hd])
+            if row[self.ms_type] == "Benign":
+                self.seen_user_quadgrams_all_b = self.addUnique(self.seen_user_quadgrams_all_b,row["all_txt_quadgrams"],row[self.id_hd])
+            elif row[self.ms_type] == "PPMS":
+                self.seen_user_quadgrams_all_p = self.addUnique(self.seen_user_quadgrams_all_p,row["all_txt_quadgrams"],row[self.id_hd])
+            elif row[self.ms_type] == "SPMS":
+                self.seen_user_quadgrams_all_s = self.addUnique(self.seen_user_quadgrams_all_s,row["all_txt_quadgrams"],row[self.id_hd])
+            elif row[self.ms_type] == "RRMS":
+                self.seen_user_quadgrams_all_r = self.addUnique(self.seen_user_quadgrams_all_r,row["all_txt_quadgrams"],row[self.id_hd])
         if row["no_stop_txt"] != None:
             self.seen_user_words_no_stop = self.addUnique(self.seen_user_words_no_stop,row["no_stop_txt"],row[self.id_hd])
+            if row[self.ms_type] == "Benign":
+                self.seen_user_words_no_stop_b = self.addUnique(self.seen_user_words_no_stop_b,row["no_stop_txt"],row[self.id_hd])
+            elif row[self.ms_type] == "PPMS":
+                self.seen_user_words_no_stop_p = self.addUnique(self.seen_user_words_no_stop_p,row["no_stop_txt"],row[self.id_hd])
+            elif row[self.ms_type] == "SPMS":
+                self.seen_user_words_no_stop_s = self.addUnique(self.seen_user_words_no_stop_s,row["no_stop_txt"],row[self.id_hd])
+            elif row[self.ms_type] == "RRMS":
+                self.seen_user_words_no_stop_r = self.addUnique(self.seen_user_words_no_stop_r,row["no_stop_txt"],row[self.id_hd])
         if row["no_stop_bigrams"] != None:
-           self.seen_user_bigrams_no_stop = self.addUnique(self.seen_user_bigrams_no_stop,row["no_stop_bigrams"],row[self.id_hd]) 
+            self.seen_user_bigrams_no_stop = self.addUnique(self.seen_user_bigrams_no_stop,row["no_stop_bigrams"],row[self.id_hd]) 
+            if row[self.ms_type] == "Benign":
+                self.seen_user_bigrams_no_stop_b = self.addUnique(self.seen_user_bigrams_no_stop_b,row["no_stop_bigrams"],row[self.id_hd])
+            elif row[self.ms_type] == "PPMS":
+                self.seen_user_bigrams_no_stop_p = self.addUnique(self.seen_user_bigrams_no_stop_p,row["no_stop_bigrams"],row[self.id_hd])
+            elif row[self.ms_type] == "SPMS":
+                self.seen_user_bigrams_no_stop_s = self.addUnique(self.seen_user_bigrams_no_stop_s,row["no_stop_bigrams"],row[self.id_hd])
+            elif row[self.ms_type] == "RRMS":
+                self.seen_user_bigrams_no_stop_r = self.addUnique(self.seen_user_bigrams_no_stop_r,row["no_stop_bigrams"],row[self.id_hd])
         if row["no_stop_trigrams"] != None:
-            self.seen_user_trigrams_no_stop = self.addUnique(self.seen_user_trigrams_no_stop,row["no_stop_trigrams"],row[self.id_hd]) 
+            self.seen_user_trigrams_no_stop = self.addUnique(self.seen_user_trigrams_no_stop,row["no_stop_trigrams"],row[self.id_hd])
+            if row[self.ms_type] == "Benign":
+                self.seen_user_trigrams_no_stop_b = self.addUnique(self.seen_user_trigrams_no_stop_b,row["no_stop_trigrams"],row[self.id_hd])
+            elif row[self.ms_type] == "PPMS":
+                self.seen_user_trigrams_no_stop_p = self.addUnique(self.seen_user_trigrams_no_stop_p,row["no_stop_trigrams"],row[self.id_hd])
+            elif row[self.ms_type] == "SPMS":
+                self.seen_user_trigrams_no_stop_s = self.addUnique(self.seen_user_trigrams_no_stop_s,row["no_stop_trigrams"],row[self.id_hd])
+            elif row[self.ms_type] == "RRMS":
+                self.seen_user_trigrams_no_stop_r = self.addUnique(self.seen_user_trigrams_no_stop_r,row["no_stop_trigrams"],row[self.id_hd]) 
         if row["no_stop_quadgrams"] != None:
-            self.seen_user_quadgrams_no_stop = self.addUnique(self.seen_user_quadgrams_no_stop,row["no_stop_quadgrams"],row[self.id_hd]) 
+            self.seen_user_quadgrams_no_stop = self.addUnique(self.seen_user_quadgrams_no_stop,row["no_stop_quadgrams"],row[self.id_hd])
+            if row[self.ms_type] == "Benign":
+                self.seen_user_quadgrams_no_stop_b = self.addUnique(self.seen_user_quadgrams_no_stop_b,row["no_stop_quadgrams"],row[self.id_hd])
+            elif row[self.ms_type] == "PPMS":
+                self.seen_user_quadgrams_no_stop_p = self.addUnique(self.seen_user_quadgrams_no_stop_p,row["no_stop_quadgrams"],row[self.id_hd])
+            elif row[self.ms_type] == "SPMS":
+                self.seen_user_quadgrams_no_stop_s = self.addUnique(self.seen_user_quadgrams_no_stop_s,row["no_stop_quadgrams"],row[self.id_hd])
+            elif row[self.ms_type] == "RRMS":
+                self.seen_user_quadgrams_no_stop_r = self.addUnique(self.seen_user_quadgrams_no_stop_r,row["no_stop_quadgrams"],row[self.id_hd])
         if row["all_txt_med"] != None:
             self.seen_user_words_all_med = self.addUnique(self.seen_user_words_all_med,row["all_txt_med"],row[self.id_hd])
+            if row[self.ms_type] == "Benign":
+                self.seen_user_words_all_med_b = self.addUnique(self.seen_user_words_all_med_b,row["all_txt_med"],row[self.id_hd])
+            elif row[self.ms_type] == "PPMS":
+                self.seen_user_words_all_med_p = self.addUnique(self.seen_user_words_all_med_p,row["all_txt_med"],row[self.id_hd])
+            elif row[self.ms_type] == "SPMS":
+                self.seen_user_words_all_med_s = self.addUnique(self.seen_user_words_all_med_s,row["all_txt_med"],row[self.id_hd])
+            elif row[self.ms_type] == "RRMS":
+                self.seen_user_words_all_med_r = self.addUnique(self.seen_user_words_all_med_r,row["all_txt_med"],row[self.id_hd])
         if row["all_txt_bigrams_med"] != None:
             self.seen_user_bigrams_all_med = self.addUnique(self.seen_user_bigrams_all_med,row["all_txt_bigrams_med"],row[self.id_hd])
+            if row[self.ms_type] == "Benign":
+                self.seen_user_bigrams_all_med_b = self.addUnique(self.seen_user_bigrams_all_med_b,row["all_txt_bigrams_med"],row[self.id_hd])
+            elif row[self.ms_type] == "PPMS":
+                self.seen_user_bigrams_all_med_p = self.addUnique(self.seen_user_bigrams_all_med_p,row["all_txt_bigrams_med"],row[self.id_hd])
+            elif row[self.ms_type] == "SPMS":
+                self.seen_user_bigrams_all_med_s = self.addUnique(self.seen_user_bigrams_all_med_s,row["all_txt_bigrams_med"],row[self.id_hd])
+            elif row[self.ms_type] == "RRMS":
+                self.seen_user_bigrams_all_med_r = self.addUnique(self.seen_user_bigrams_all_med_r,row["all_txt_bigrams_med"],row[self.id_hd])
         if row["all_txt_trigrams_med"] != None:
             self.seen_user_trigrams_all_med = self.addUnique(self.seen_user_trigrams_all_med,row["all_txt_trigrams_med"],row[self.id_hd])
+            if row[self.ms_type] == "Benign":
+                self.seen_user_trigrams_all_med_b = self.addUnique(self.seen_user_trigrams_all_med_b,row["all_txt_trigrams_med"],row[self.id_hd])
+            elif row[self.ms_type] == "PPMS":
+                self.seen_user_trigrams_all_med_p = self.addUnique(self.seen_user_trigrams_all_med_p,row["all_txt_trigrams_med"],row[self.id_hd])
+            elif row[self.ms_type] == "SPMS":
+                self.seen_user_trigrams_all_med_s = self.addUnique(self.seen_user_trigrams_all_med_s,row["all_txt_trigrams_med"],row[self.id_hd])
+            elif row[self.ms_type] == "RRMS":
+                self.seen_user_trigrams_all_med_r = self.addUnique(self.seen_user_trigrams_all_med_r,row["all_txt_trigrams_med"],row[self.id_hd])
         if row["all_txt_quadgrams_med"] != None:
             self.seen_user_quadgrams_all_med = self.addUnique(self.seen_user_quadgrams_all_med,row["all_txt_quadgrams_med"],row[self.id_hd])
+            if row[self.ms_type] == "Benign":
+                self.seen_user_quadgrams_all_med_b = self.addUnique(self.seen_user_quadgrams_all_med_b,row["all_txt_quadgrams_med"],row[self.id_hd])
+            elif row[self.ms_type] == "PPMS":
+                self.seen_user_quadgrams_all_med_p = self.addUnique(self.seen_user_quadgrams_all_med_p,row["all_txt_quadgrams_med"],row[self.id_hd])
+            elif row[self.ms_type] == "SPMS":
+                self.seen_user_quadgrams_all_med_s = self.addUnique(self.seen_user_quadgrams_all_med_s,row["all_txt_quadgrams_med"],row[self.id_hd])
+            elif row[self.ms_type] == "RRMS":
+                self.seen_user_quadgrams_all_med_r = self.addUnique(self.seen_user_quadgrams_all_med_r,row["all_txt_quadgrams_med"],row[self.id_hd])
         if row["no_stop_txt_med"] != None:
             self.seen_user_words_no_stop_med = self.addUnique(self.seen_user_words_no_stop_med,row["no_stop_txt_med"],row[self.id_hd])
+            if row[self.ms_type] == "Benign":
+                self.seen_user_words_no_stop_med_b = self.addUnique(self.seen_user_words_no_stop_med_b,row["no_stop_txt_med"],row[self.id_hd])
+            elif row[self.ms_type] == "PPMS":
+                self.seen_user_words_no_stop_med_p = self.addUnique(self.seen_user_words_no_stop_med_p,row["no_stop_txt_med"],row[self.id_hd])
+            elif row[self.ms_type] == "SPMS":
+                self.seen_user_words_no_stop_med_s = self.addUnique(self.seen_user_words_no_stop_med_s,row["no_stop_txt_med"],row[self.id_hd])
+            elif row[self.ms_type] == "RRMS":
+                self.seen_user_words_no_stop_med_r = self.addUnique(self.seen_user_words_no_stop_med_r,row["no_stop_txt_med"],row[self.id_hd])
         if row["no_stop_bigrams_med"] != None:
             self.seen_user_bigrams_no_stop_med = self.addUnique(self.seen_user_bigrams_no_stop_med,row["no_stop_bigrams_med"],row[self.id_hd])
+            if row[self.ms_type] == "Benign":
+                self.seen_user_bigrams_no_stop_med_b = self.addUnique(self.seen_user_bigrams_no_stop_med_b,row["no_stop_bigrams_med"],row[self.id_hd])
+            elif row[self.ms_type] == "PPMS":
+                self.seen_user_bigrams_no_stop_med_p = self.addUnique(self.seen_user_bigrams_no_stop_med_p,row["no_stop_bigrams_med"],row[self.id_hd])
+            elif row[self.ms_type] == "SPMS":
+                self.seen_user_bigrams_no_stop_med_s = self.addUnique(self.seen_user_bigrams_no_stop_med_s,row["no_stop_bigrams_med"],row[self.id_hd])
+            elif row[self.ms_type] == "RRMS":
+                self.seen_user_bigrams_no_stop_med_r = self.addUnique(self.seen_user_bigrams_no_stop_med_r,row["no_stop_bigrams_med"],row[self.id_hd])
         if row["no_stop_trigrams_med"] != None:
             self.seen_user_trigrams_no_stop_med = self.addUnique(self.seen_user_trigrams_no_stop_med,row["no_stop_trigrams_med"],row[self.id_hd])
+            if row[self.ms_type] == "Benign":
+                self.seen_user_trigrams_no_stop_med_b = self.addUnique(self.seen_user_trigrams_no_stop_med_b,row["no_stop_trigrams_med"],row[self.id_hd])
+            elif row[self.ms_type] == "PPMS":
+                self.seen_user_trigrams_no_stop_med_p = self.addUnique(self.seen_user_trigrams_no_stop_med_p,row["no_stop_trigrams_med"],row[self.id_hd])
+            elif row[self.ms_type] == "SPMS":
+                self.seen_user_trigrams_no_stop_med_s = self.addUnique(self.seen_user_trigrams_no_stop_med_s,row["no_stop_trigrams_med"],row[self.id_hd])
+            elif row[self.ms_type] == "RRMS":
+                self.seen_user_trigrams_no_stop_med_r = self.addUnique(self.seen_user_trigrams_no_stop_med_r,row["no_stop_trigrams_med"],row[self.id_hd])
         if row["no_stop_quadgrams_med"] != None:
-            self.seen_user_quadgrams_no_stop_med = self.addUnique(self.seen_user_quadgrams_no_stop_med,row["no_stop_quadgrams_med"],row[self.id_hd])  
+            self.seen_user_quadgrams_no_stop_med = self.addUnique(self.seen_user_quadgrams_no_stop_med,row["no_stop_quadgrams_med"],row[self.id_hd])
+            if row[self.ms_type] == "Benign":
+                self.seen_user_quadgrams_no_stop_med_b = self.addUnique(self.seen_user_quadgrams_no_stop_med_b,row["no_stop_quadgrams_med"],row[self.id_hd])
+            elif row[self.ms_type] == "PPMS":
+                self.seen_user_quadgrams_no_stop_med_p = self.addUnique(self.seen_user_quadgrams_no_stop_med_p,row["no_stop_quadgrams_med"],row[self.id_hd])
+            elif row[self.ms_type] == "SPMS":
+                self.seen_user_quadgrams_no_stop_med_s = self.addUnique(self.seen_user_quadgrams_no_stop_med_s,row["no_stop_quadgrams_med"],row[self.id_hd])
+            elif row[self.ms_type] == "RRMS":
+                self.seen_user_quadgrams_no_stop_med_r = self.addUnique(self.seen_user_quadgrams_no_stop_med_r,row["no_stop_quadgrams_med"],row[self.id_hd])
 
     def buildNoDuplicatesPerEntry(self,row):
 
         if row["all_txt"] != None:
             self.no_dup_words_all.append(set(row["all_txt"]))
+            if row[self.ms_type] == "Benign":
+                self.no_dup_words_all_b.append(set(row["all_txt"]))
+            elif row[self.ms_type] == "PPMS":
+                self.no_dup_words_all_p.append(set(row["all_txt"]))
+            elif row[self.ms_type] == "SPMS":
+                self.no_dup_words_all_s.append(set(row["all_txt"]))
+            elif row[self.ms_type] == "RRMS":
+                self.no_dup_words_all_r.append(set(row["all_txt"]))
         if row["all_txt_bigrams"] != None:
-           self.no_dup_bigrams_all.append(set(row["all_txt_bigrams"]))
+            self.no_dup_bigrams_all.append(set(row["all_txt_bigrams"]))
+            if row[self.ms_type] == "Benign":
+                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "PPMS":
+                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "SPMS":
+                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "RRMS":
+                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
+################ CONTINUE FROM HERE ########################################################################################################################
         if row["all_txt_trigrams"] != None:
             self.no_dup_trigrams_all.append(set(row["all_txt_trigrams"]))
+            if row[self.ms_type] == "Benign":
+                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "PPMS":
+                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "SPMS":
+                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "RRMS":
+                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
         if row["all_txt_quadgrams"] != None:
-           self.no_dup_quadgrams_all.append(set(row["all_txt_quadgrams"]))
+            self.no_dup_quadgrams_all.append(set(row["all_txt_quadgrams"]))
+            if row[self.ms_type] == "Benign":
+                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "PPMS":
+                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "SPMS":
+                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "RRMS":
+                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
         if row["no_stop_txt"] != None:
             self.no_dup_words_no_stop.append(set(row["no_stop_txt"]))
+            if row[self.ms_type] == "Benign":
+                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "PPMS":
+                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "SPMS":
+                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "RRMS":
+                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
         if row["no_stop_bigrams"] != None:
-           self.no_dup_bigrams_no_stop.append(set(row["no_stop_bigrams"])) 
+            self.no_dup_bigrams_no_stop.append(set(row["no_stop_bigrams"])) 
+            if row[self.ms_type] == "Benign":
+                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "PPMS":
+                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "SPMS":
+                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "RRMS":
+                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
         if row["no_stop_trigrams"] != None:
             self.no_dup_trigrams_no_stop.append(set(row["no_stop_trigrams"]))
+            if row[self.ms_type] == "Benign":
+                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "PPMS":
+                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "SPMS":
+                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "RRMS":
+                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
         if row["no_stop_quadgrams"] != None:
             self.no_dup_quadgrams_no_stop.append(set(row["no_stop_quadgrams"]))
+            if row[self.ms_type] == "Benign":
+                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "PPMS":
+                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "SPMS":
+                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "RRMS":
+                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
         if row["all_txt_med"] != None:
             self.no_dup_words_all_med.append(set(row["all_txt_med"]))
+            if row[self.ms_type] == "Benign":
+                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "PPMS":
+                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "SPMS":
+                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "RRMS":
+                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
         if row["all_txt_bigrams_med"] != None:
             self.no_dup_bigrams_all_med.append(set(row["all_txt_bigrams_med"]))
+            if row[self.ms_type] == "Benign":
+                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "PPMS":
+                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "SPMS":
+                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "RRMS":
+                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
         if row["all_txt_trigrams_med"] != None:
             self.no_dup_trigrams_all_med.append(set(row["all_txt_trigrams_med"]))
+            if row[self.ms_type] == "Benign":
+                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "PPMS":
+                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "SPMS":
+                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "RRMS":
+                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
         if row["all_txt_quadgrams_med"] != None:
             self.no_dup_quadgrams_all_med.append(set(row["all_txt_quadgrams_med"]))
+            if row[self.ms_type] == "Benign":
+                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "PPMS":
+                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "SPMS":
+                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "RRMS":
+                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
         if row["no_stop_txt_med"] != None:
             self.no_dup_words_no_stop_med.append(set(row["no_stop_txt_med"]))
+            if row[self.ms_type] == "Benign":
+                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "PPMS":
+                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "SPMS":
+                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "RRMS":
+                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
         if row["no_stop_bigrams_med"] != None:
             self.no_dup_bigrams_no_stop_med.append(set(row["no_stop_bigrams_med"]))
+            if row[self.ms_type] == "Benign":
+                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "PPMS":
+                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "SPMS":
+                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "RRMS":
+                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
         if row["no_stop_trigrams_med"] != None:
             self.no_dup_trigrams_no_stop_med.append(set(row["no_stop_trigrams_med"]))
+            if row[self.ms_type] == "Benign":
+                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "PPMS":
+                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "SPMS":
+                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "RRMS":
+                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
         if row["no_stop_quadgrams_med"] != None:
             self.no_dup_quadgrams_no_stop_med.append(set(row["no_stop_quadgrams_med"]))
+            if row[self.ms_type] == "Benign":
+                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "PPMS":
+                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "SPMS":
+                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+            elif row[self.ms_type] == "RRMS":
+                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
     
     def createLexiconsOfUniqueUserWords(self):
         

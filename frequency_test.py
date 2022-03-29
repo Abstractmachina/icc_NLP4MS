@@ -9,7 +9,7 @@ class FrequencyTester:
         # Load in the test data frame
         self.df = pd.read_csv("freq_test.csv")
 
-        self.FreqAnalyser = FrequencyAnalyser(self.df,"free_txt","user_id")
+        self.FreqAnalyser = FrequencyAnalyser(self.df,"free_txt","user_id","ms_type")
 
 @pytest.fixture
 def freq_tester():
