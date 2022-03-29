@@ -138,23 +138,31 @@ class SentimentPage:
         for widget in self.displayFrame.winfo_children():
             widget.destroy()
 
-        #create user info header
         
-        userInfo = self.controller.buildUserInfo(userId)
-        r = Text(self.displayFrame, width = 95, height = 10)
-        r.insert("end", userInfo)
-        r.configure(font="10")
-        r.configure(state= "disabled")
-        r.grid(row=0, column = 0, sticky=(N,S,E,W))
-        r_scroll = ttk.Scrollbar(self.displayFrame, orient=VERTICAL, command=r.yview)
-        r_scroll.grid(row=0, column=1, rowspan = 1, sticky=(N,S))
-        r["yscrollcommand"] = r_scroll.set
+        
+        
+        
         
         self.controller.buildUserGraphs(userId, self.displayFrame, 
                                         self.sa_on, self.disabl_on,
                                         self.combine_on)
             
+        #create user info header
+        userInfo = self.controller.buildUserInfo(userId)
+        r = Text(self.displayFrame, width = 95, height = 10)
+        r.insert("end", userInfo)
+        
         #list free text
+        if self.freetxt_on.get():
+            ft = self.controller.getFreeTxt(userId)
+            r.insert("end", ft)
+            
+        r.configure(font="10")
+        r.configure(state= "disabled")
+        r.grid(row=0, column = 0, sticky=(N,S,E,W))
         
             
+        r_scroll = ttk.Scrollbar(self.displayFrame, orient=VERTICAL, command=r.yview)
+        r_scroll.grid(row=0, column=1, rowspan = 1, sticky=(N,S))
+        r["yscrollcommand"] = r_scroll.set
         return

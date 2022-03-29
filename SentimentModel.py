@@ -63,6 +63,10 @@ class SentimentModel():
         MS Diagnosis Date:  {user.loc["DiagnosisDate"]}"""
         return userInfo
         
+    
+    def getUserFreetxt(self, userId) -> list:
+        user = self.rawData.loc[self.rawData["UserId"] == userId]
+        return user["Value"].values.tolist()
         
     def calcSentiments(self, inputData = pd.DataFrame, numPts = 10) -> pd.DataFrame:
         """Calculate sentiments by entry. Will process all data points
