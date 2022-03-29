@@ -431,6 +431,8 @@ class FrequencyAnalyser:
             Returns: Frequency of phrase (int)
 
         """
+
+
         if stopwords and medical and allow_duplcates_across_entries:
             if ngram == 1:
                 n_grams = self.no_dup_words_no_stop_med
