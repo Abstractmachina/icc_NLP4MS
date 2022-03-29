@@ -74,7 +74,7 @@ class FrequencyAnalyser:
             # Return a list of words (using NLTK's word_tokenizer)
             return word_tokenize(text)
         # If not instance, return
-        return
+        return []
 
     def removeStopWords(self,text,extra_stop_words=[]):
         """ Input: text: list of strings (words)
@@ -86,11 +86,12 @@ class FrequencyAnalyser:
             Returns: list of strings with stopwords removed
         """
         new_text = []
-        for word in text:
-            # Convert word to lower case for consistency
-            lower_case = word.lower()
-            if lower_case not in self.stop_words and lower_case not in extra_stop_words:
-                new_text.append(lower_case)
+        if text != None:
+            for word in text:
+                # Convert word to lower case for consistency
+                lower_case = word.lower()
+                if lower_case not in self.stop_words and lower_case not in extra_stop_words:
+                    new_text.append(lower_case)
         return new_text
     
     def generateNgrams(self,n,source_txt):
@@ -106,9 +107,12 @@ class FrequencyAnalyser:
         """
         ngrams_all = []
         for index,entry in enumerate(source_txt):
-            ngrams = list(everygrams(entry,n,n))
-            ngrams = [' '.join(word) for word in ngrams]
-            ngrams_all.append(ngrams)
+            if entry != None:
+                ngrams = list(everygrams(entry,n,n))
+                ngrams = [' '.join(word) for word in ngrams]
+                ngrams_all.append(ngrams)
+            else:
+                ngrams_all.append([])
         
         return ngrams_all
 
@@ -138,7 +142,8 @@ class FrequencyAnalyser:
 
             Returns: list of lists flattened into just one list
         """
-        return [word for entries in list for word in entries]
+        if list != None:
+            return [word for entries in list for word in entries]
 
     def addTokenizedText(self):
         """
@@ -171,18 +176,20 @@ class FrequencyAnalyser:
         self.tokenized_txt_med = [None] * len(self.tokenized_txt) 
         for index,entry in enumerate(self.tokenized_txt):
             new_entry = []
-            for word in entry:
-                if word in self.medical_terms:
-                    new_entry.append(word)
+            if entry != None:
+                for word in entry:
+                    if word in self.medical_terms:
+                        new_entry.append(word)
             self.tokenized_txt_med[index] = new_entry
         
         """ Create text for medical terms with duplicates and no stopwords """
         self.tokenized_txt_no_stop_med = [None] * len(self.tokenized_txt) 
         for index,entry in enumerate(self.tokenized_txt):
             new_entry = []
-            for word in entry:
-                if word in self.medical_terms_no_stop:
-                    new_entry.append(word)
+            if entry != None:
+                for word in entry:
+                    if word in self.medical_terms_no_stop:
+                        new_entry.append(word)
             self.tokenized_txt_no_stop_med[index] = new_entry
     
     def createNgramsForDf(self):
@@ -385,6 +392,86 @@ class FrequencyAnalyser:
         self.seen_user_trigrams_no_stop_med = {}
         self.seen_user_quadgrams_no_stop_med= {}
 
+        self.seen_user_words_all_b = {}
+        self.seen_user_bigrams_all_b = {}
+        self.seen_user_trigrams_all_b = {}
+        self.seen_user_quadgrams_all_b= {}
+
+        self.seen_user_words_no_stop_b = {}
+        self.seen_user_bigrams_no_stop_b = {}
+        self.seen_user_trigrams_no_stop_b = {}
+        self.seen_user_quadgrams_no_stop_b = {}
+
+        self.seen_user_words_all_med_b = {}
+        self.seen_user_bigrams_all_med_b = {}
+        self.seen_user_trigrams_all_med_b = {}
+        self.seen_user_quadgrams_all_med_b= {}
+
+        self.seen_user_words_no_stop_med_b = {}
+        self.seen_user_bigrams_no_stop_med_b = {}
+        self.seen_user_trigrams_no_stop_med_b = {}
+        self.seen_user_quadgrams_no_stop_med_b = {}
+
+        self.seen_user_words_all_p = {}
+        self.seen_user_bigrams_all_p = {}
+        self.seen_user_trigrams_all_p = {}
+        self.seen_user_quadgrams_all_p = {}
+
+        self.seen_user_words_no_stop_p = {}
+        self.seen_user_bigrams_no_stop_p = {}
+        self.seen_user_trigrams_no_stop_p = {}
+        self.seen_user_quadgrams_no_stop_p = {}
+
+        self.seen_user_words_all_med_p = {}
+        self.seen_user_bigrams_all_med_p = {}
+        self.seen_user_trigrams_all_med_p = {}
+        self.seen_user_quadgrams_all_med_p = {}
+
+        self.seen_user_words_no_stop_med_p = {}
+        self.seen_user_bigrams_no_stop_med_p = {}
+        self.seen_user_trigrams_no_stop_med_p = {}
+        self.seen_user_quadgrams_no_stop_med_p = {}
+
+        self.seen_user_words_all_s = {}
+        self.seen_user_bigrams_all_s = {}
+        self.seen_user_trigrams_all_s = {}
+        self.seen_user_quadgrams_all_s = {}
+
+        self.seen_user_words_no_stop_s = {}
+        self.seen_user_bigrams_no_stop_s = {}
+        self.seen_user_trigrams_no_stop_s = {}
+        self.seen_user_quadgrams_no_stop_s = {}
+
+        self.seen_user_words_all_med_s = {}
+        self.seen_user_bigrams_all_med_s = {}
+        self.seen_user_trigrams_all_med_s = {}
+        self.seen_user_quadgrams_all_med_s = {}
+
+        self.seen_user_words_no_stop_med_s = {}
+        self.seen_user_bigrams_no_stop_med_s = {}
+        self.seen_user_trigrams_no_stop_med_s = {}
+        self.seen_user_quadgrams_no_stop_med_s = {}
+
+        self.seen_user_words_all_r = {}
+        self.seen_user_bigrams_all_r = {}
+        self.seen_user_trigrams_all_r = {}
+        self.seen_user_quadgrams_all_r = {}
+
+        self.seen_user_words_no_stop_r = {}
+        self.seen_user_bigrams_no_stop_r = {}
+        self.seen_user_trigrams_no_stop_r = {}
+        self.seen_user_quadgrams_no_stop_r = {}
+
+        self.seen_user_words_all_med_r = {}
+        self.seen_user_bigrams_all_med_r = {}
+        self.seen_user_trigrams_all_med_r = {}
+        self.seen_user_quadgrams_all_med_r = {}
+
+        self.seen_user_words_no_stop_med_r = {}
+        self.seen_user_bigrams_no_stop_med_r = {}
+        self.seen_user_trigrams_no_stop_med_r = {}
+        self.seen_user_quadgrams_no_stop_med_r = {}
+
         """ Get n-grams with no dupluicates over a given free text response
             for all users
         """
@@ -407,6 +494,86 @@ class FrequencyAnalyser:
         self.no_dup_bigrams_no_stop_med = []
         self.no_dup_trigrams_no_stop_med = []
         self.no_dup_quadgrams_no_stop_med= []
+
+        self.no_dup_words_all_b = []
+        self.no_dup_bigrams_all_b = []
+        self.no_dup_trigrams_all_b = []
+        self.no_dup_quadgrams_all_b= []
+
+        self.no_dup_words_no_stop_b = []
+        self.no_dup_bigrams_no_stop_b = []
+        self.no_dup_trigrams_no_stop_b = []
+        self.no_dup_quadgrams_no_stop_b = []
+
+        self.no_dup_words_all_med_b = []
+        self.no_dup_bigrams_all_med_b = []
+        self.no_dup_trigrams_all_med_b = []
+        self.no_dup_quadgrams_all_med_b= []
+
+        self.no_dup_words_no_stop_med_b = []
+        self.no_dup_bigrams_no_stop_med_b = []
+        self.no_dup_trigrams_no_stop_med_b = []
+        self.no_dup_quadgrams_no_stop_med_b = []
+
+        self.no_dup_words_all_p = []
+        self.no_dup_bigrams_all_p = []
+        self.no_dup_trigrams_all_p = []
+        self.no_dup_quadgrams_all_p= []
+
+        self.no_dup_words_no_stop_p = []
+        self.no_dup_bigrams_no_stop_p = []
+        self.no_dup_trigrams_no_stop_p = []
+        self.no_dup_quadgrams_no_stop_p = []
+
+        self.no_dup_words_all_med_p = []
+        self.no_dup_bigrams_all_med_p = []
+        self.no_dup_trigrams_all_med_p = []
+        self.no_dup_quadgrams_all_med_p= []
+
+        self.no_dup_words_no_stop_med_p = []
+        self.no_dup_bigrams_no_stop_med_p = []
+        self.no_dup_trigrams_no_stop_med_p = []
+        self.no_dup_quadgrams_no_stop_med_p = []
+
+        self.no_dup_words_all_s = []
+        self.no_dup_bigrams_all_s = []
+        self.no_dup_trigrams_all_s = []
+        self.no_dup_quadgrams_all_s= []
+
+        self.no_dup_words_no_stop_s = []
+        self.no_dup_bigrams_no_stop_s = []
+        self.no_dup_trigrams_no_stop_s = []
+        self.no_dup_quadgrams_no_stop_s = []
+
+        self.no_dup_words_all_med_s = []
+        self.no_dup_bigrams_all_med_s = []
+        self.no_dup_trigrams_all_med_s = []
+        self.no_dup_quadgrams_all_med_s= []
+
+        self.no_dup_words_no_stop_med_s = []
+        self.no_dup_bigrams_no_stop_med_s = []
+        self.no_dup_trigrams_no_stop_med_s = []
+        self.no_dup_quadgrams_no_stop_med_s = []
+
+        self.no_dup_words_all_r = []
+        self.no_dup_bigrams_all_r = []
+        self.no_dup_trigrams_all_r = []
+        self.no_dup_quadgrams_all_r= []
+
+        self.no_dup_words_no_stop_r = []
+        self.no_dup_bigrams_no_stop_r = []
+        self.no_dup_trigrams_no_stop_r = []
+        self.no_dup_quadgrams_no_stop_r = []
+
+        self.no_dup_words_all_med_r = []
+        self.no_dup_bigrams_all_med_r = []
+        self.no_dup_trigrams_all_med_r = []
+        self.no_dup_quadgrams_all_med_r= []
+
+        self.no_dup_words_no_stop_med_r = []
+        self.no_dup_bigrams_no_stop_med_r = []
+        self.no_dup_trigrams_no_stop_med_r = []
+        self.no_dup_quadgrams_no_stop_med_r = []
 
         # Build entries for each user entry in the dataframe
         for index,row in self.df.iterrows():
