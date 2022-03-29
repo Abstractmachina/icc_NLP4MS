@@ -21,7 +21,7 @@ class SentimentScoreType(enum.Enum) :
     NEUTRAL = 2
     POSITIVE = 3
 
-class SentimentGrapher (ISentimentGraphAdapter):
+class SentimentGrapher_tk (ISentimentGraphAdapter):
     """Graphs sentiments with matplotlib for Tkinter.
 
     Args:
@@ -29,6 +29,63 @@ class SentimentGrapher (ISentimentGraphAdapter):
     """
     def __init__(self) -> None:
         pass
+    
+    
+    @staticmethod
+    def plotUserGraphs( tk_frame, sent_on, disabl_on, combine_on,
+                       sentimentHistory = None, edssHistory = None
+                        ):
+        count = 0
+        if sent_on:
+            count+=1
+        if disabl_on:
+            count +=1
+        if combine_on:
+            count +=1
+            
+        figure = Figure(figsize=(6,3*count), dpi=100)
+        
+        idx = 1
+        if sent_on:
+            ax_sent = figure.add_subplot(int(f"{count}1{idx}"))
+            sortedPts = sentimentHistory.sort_values(by="CompletedDate")
+            ax_sent.plot(sortedPts["CompletedDate"], sortedPts["Sent_Comp"])
+            idx += 1
+        if disabl_on:
+            ax_disa = figure.add_subplot(int(f"{count}1{idx}"))
+            sortedPts = edssHistory.sort_values(by="CompletedDate")
+            ax_disa.plot(sortedPts["CompletedDate"], sortedPts["EDSS"])
+            idx += 1
+        if combine_on:
+            sorted_edss = edssHistory.sort_values(by="CompletedDate")
+            sorted_sent = sentimentHistory.sort_values(by="CompletedDate")
+            
+            ax_comb1 = figure.add_subplot(int(f"{count}1{idx}"))
+            ax_comb1.set_xlabel("Date")
+            ax_comb1.set_ylabel("EDSS")
+            ax_comb1.tick_params(axis="y", labelcolor = "blue")
+            ax_comb1.plot(sorted_edss["CompletedDate"], sorted_edss["EDSS"], color="blue")
+            
+            ax_comb2 = ax_comb1.twinx()
+            ax_comb2.set_ylabel("Sentiment")
+            ax_comb2.tick_params(axis="y", labelcolor = "red")
+            ax_comb2.plot(sorted_sent["CompletedDate"], sorted_sent["Sent_Comp"], color="red")
+        
+        #add to tkinter canvas
+        canvas = FigureCanvasTkAgg(figure, tk_frame)
+        canvas.draw()
+        #canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+        canvas.get_tk_widget().grid(row=1, column = 0)
+        
+        #matplotlib tool. not needed atm
+        #toolbar = NavigationToolbar2Tk(canvas, tk_page)
+        #toolbar.update()
+        #canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+        canvas._tkcanvas.grid(row=1, column = 0)
+        return
+    
+    
+    
     
     @staticmethod
     def plotScoreDistribution(sentimentScores, type, numSlices = 100, ) :
@@ -70,6 +127,7 @@ class SentimentGrapher (ISentimentGraphAdapter):
         plt.show()
         
         
+    ############### SENTIMENT ANALYSIS  ##########################
     @staticmethod
     def plotSentimentHistory_single(sentimentHistory, tk_frame):
         """Plot sentiment history of a single user. 
@@ -139,6 +197,25 @@ class SentimentGrapher (ISentimentGraphAdapter):
         ax[0].set_title("Improved Outcome")
         ax[1].set_title("Deteriorated Outcome")
         plt.show()
+        return
+    ############################## EDSS  ####################################
+    @staticmethod
+    def plotEDSSHistory_single(inputData, tk_frame):
+        #build matplotlib fifure
+        f = Figure(figsize=(6,3), dpi=100)
+        ax = f.add_subplot(111)
+        sortedPts = inputData.sort_values(by="CompletedDate")
+        ax.plot(sortedPts["CompletedDate"], sortedPts["EDSS"])
+        
+        #add to tkinter canvas
+        canvas = FigureCanvasTkAgg(f, tk_frame)
+        canvas.draw()
+        canvas.get_tk_widget().grid(row=1, column = 0)
+        
+        #matplotlib tool. not needed atm
+        #toolbar = NavigationToolbar2Tk(canvas, tk_page)
+        #toolbar.update()
+        canvas._tkcanvas.grid(row=1, column = 0)
         return
     
     @staticmethod

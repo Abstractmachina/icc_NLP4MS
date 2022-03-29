@@ -13,7 +13,7 @@ from DataProcessing import DataQueryBuilder as builder
 class SentimentModel():
     
     def __init__(self):
-        self.rawData = pd.DataFrame
+        self.rawData = pd.DataFrame()
         self.sentimentHistory = pd.DataFrame()
         self.sentimentSet = pd.DataFrame()
         self.comboTable = pd.DataFrame()
@@ -26,7 +26,7 @@ class SentimentModel():
         
     def importFile(self, csvPath, 
                    userId = "UserId", date = "CompletedDate", 
-                   value = "Value", edss = "WebEDSS",
+                   value = "Value", edss = "webEDSS",
                    anx ="Anxiety", depr = "Depression", 
                    dob = "DOB", gender = "Gender", 
                    mstype = "MS_Type", onsetDate ="OnsetDate", 
@@ -38,7 +38,7 @@ class SentimentModel():
         standardizedHeaders = { userId : "UserId",
                                 date : "CompletedDate",
                                 value: "Value",
-                                edss : "WebEDSS",
+                                edss : "webEDSS",
                                 anx :"Anxiety", 
                                 depr : "Depression", 
                                 dob : "DOB", 
@@ -58,11 +58,15 @@ class SentimentModel():
         User ID:            {userId}
         Date of Birth:      {user.loc["DOB"]}
         Gender:             {user.loc["Gender"]}
-        MSTYPE:             {user.loc["MS_Type"]}
+        MS TYPE:            {user.loc["MS_Type"]}
         MS Onset Date:      {user.loc["OnsetDate"]}
         MS Diagnosis Date:  {user.loc["DiagnosisDate"]}"""
         return userInfo
         
+    
+    def getUserFreetxt(self, userId) -> list:
+        user = self.rawData.loc[self.rawData["UserId"] == userId]
+        return user["Value"].values.tolist()
         
     def calcSentiments(self, inputData = pd.DataFrame, numPts = 10) -> pd.DataFrame:
         """Calculate sentiments by entry. Will process all data points
@@ -146,7 +150,7 @@ class SentimentModel():
         return sentiments
     
 
-    def buildSentimentHistory_single(self, inputData = None, userId = int, minN = 3) -> pd.DataFrame:
+    def buildSentimentHistory_single(self, userId = int, inputData = None, minN = 3) -> pd.DataFrame:
         """
         Build sentiment history of one user. 
         Parameters:
@@ -162,9 +166,10 @@ class SentimentModel():
         
         if inputData == None:
             inputData = self.rawData
+            
         dataPts = inputData.loc[inputData["UserId"] == userId]
         if len(dataPts) < minN:
-            print("No match found!")
+            print("Insufficient data points!")
             return
 
         col = ["UserId", "CompletedDate", "Sent_Neg", "Sent_Neu", "Sent_Pos", "Sent_Comp"]
@@ -259,7 +264,7 @@ class SentimentModel():
         
         idx = 0
         for index, row in dataPts.iterrows():
-            date = str(row["CompletedDate_webEDSS"])
+            date = str(row["CompletedDate"])
             dateProcessed = datetime.strptime(date, "%d/%m/%Y")
             
             content = [userId, dateProcessed, row["webEDSS"]]

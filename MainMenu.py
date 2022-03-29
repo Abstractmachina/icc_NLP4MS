@@ -7,6 +7,7 @@ import pandas as pd
 from FrequencyPage import FrequencyPage
 from SearchPage import SearchPage
 from SentimentPage import SentimentPage
+from TrendPage import TrendPage
 
 
 
@@ -20,6 +21,7 @@ class MainMenu:
         self.freq_page = FrequencyPage(self.root,self.app.addPageFrame("freq frame",self.root),self.app)
         self.search_page = SearchPage(self.root,self.app.addPageFrame("search frame",self.root),self.app)
         self.sent_page = SentimentPage(self.root,self.app.addPageFrame("sent frame",self.root),self.app)     
+        self.trend_page = TrendPage(self.root, self.app.addPageFrame("trend frame", self.root), self.app)
 
         self.configureMainMenu()
 
@@ -42,6 +44,9 @@ class MainMenu:
         
         sentiment_b = ttk.Button(self.frame, text="User Analysis", command= lambda: self.app.displayFrame("sent frame"))
         sentiment_b.grid(column=0,row=2,sticky=(N,S,E,W))
+        
+        sentiment_b = ttk.Button(self.frame, text="Trend Analysis", command= lambda: self.app.displayFrame("trend frame"))
+        sentiment_b.grid(column=0,row=3,sticky=(N,S,E,W))
 
         back_b = ttk.Button(self.frame, text="Back", command= lambda: self.app.displayFrame("home frame"))
-        back_b.grid(column=0, row=3, sticky=(N,S,E,W))
+        back_b.grid(column=0, row=4, sticky=(N,S,E,W))
