@@ -418,7 +418,7 @@ class FrequencyAnalyser:
 
         
          
-    def getFrequencyOfNgram(self,phrase,ngram=1,stopwords=True,medical=False,allow_duplicates=False):
+    def getFrequencyOfNgram(self,phrase,ngram=1,stopwords=True,medical=False,allow_duplicates=False,allow_duplcates_across_entries=False):
         """
             Inputs: Phrase (string) - the phrase to return the frequency of
                    ngram (int, max=4) - number of words in the phrase
@@ -431,8 +431,47 @@ class FrequencyAnalyser:
             Returns: Frequency of phrase (int)
 
         """
+        if stopwords and medical and allow_duplcates_across_entries:
+            if ngram == 1:
+                n_grams = self.no_dup_words_no_stop_med
+            elif ngram == 2:
+                n_grams = self.no_dup_bigrams_no_stop_med
+            elif ngram == 3:
+                n_grams = self.no_dup_trigrams_no_stop_med
+            elif ngram == 4:
+                n_grams = self.no_dup_quadgrams_no_stop_med
+        
+        elif stopwords and allow_duplcates_across_entries:
+            if ngram == 1:
+                n_grams = self.no_dup_words_no_stop
+            elif ngram == 2:
+                n_grams = self.no_dup_bigrams_no_stop
+            elif ngram == 3:
+                n_grams = self.no_dup_trigrams_no_stop
+            elif ngram == 4:
+                n_grams = self.no_dup_quadgrams_no_stop
+        
+        elif medical and allow_duplcates_across_entries:
+            if ngram == 1:
+                n_grams = self.no_dup_words_all_med
+            elif ngram == 2:
+                n_grams = self.no_dup_bigrams_all_med
+            elif ngram == 3:
+                n_grams = self.no_dup_trigrams_all_med
+            elif ngram == 4:
+                n_grams = self.no_dup_quadgrams_all_med
 
-        if stopwords and medical and allow_duplicates:
+        elif allow_duplcates_across_entries:
+            if ngram == 1:
+                n_grams = self.no_dup_words_all
+            elif ngram == 2:
+                n_grams = self.no_dup_bigrams_all
+            elif ngram == 3:
+                n_grams = self.no_dup_trigrams_all
+            elif ngram == 4:
+                n_grams = self.no_dup_quadgrams_all
+
+        elif stopwords and medical and allow_duplicates:
             if ngram == 1:
                 n_grams = self.words_no_stop_med
             elif ngram == 2:
