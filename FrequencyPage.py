@@ -41,6 +41,16 @@ class FrequencyPage:
 
         self.most_frequent_list = most_frequent_list
 
+        # Configure the ms type list
+        ms_type_list = ttk.Combobox(self.frame, textvariable=None)
+        types = ["All","Benign","PPMS","SPMS","RRMS"]
+        ms_type_list["values"] = types
+        ms_type_list.current(0)
+        ms_type_list.state(["readonly"])
+        ms_type_list.grid(column=1,row=5,sticky=(N,S,E,W))
+
+        self.ms_type_list = ms_type_list
+
 
         # Configure the area where frequency results will be displayed
         results = Text(self.frame, width=95, height=20)
@@ -95,19 +105,21 @@ class FrequencyPage:
 
 
     def freqPageEntry(self):
-        self.analyser = FrequencyAnalyser(self.app.df,self.app.csv_header_combo_boxes[2].get(),self.app.csv_header_combo_boxes[0].get())
+        self.analyser = FrequencyAnalyser(self.app.df,self.app.csv_header_combo_boxes[2].get(),self.app.csv_header_combo_boxes[0].get(),self.app.csv_header_combo_boxes[4].get())
         self.app.displayFrame("freq frame")
 
     def freqSearchButtonClick(self):
 
         freq_search_phrase = self.freq_box.get()
-        ngrams = int(self.ngram_list.get())      
+        ngrams = int(self.ngram_list.get())
+        ms_type = str(self.ms_type_list.get())      
 
         # Build Boolean variables
         remove_stopwords = False
         medical_only = False
         allow_duplicates = True
         allow_duplicates_across_entries = False
+        
 
         if self.remove_stopwords.get():
             remove_stopwords = True
@@ -121,7 +133,7 @@ class FrequencyPage:
         if allow_duplicates == False:
             allow_duplicates_across_entries = False
 
-        frequency_count = self.analyser.getFrequencyOfNgram(freq_search_phrase,ngrams,remove_stopwords,medical_only,allow_duplicates,allow_duplicates_across_entries)
+        frequency_count = self.analyser.getFrequencyOfNgram(freq_search_phrase,ngrams,remove_stopwords,medical_only,allow_duplicates,allow_duplicates_across_entries,ms_type)
 
         result = "Frequency of the phrase: "
         result += freq_search_phrase
@@ -137,6 +149,7 @@ class FrequencyPage:
 
         ngrams = int(self.ngram_list.get())
         size = int(self.most_frequent_list.get())
+        ms_type = str(self.ms_type_list.get()) 
 
         # Build Boolean variables
         remove_stopwords = False
@@ -156,7 +169,7 @@ class FrequencyPage:
         if allow_duplicates == False:
             allow_duplicates_across_entries = False
 
-        frequency_list = self.analyser.getMostFrequentNgrams(ngrams,size,remove_stopwords,medical_only,allow_duplicates,allow_duplicates_across_entries)
+        frequency_list = self.analyser.getMostFrequentNgrams(ngrams,size,remove_stopwords,medical_only,allow_duplicates,allow_duplicates_across_entries,ms_type)
         
 
         result = "Most frequent "
@@ -176,6 +189,7 @@ class FrequencyPage:
 
         ngrams = int(self.ngram_list.get())
         size = int(self.most_frequent_list.get())
+        ms_type = str(self.ms_type_list.get()) 
 
         # Build Boolean variables
         remove_stopwords = False
@@ -195,4 +209,4 @@ class FrequencyPage:
         if allow_duplicates == False:
             allow_duplicates_across_entries = False
 
-        self.analyser.graphMostFrequentNgrams(ngrams,size,remove_stopwords,medical_only,allow_duplicates,allow_duplicates_across_entries)
+        self.analyser.graphMostFrequentNgrams(ngrams,size,remove_stopwords,medical_only,allow_duplicates,allow_duplicates_across_entries,ms_type)

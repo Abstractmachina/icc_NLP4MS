@@ -67,3 +67,11 @@ def test_frequency_allow_duplicates_across_entries(freq_tester):
     assert freq_tester.FreqAnalyser.getFrequencyOfNgram("high blood pressure",3,stopwords=False,medical=True,allow_duplicates=True,allow_duplicates_across_entries=True) == 4
     assert freq_tester.FreqAnalyser.getFrequencyOfNgram("lady capulet",2,stopwords=False,medical=True,allow_duplicates=True,allow_duplicates_across_entries=True) == 0
     assert freq_tester.FreqAnalyser.getFrequencyOfNgram("have high blood pressure",4,stopwords=False,medical=True,allow_duplicates=True,allow_duplicates_across_entries=True) == 0
+
+def test_frequency_ms_types(freq_tester):
+     
+    assert freq_tester.FreqAnalyser.getFrequencyOfNgram("cancer",1,stopwords=False,medical=True,allow_duplicates=True,ms_type="Benign") == 1
+    assert freq_tester.FreqAnalyser.getFrequencyOfNgram("blood",1,stopwords=False,medical=True,allow_duplicates=True,ms_type="Benign") == 0
+    assert freq_tester.FreqAnalyser.getFrequencyOfNgram("blood",1,stopwords=False,medical=True,allow_duplicates=True,ms_type="SPMS") == 7
+    assert freq_tester.FreqAnalyser.getFrequencyOfNgram("blood",1,stopwords=False,medical=True,allow_duplicates=False,ms_type="SPMS") == 4
+    assert freq_tester.FreqAnalyser.getFrequencyOfNgram("testing",1,stopwords=False,medical=False,allow_duplicates=False,ms_type="RRMS") == 1

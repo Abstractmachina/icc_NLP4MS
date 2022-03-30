@@ -411,147 +411,146 @@ class FrequencyAnalyser:
                 self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
             elif row[self.ms_type] == "RRMS":
                 self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
-################ CONTINUE FROM HERE ########################################################################################################################
         if row["all_txt_trigrams"] != None:
             self.no_dup_trigrams_all.append(set(row["all_txt_trigrams"]))
             if row[self.ms_type] == "Benign":
-                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+                self.no_dup_trigrams_all_b.append(set(row["all_txt_trigrams"]))
             elif row[self.ms_type] == "PPMS":
-                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+                self.no_dup_trigrams_all_p.append(set(row["all_txt_trigrams"]))
             elif row[self.ms_type] == "SPMS":
-                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+                self.no_dup_trigrams_all_s.append(set(row["all_txt_trigrams"]))
             elif row[self.ms_type] == "RRMS":
-                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
+                self.no_dup_trigrams_all_r.append(set(row["all_txt_trigrams"]))
         if row["all_txt_quadgrams"] != None:
             self.no_dup_quadgrams_all.append(set(row["all_txt_quadgrams"]))
             if row[self.ms_type] == "Benign":
-                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+                self.no_dup_quadgrams_all_b.append(set(row["all_txt_quadgrams"]))
             elif row[self.ms_type] == "PPMS":
-                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+                self.no_dup_quadgrams_all_p.append(set(row["all_txt_quadgrams"]))
             elif row[self.ms_type] == "SPMS":
-                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+                self.no_dup_quadgrams_all_s.append(set(row["all_txt_quadgrams"]))
             elif row[self.ms_type] == "RRMS":
-                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
+                self.no_dup_quadgrams_all_r.append(set(row["all_txt_quadgrams"]))
         if row["no_stop_txt"] != None:
             self.no_dup_words_no_stop.append(set(row["no_stop_txt"]))
             if row[self.ms_type] == "Benign":
-                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+                self.no_dup_words_no_stop_b.append(set(row["no_stop_txt"]))
             elif row[self.ms_type] == "PPMS":
-                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+                self.no_dup_words_no_stop_p.append(set(row["no_stop_txt"]))
             elif row[self.ms_type] == "SPMS":
-                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+                self.no_dup_words_no_stop_s.append(set(row["no_stop_txt"]))
             elif row[self.ms_type] == "RRMS":
-                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
+                self.no_dup_words_no_stop_r.append(set(row["no_stop_txt"]))
         if row["no_stop_bigrams"] != None:
             self.no_dup_bigrams_no_stop.append(set(row["no_stop_bigrams"])) 
             if row[self.ms_type] == "Benign":
-                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+                self.no_dup_bigrams_no_stop_b.append(set(row["no_stop_bigrams"]))
             elif row[self.ms_type] == "PPMS":
-                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+                self.no_dup_bigrams_no_stop_p.append(set(row["no_stop_bigrams"]))
             elif row[self.ms_type] == "SPMS":
-                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+                self.no_dup_bigrams_no_stop_s.append(set(row["no_stop_bigrams"]))
             elif row[self.ms_type] == "RRMS":
-                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
+                self.no_dup_bigrams_no_stop_r.append(set(row["no_stop_bigrams"]))
         if row["no_stop_trigrams"] != None:
             self.no_dup_trigrams_no_stop.append(set(row["no_stop_trigrams"]))
             if row[self.ms_type] == "Benign":
-                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+                self.no_dup_trigrams_no_stop_b.append(set(row["no_stop_trigrams"]))
             elif row[self.ms_type] == "PPMS":
-                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+                self.no_dup_trigrams_no_stop_p.append(set(row["no_stop_trigrams"]))
             elif row[self.ms_type] == "SPMS":
-                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+                self.no_dup_trigrams_no_stop_s.append(set(row["no_stop_trigrams"]))
             elif row[self.ms_type] == "RRMS":
-                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
+                self.no_dup_trigrams_no_stop_r.append(set(row["no_stop_trigrams"]))
         if row["no_stop_quadgrams"] != None:
             self.no_dup_quadgrams_no_stop.append(set(row["no_stop_quadgrams"]))
             if row[self.ms_type] == "Benign":
-                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+                self.no_dup_quadgrams_no_stop_b.append(set(row["no_stop_quadgrams"]))
             elif row[self.ms_type] == "PPMS":
-                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+                self.no_dup_quadgrams_no_stop_p.append(set(row["no_stop_quadgrams"]))
             elif row[self.ms_type] == "SPMS":
-                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+                self.no_dup_quadgrams_no_stop_s.append(set(row["no_stop_quadgrams"]))
             elif row[self.ms_type] == "RRMS":
-                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
+                self.no_dup_quadgrams_no_stop_r.append(set(row["no_stop_quadgrams"]))
         if row["all_txt_med"] != None:
             self.no_dup_words_all_med.append(set(row["all_txt_med"]))
             if row[self.ms_type] == "Benign":
-                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+                self.no_dup_words_all_med_b.append(set(row["all_txt_med"]))
             elif row[self.ms_type] == "PPMS":
-                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+                self.no_dup_words_all_med_p.append(set(row["all_txt_med"]))
             elif row[self.ms_type] == "SPMS":
-                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+                self.no_dup_words_all_med_s.append(set(row["all_txt_med"]))
             elif row[self.ms_type] == "RRMS":
-                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
+                self.no_dup_words_all_med_r.append(set(row["all_txt_med"]))
         if row["all_txt_bigrams_med"] != None:
             self.no_dup_bigrams_all_med.append(set(row["all_txt_bigrams_med"]))
             if row[self.ms_type] == "Benign":
-                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+                self.no_dup_bigrams_all_med_b.append(set(row["all_txt_bigrams_med"]))
             elif row[self.ms_type] == "PPMS":
-                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+                self.no_dup_bigrams_all_med_p.append(set(row["all_txt_bigrams_med"]))
             elif row[self.ms_type] == "SPMS":
-                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+                self.no_dup_bigrams_all_med_s.append(set(row["all_txt_bigrams_med"]))
             elif row[self.ms_type] == "RRMS":
-                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
+                self.no_dup_bigrams_all_med_r.append(set(row["all_txt_bigrams_med"]))
         if row["all_txt_trigrams_med"] != None:
             self.no_dup_trigrams_all_med.append(set(row["all_txt_trigrams_med"]))
             if row[self.ms_type] == "Benign":
-                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+                self.no_dup_trigrams_all_med_b.append(set(row["all_txt_trigrams_med"]))
             elif row[self.ms_type] == "PPMS":
-                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+                self.no_dup_trigrams_all_med_p.append(set(row["all_txt_trigrams_med"]))
             elif row[self.ms_type] == "SPMS":
-                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+                self.no_dup_trigrams_all_med_s.append(set(row["all_txt_trigrams_med"]))
             elif row[self.ms_type] == "RRMS":
-                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
+                self.no_dup_trigrams_all_med_r.append(set(row["all_txt_trigrams_med"]))
         if row["all_txt_quadgrams_med"] != None:
             self.no_dup_quadgrams_all_med.append(set(row["all_txt_quadgrams_med"]))
             if row[self.ms_type] == "Benign":
-                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+                self.no_dup_quadgrams_all_med_b.append(set(row["all_txt_quadgrams_med"]))
             elif row[self.ms_type] == "PPMS":
-                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+                self.no_dup_quadgrams_all_med_p.append(set(row["all_txt_quadgrams_med"]))
             elif row[self.ms_type] == "SPMS":
-                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+                self.no_dup_quadgrams_all_med_s.append(set(row["all_txt_quadgrams_med"]))
             elif row[self.ms_type] == "RRMS":
-                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
+                self.no_dup_quadgrams_all_med_r.append(set(row["all_txt_quadgrams_med"]))
         if row["no_stop_txt_med"] != None:
             self.no_dup_words_no_stop_med.append(set(row["no_stop_txt_med"]))
             if row[self.ms_type] == "Benign":
-                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+                self.no_dup_words_no_stop_med_b.append(set(row["no_stop_txt_med"]))
             elif row[self.ms_type] == "PPMS":
-                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+                self.no_dup_words_no_stop_med_p.append(set(row["no_stop_txt_med"]))
             elif row[self.ms_type] == "SPMS":
-                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+                self.no_dup_words_no_stop_med_s.append(set(row["no_stop_txt_med"]))
             elif row[self.ms_type] == "RRMS":
-                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
+                self.no_dup_words_no_stop_med_r.append(set(row["no_stop_txt_med"]))
         if row["no_stop_bigrams_med"] != None:
             self.no_dup_bigrams_no_stop_med.append(set(row["no_stop_bigrams_med"]))
             if row[self.ms_type] == "Benign":
-                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+                self.no_dup_bigrams_no_stop_med_b.append(set(row["no_stop_bigrams_med"]))
             elif row[self.ms_type] == "PPMS":
-                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+                self.no_dup_bigrams_no_stop_med_p.append(set(row["no_stop_bigrams_med"]))
             elif row[self.ms_type] == "SPMS":
-                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+                self.no_dup_bigrams_no_stop_med_s.append(set(row["no_stop_bigrams_med"]))
             elif row[self.ms_type] == "RRMS":
-                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
+                self.no_dup_bigrams_no_stop_med_r.append(set(row["no_stop_bigrams_med"]))
         if row["no_stop_trigrams_med"] != None:
             self.no_dup_trigrams_no_stop_med.append(set(row["no_stop_trigrams_med"]))
             if row[self.ms_type] == "Benign":
-                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+                self.no_dup_trigrams_no_stop_med_b.append(set(row["no_stop_trigrams_med"]))
             elif row[self.ms_type] == "PPMS":
-                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+                self.no_dup_trigrams_no_stop_med_p.append(set(row["no_stop_trigrams_med"]))
             elif row[self.ms_type] == "SPMS":
-                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+                self.no_dup_trigrams_no_stop_med_s.append(set(row["no_stop_trigrams_med"]))
             elif row[self.ms_type] == "RRMS":
-                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
+                self.no_dup_trigrams_no_stop_med_r.append(set(row["no_stop_trigrams_med"]))
         if row["no_stop_quadgrams_med"] != None:
             self.no_dup_quadgrams_no_stop_med.append(set(row["no_stop_quadgrams_med"]))
             if row[self.ms_type] == "Benign":
-                self.no_dup_bigrams_all_b.append(set(row["all_txt_bigrams"]))
+                self.no_dup_quadgrams_no_stop_med_b.append(set(row["no_stop_quadgrams_med"]))
             elif row[self.ms_type] == "PPMS":
-                self.no_dup_bigrams_all_p.append(set(row["all_txt_bigrams"]))
+                self.no_dup_quadgrams_no_stop_med_p.append(set(row["no_stop_quadgrams_med"]))
             elif row[self.ms_type] == "SPMS":
-                self.no_dup_bigrams_all_s.append(set(row["all_txt_bigrams"]))
+                self.no_dup_quadgrams_no_stop_med_s.append(set(row["no_stop_quadgrams_med"]))
             elif row[self.ms_type] == "RRMS":
-                self.no_dup_bigrams_all_r.append(set(row["all_txt_bigrams"]))
+                self.no_dup_quadgrams_no_stop_med_r.append(set(row["no_stop_quadgrams_med"]))
     
     def createLexiconsOfUniqueUserWords(self):
         
@@ -574,7 +573,88 @@ class FrequencyAnalyser:
         self.unique_bigrams_no_stop_med = self.flattenList(list(self.seen_user_bigrams_no_stop_med.values()))
         self.unique_trigrams_no_stop_med = self.flattenList(list(self.seen_user_trigrams_no_stop_med.values()))
         self.unique_quadgrams_no_stop_med = self.flattenList(list(self.seen_user_quadgrams_no_stop_med.values()))
-    
+
+        self.unique_words_all_b = self.flattenList(list(self.seen_user_words_all_b.values()))
+        self.unique_bigrams_all_b = self.flattenList(list(self.seen_user_bigrams_all_b.values()))
+        self.unique_trigrams_all_b = self.flattenList(list(self.seen_user_trigrams_all_b.values()))
+        self.unique_quadgrams_all_b = self.flattenList(list(self.seen_user_quadgrams_all_b.values()))
+
+        self.unique_words_no_stop_b = self.flattenList(list(self.seen_user_words_no_stop_b.values()))
+        self.unique_bigrams_no_stop_b = self.flattenList(list(self.seen_user_bigrams_no_stop_b.values()))
+        self.unique_trigrams_no_stop_b = self.flattenList(list(self.seen_user_trigrams_no_stop_b.values()))
+        self.unique_quadgrams_no_stop_b = self.flattenList(list(self.seen_user_quadgrams_no_stop_b.values()))
+
+        self.unique_words_all_med_b = self.flattenList(list(self.seen_user_words_all_med_b.values()))
+        self.unique_bigrams_all_med_b = self.flattenList(list(self.seen_user_bigrams_all_med_b.values()))
+        self.unique_trigrams_all_med_b = self.flattenList(list(self.seen_user_trigrams_all_med_b.values()))
+        self.unique_quadgrams_all_med_b = self.flattenList(list(self.seen_user_quadgrams_all_med_b.values()))
+
+        self.unique_words_no_stop_med_b = self.flattenList(list(self.seen_user_words_no_stop_med_b.values()))
+        self.unique_bigrams_no_stop_med_b = self.flattenList(list(self.seen_user_bigrams_no_stop_med_b.values()))
+        self.unique_trigrams_no_stop_med_b = self.flattenList(list(self.seen_user_trigrams_no_stop_med_b.values()))
+        self.unique_quadgrams_no_stop_med_b = self.flattenList(list(self.seen_user_quadgrams_no_stop_med_b.values()))
+
+        self.unique_words_all_p = self.flattenList(list(self.seen_user_words_all_p.values()))
+        self.unique_bigrams_all_p = self.flattenList(list(self.seen_user_bigrams_all_p.values()))
+        self.unique_trigrams_all_p = self.flattenList(list(self.seen_user_trigrams_all_p.values()))
+        self.unique_quadgrams_all_p = self.flattenList(list(self.seen_user_quadgrams_all_p.values()))
+
+        self.unique_words_no_stop_p = self.flattenList(list(self.seen_user_words_no_stop_p.values()))
+        self.unique_bigrams_no_stop_p = self.flattenList(list(self.seen_user_bigrams_no_stop_p.values()))
+        self.unique_trigrams_no_stop_p = self.flattenList(list(self.seen_user_trigrams_no_stop_p.values()))
+        self.unique_quadgrams_no_stop_p = self.flattenList(list(self.seen_user_quadgrams_no_stop_p.values()))
+
+        self.unique_words_all_med_p = self.flattenList(list(self.seen_user_words_all_med_p.values()))
+        self.unique_bigrams_all_med_p = self.flattenList(list(self.seen_user_bigrams_all_med_p.values()))
+        self.unique_trigrams_all_med_p = self.flattenList(list(self.seen_user_trigrams_all_med_p.values()))
+        self.unique_quadgrams_all_med_p = self.flattenList(list(self.seen_user_quadgrams_all_med_p.values()))
+
+        self.unique_words_no_stop_med_p = self.flattenList(list(self.seen_user_words_no_stop_med_p.values()))
+        self.unique_bigrams_no_stop_med_p = self.flattenList(list(self.seen_user_bigrams_no_stop_med_p.values()))
+        self.unique_trigrams_no_stop_med_p = self.flattenList(list(self.seen_user_trigrams_no_stop_med_p.values()))
+        self.unique_quadgrams_no_stop_med_p = self.flattenList(list(self.seen_user_quadgrams_no_stop_med_p.values()))
+
+        self.unique_words_all_s = self.flattenList(list(self.seen_user_words_all_s.values()))
+        self.unique_bigrams_all_s = self.flattenList(list(self.seen_user_bigrams_all_s.values()))
+        self.unique_trigrams_all_s = self.flattenList(list(self.seen_user_trigrams_all_s.values()))
+        self.unique_quadgrams_all_s = self.flattenList(list(self.seen_user_quadgrams_all_s.values()))
+
+        self.unique_words_no_stop_s = self.flattenList(list(self.seen_user_words_no_stop_s.values()))
+        self.unique_bigrams_no_stop_s = self.flattenList(list(self.seen_user_bigrams_no_stop_s.values()))
+        self.unique_trigrams_no_stop_s = self.flattenList(list(self.seen_user_trigrams_no_stop_s.values()))
+        self.unique_quadgrams_no_stop_s = self.flattenList(list(self.seen_user_quadgrams_no_stop_s.values()))
+
+        self.unique_words_all_med_s = self.flattenList(list(self.seen_user_words_all_med_s.values()))
+        self.unique_bigrams_all_med_s = self.flattenList(list(self.seen_user_bigrams_all_med_s.values()))
+        self.unique_trigrams_all_med_s = self.flattenList(list(self.seen_user_trigrams_all_med_s.values()))
+        self.unique_quadgrams_all_med_s = self.flattenList(list(self.seen_user_quadgrams_all_med_s.values()))
+
+        self.unique_words_no_stop_med_s = self.flattenList(list(self.seen_user_words_no_stop_med_s.values()))
+        self.unique_bigrams_no_stop_med_s = self.flattenList(list(self.seen_user_bigrams_no_stop_med_s.values()))
+        self.unique_trigrams_no_stop_med_s = self.flattenList(list(self.seen_user_trigrams_no_stop_med_s.values()))
+        self.unique_quadgrams_no_stop_med_s = self.flattenList(list(self.seen_user_quadgrams_no_stop_med_s.values()))
+
+        self.unique_words_all_r = self.flattenList(list(self.seen_user_words_all_r.values()))
+        self.unique_bigrams_all_r = self.flattenList(list(self.seen_user_bigrams_all_r.values()))
+        self.unique_trigrams_all_r = self.flattenList(list(self.seen_user_trigrams_all_r.values()))
+        self.unique_quadgrams_all_r = self.flattenList(list(self.seen_user_quadgrams_all_r.values()))
+
+        self.unique_words_no_stop_r = self.flattenList(list(self.seen_user_words_no_stop_r.values()))
+        self.unique_bigrams_no_stop_r = self.flattenList(list(self.seen_user_bigrams_no_stop_r.values()))
+        self.unique_trigrams_no_stop_r = self.flattenList(list(self.seen_user_trigrams_no_stop_r.values()))
+        self.unique_quadgrams_no_stop_r = self.flattenList(list(self.seen_user_quadgrams_no_stop_r.values()))
+
+        self.unique_words_all_med_r = self.flattenList(list(self.seen_user_words_all_med_r.values()))
+        self.unique_bigrams_all_med_r = self.flattenList(list(self.seen_user_bigrams_all_med_r.values()))
+        self.unique_trigrams_all_med_r = self.flattenList(list(self.seen_user_trigrams_all_med_r.values()))
+        self.unique_quadgrams_all_med_r = self.flattenList(list(self.seen_user_quadgrams_all_med_r.values()))
+
+        self.unique_words_no_stop_med_r = self.flattenList(list(self.seen_user_words_no_stop_med_r.values()))
+        self.unique_bigrams_no_stop_med_r = self.flattenList(list(self.seen_user_bigrams_no_stop_med_r.values()))
+        self.unique_trigrams_no_stop_med_r = self.flattenList(list(self.seen_user_trigrams_no_stop_med_r.values()))
+        self.unique_quadgrams_no_stop_med_r = self.flattenList(list(self.seen_user_quadgrams_no_stop_med_r.values()))
+
+
     def createLexiconsOfNoDuplicatesPerEntry(self):
         
         self.no_dup_words_all = self.flattenList(self.no_dup_words_all)
@@ -596,6 +676,88 @@ class FrequencyAnalyser:
         self.no_dup_bigrams_no_stop_med = self.flattenList(self.no_dup_bigrams_no_stop_med)
         self.no_dup_trigrams_no_stop_med = self.flattenList(self.no_dup_trigrams_no_stop_med)
         self.no_dup_quadgrams_no_stop_med = self.flattenList(self.no_dup_quadgrams_no_stop_med)
+
+        self.no_dup_words_all_b = self.flattenList(self.no_dup_words_all_b)
+        self.no_dup_bigrams_all_b = self.flattenList(self.no_dup_bigrams_all_b)
+        self.no_dup_trigrams_all_b = self.flattenList(self.no_dup_trigrams_all_b)
+        self.no_dup_quadgrams_all_b = self.flattenList(self.no_dup_quadgrams_all_b)
+
+        self.no_dup_words_no_stop_b = self.flattenList(self.no_dup_words_no_stop_b)
+        self.no_dup_bigrams_no_stop_b = self.flattenList(self.no_dup_bigrams_no_stop_b)
+        self.no_dup_trigrams_no_stop_b = self.flattenList(self.no_dup_trigrams_no_stop_b)
+        self.no_dup_quadgrams_no_stop_b = self.flattenList(self.no_dup_quadgrams_no_stop_b)
+
+        self.no_dup_words_all_med_b = self.flattenList(self.no_dup_words_all_med_b)
+        self.no_dup_bigrams_all_med_b = self.flattenList(self.no_dup_bigrams_all_med_b)
+        self.no_dup_trigrams_all_med_b = self.flattenList(self.no_dup_trigrams_all_med_b)
+        self.no_dup_quadgrams_all_med_b = self.flattenList(self.no_dup_quadgrams_all_med_b)
+
+        self.no_dup_words_no_stop_med_b = self.flattenList(self.no_dup_words_no_stop_med_b)
+        self.no_dup_bigrams_no_stop_med_b = self.flattenList(self.no_dup_bigrams_no_stop_med_b)
+        self.no_dup_trigrams_no_stop_med_b = self.flattenList(self.no_dup_trigrams_no_stop_med_b)
+        self.no_dup_quadgrams_no_stop_med_b = self.flattenList(self.no_dup_quadgrams_no_stop_med_b)
+
+        self.no_dup_words_all_p = self.flattenList(self.no_dup_words_all_p)
+        self.no_dup_bigrams_all_p = self.flattenList(self.no_dup_bigrams_all_p)
+        self.no_dup_trigrams_all_p = self.flattenList(self.no_dup_trigrams_all_p)
+        self.no_dup_quadgrams_all_p = self.flattenList(self.no_dup_quadgrams_all_p)
+
+        self.no_dup_words_no_stop_p = self.flattenList(self.no_dup_words_no_stop_p)
+        self.no_dup_bigrams_no_stop_p = self.flattenList(self.no_dup_bigrams_no_stop_p)
+        self.no_dup_trigrams_no_stop_p = self.flattenList(self.no_dup_trigrams_no_stop_p)
+        self.no_dup_quadgrams_no_stop_p = self.flattenList(self.no_dup_quadgrams_no_stop_p)
+
+        self.no_dup_words_all_med_p = self.flattenList(self.no_dup_words_all_med_p)
+        self.no_dup_bigrams_all_med_p = self.flattenList(self.no_dup_bigrams_all_med_p)
+        self.no_dup_trigrams_all_med_p = self.flattenList(self.no_dup_trigrams_all_med_p)
+        self.no_dup_quadgrams_all_med_p = self.flattenList(self.no_dup_quadgrams_all_med_p)
+
+        self.no_dup_words_no_stop_med_p = self.flattenList(self.no_dup_words_no_stop_med_p)
+        self.no_dup_bigrams_no_stop_med_p = self.flattenList(self.no_dup_bigrams_no_stop_med_p)
+        self.no_dup_trigrams_no_stop_med_p = self.flattenList(self.no_dup_trigrams_no_stop_med_p)
+        self.no_dup_quadgrams_no_stop_med_p = self.flattenList(self.no_dup_quadgrams_no_stop_med_p)
+
+        self.no_dup_words_all_s = self.flattenList(self.no_dup_words_all_s)
+        self.no_dup_bigrams_all_s = self.flattenList(self.no_dup_bigrams_all_s)
+        self.no_dup_trigrams_all_s = self.flattenList(self.no_dup_trigrams_all_s)
+        self.no_dup_quadgrams_all_s = self.flattenList(self.no_dup_quadgrams_all_s)
+
+        self.no_dup_words_no_stop_s = self.flattenList(self.no_dup_words_no_stop_s)
+        self.no_dup_bigrams_no_stop_s = self.flattenList(self.no_dup_bigrams_no_stop_s)
+        self.no_dup_trigrams_no_stop_s = self.flattenList(self.no_dup_trigrams_no_stop_s)
+        self.no_dup_quadgrams_no_stop_s = self.flattenList(self.no_dup_quadgrams_no_stop_s)
+
+        self.no_dup_words_all_med_s = self.flattenList(self.no_dup_words_all_med_s)
+        self.no_dup_bigrams_all_med_s = self.flattenList(self.no_dup_bigrams_all_med_s)
+        self.no_dup_trigrams_all_med_s = self.flattenList(self.no_dup_trigrams_all_med_s)
+        self.no_dup_quadgrams_all_med_s = self.flattenList(self.no_dup_quadgrams_all_med_s)
+
+        self.no_dup_words_no_stop_med_s = self.flattenList(self.no_dup_words_no_stop_med_s)
+        self.no_dup_bigrams_no_stop_med_s = self.flattenList(self.no_dup_bigrams_no_stop_med_s)
+        self.no_dup_trigrams_no_stop_med_s = self.flattenList(self.no_dup_trigrams_no_stop_med_s)
+        self.no_dup_quadgrams_no_stop_med_s = self.flattenList(self.no_dup_quadgrams_no_stop_med_s)
+
+        self.no_dup_words_all_r = self.flattenList(self.no_dup_words_all_r)
+        self.no_dup_bigrams_all_r = self.flattenList(self.no_dup_bigrams_all_r)
+        self.no_dup_trigrams_all_r = self.flattenList(self.no_dup_trigrams_all_r)
+        self.no_dup_quadgrams_all_r = self.flattenList(self.no_dup_quadgrams_all_r)
+
+        self.no_dup_words_no_stop_r = self.flattenList(self.no_dup_words_no_stop_r)
+        self.no_dup_bigrams_no_stop_r = self.flattenList(self.no_dup_bigrams_no_stop_r)
+        self.no_dup_trigrams_no_stop_r = self.flattenList(self.no_dup_trigrams_no_stop_r)
+        self.no_dup_quadgrams_no_stop_r = self.flattenList(self.no_dup_quadgrams_no_stop_r)
+
+        self.no_dup_words_all_med_r = self.flattenList(self.no_dup_words_all_med_r)
+        self.no_dup_bigrams_all_med_r = self.flattenList(self.no_dup_bigrams_all_med_r)
+        self.no_dup_trigrams_all_med_r = self.flattenList(self.no_dup_trigrams_all_med_r)
+        self.no_dup_quadgrams_all_med_r = self.flattenList(self.no_dup_quadgrams_all_med_r)
+
+        self.no_dup_words_no_stop_med_r = self.flattenList(self.no_dup_words_no_stop_med_r)
+        self.no_dup_bigrams_no_stop_med_r = self.flattenList(self.no_dup_bigrams_no_stop_med_r)
+        self.no_dup_trigrams_no_stop_med_r = self.flattenList(self.no_dup_trigrams_no_stop_med_r)
+        self.no_dup_quadgrams_no_stop_med_r = self.flattenList(self.no_dup_quadgrams_no_stop_med_r)
+
+        
     
     def createLexiconswithDuplicates(self):
         
@@ -618,6 +780,178 @@ class FrequencyAnalyser:
         self.bigrams_no_stop_med = self.flattenList(list(self.df["no_stop_bigrams_med"]))
         self.trigrams_no_stop_med = self.flattenList(list(self.df["no_stop_trigrams_med"]))
         self.quadgrams_no_stop_med = self.flattenList(list(self.df["no_stop_quadgrams_med"]))
+
+        self.words_all_b = self.flattenList(self.words_all_b)
+        self.bigrams_all_b = self.flattenList(self.bigrams_all_b)
+        self.trigrams_all_b = self.flattenList(self.trigrams_all_b)
+        self.quadgrams_all_b = self.flattenList(self.quadgrams_all_b)
+
+        self.words_no_stop_b = self.flattenList(self.words_no_stop_b)
+        self.bigrams_no_stop_b = self.flattenList(self.bigrams_no_stop_b)
+        self.trigrams_no_stop_b = self.flattenList(self.trigrams_no_stop_b)
+        self.quadgrams_no_stop_b = self.flattenList(self.quadgrams_no_stop_b)
+
+        self.words_all_med_b = self.flattenList(self.words_all_med_b) 
+        self.bigrams_all_med_b = self.flattenList(self.bigrams_all_med_b) 
+        self.trigrams_all_med_b = self.flattenList(self.trigrams_all_med_b)
+        self.quadgrams_all_med_b = self.flattenList(self.quadgrams_all_med_b)
+
+        self.words_no_stop_med_b = self.flattenList(self.words_no_stop_med_b) 
+        self.bigrams_no_stop_med_b = self.flattenList(self.bigrams_no_stop_med_b) 
+        self.trigrams_no_stop_med_b = self.flattenList(self.trigrams_no_stop_med_b)
+        self.quadgrams_no_stop_med_b = self.flattenList(self.quadgrams_no_stop_med_b)
+
+        self.words_all_p = self.flattenList(self.words_all_p)
+        self.bigrams_all_p = self.flattenList(self.bigrams_all_p)
+        self.trigrams_all_p = self.flattenList(self.trigrams_all_p)
+        self.quadgrams_all_p = self.flattenList(self.quadgrams_all_p)
+
+        self.words_no_stop_p = self.flattenList(self.words_no_stop_p)
+        self.bigrams_no_stop_p = self.flattenList(self.bigrams_no_stop_p)
+        self.trigrams_no_stop_p = self.flattenList(self.trigrams_no_stop_p)
+        self.quadgrams_no_stop_p = self.flattenList(self.quadgrams_no_stop_p)
+
+        self.words_all_med_p = self.flattenList(self.words_all_med_p) 
+        self.bigrams_all_med_p = self.flattenList(self.bigrams_all_med_p) 
+        self.trigrams_all_med_p = self.flattenList(self.trigrams_all_med_p)
+        self.quadgrams_all_med_p = self.flattenList(self.quadgrams_all_med_p)
+
+        self.words_no_stop_med_p = self.flattenList(self.words_no_stop_med_p) 
+        self.bigrams_no_stop_med_p = self.flattenList(self.bigrams_no_stop_med_p) 
+        self.trigrams_no_stop_med_p = self.flattenList(self.trigrams_no_stop_med_p)
+        self.quadgrams_no_stop_med_p = self.flattenList(self.quadgrams_no_stop_med_p)
+
+        self.words_all_s = self.flattenList(self.words_all_s)
+        self.bigrams_all_s = self.flattenList(self.bigrams_all_s)
+        self.trigrams_all_s = self.flattenList(self.trigrams_all_s)
+        self.quadgrams_all_s = self.flattenList(self.quadgrams_all_s)
+
+        self.words_no_stop_s = self.flattenList(self.words_no_stop_s)
+        self.bigrams_no_stop_s = self.flattenList(self.bigrams_no_stop_s)
+        self.trigrams_no_stop_s = self.flattenList(self.trigrams_no_stop_s)
+        self.quadgrams_no_stop_s = self.flattenList(self.quadgrams_no_stop_s)
+
+        self.words_all_med_s = self.flattenList(self.words_all_med_s) 
+        self.bigrams_all_med_s = self.flattenList(self.bigrams_all_med_s) 
+        self.trigrams_all_med_s = self.flattenList(self.trigrams_all_med_s)
+        self.quadgrams_all_med_s = self.flattenList(self.quadgrams_all_med_s)
+
+        self.words_no_stop_med_s = self.flattenList(self.words_no_stop_med_s) 
+        self.bigrams_no_stop_med_s = self.flattenList(self.bigrams_no_stop_med_s) 
+        self.trigrams_no_stop_med_s = self.flattenList(self.trigrams_no_stop_med_s)
+        self.quadgrams_no_stop_med_s = self.flattenList(self.quadgrams_no_stop_med_s)
+
+        self.words_all_r = self.flattenList(self.words_all_r)
+        self.bigrams_all_r = self.flattenList(self.bigrams_all_r)
+        self.trigrams_all_r = self.flattenList(self.trigrams_all_r)
+        self.quadgrams_all_r = self.flattenList(self.quadgrams_all_r)
+
+        self.words_no_stop_r = self.flattenList(self.words_no_stop_r)
+        self.bigrams_no_stop_r = self.flattenList(self.bigrams_no_stop_r)
+        self.trigrams_no_stop_r = self.flattenList(self.trigrams_no_stop_r)
+        self.quadgrams_no_stop_r = self.flattenList(self.quadgrams_no_stop_r)
+
+        self.words_all_med_r = self.flattenList(self.words_all_med_r) 
+        self.bigrams_all_med_r = self.flattenList(self.bigrams_all_med_r) 
+        self.trigrams_all_med_r = self.flattenList(self.trigrams_all_med_r)
+        self.quadgrams_all_med_r = self.flattenList(self.quadgrams_all_med_r)
+
+        self.words_no_stop_med_r = self.flattenList(self.words_no_stop_med_r) 
+        self.bigrams_no_stop_med_r = self.flattenList(self.bigrams_no_stop_med_r) 
+        self.trigrams_no_stop_med_r = self.flattenList(self.trigrams_no_stop_med_r)
+        self.quadgrams_no_stop_med_r = self.flattenList(self.quadgrams_no_stop_med_r)
+
+
+    def buildAllByMsType(self,row):
+        
+        if row["all_txt"] == None:
+            return
+
+        if row[self.ms_type] == "Benign":
+            self.words_all_b.append(row["all_txt"])
+            self.bigrams_all_b.append(row["all_txt_bigrams"])
+            self.trigrams_all_b.append(row["all_txt_trigrams"])
+            self.quadgrams_all_b.append(row["all_txt_quadgrams"])
+
+            self.words_no_stop_b.append(row["no_stop_txt"])
+            self.bigrams_no_stop_b.append(row["no_stop_bigrams"])
+            self.trigrams_no_stop_b.append(row["no_stop_trigrams"])
+            self.quadgrams_no_stop_b.append(row["no_stop_quadgrams"])
+
+            self.words_all_med_b.append(row["all_txt_med"])
+            self.bigrams_all_med_b.append(row["all_txt_bigrams_med"])
+            self.trigrams_all_med_b.append(row["all_txt_trigrams_med"])
+            self.quadgrams_all_med_b.append(row["all_txt_quadgrams_med"])
+
+            self.words_no_stop_med_b.append(row["no_stop_txt_med"])
+            self.bigrams_no_stop_med_b.append(row["no_stop_bigrams_med"])
+            self.trigrams_no_stop_med_b.append(row["no_stop_trigrams_med"])
+            self.quadgrams_no_stop_med_b.append(row["no_stop_quadgrams_med"])
+
+        elif row[self.ms_type] == "PPMS":
+            self.words_all_p.append(row["all_txt"])
+            self.bigrams_all_p.append(row["all_txt_bigrams"])
+            self.trigrams_all_p.append(row["all_txt_trigrams"])
+            self.quadgrams_all_p.append(row["all_txt_quadgrams"])
+
+            self.words_no_stop_p.append(row["no_stop_txt"])
+            self.bigrams_no_stop_p.append(row["no_stop_bigrams"])
+            self.trigrams_no_stop_p.append(row["no_stop_trigrams"])
+            self.quadgrams_no_stop_p.append(row["no_stop_quadgrams"])
+
+            self.words_all_med_p.append(row["all_txt_med"])
+            self.bigrams_all_med_p.append(row["all_txt_bigrams_med"])
+            self.trigrams_all_med_p.append(row["all_txt_trigrams_med"])
+            self.quadgrams_all_med_p.append(row["all_txt_quadgrams_med"])
+
+            self.words_no_stop_med_p.append(row["no_stop_txt_med"])
+            self.bigrams_no_stop_med_p.append(row["no_stop_bigrams_med"])
+            self.trigrams_no_stop_med_p.append(row["no_stop_trigrams_med"])
+            self.quadgrams_no_stop_med_p.append(row["no_stop_quadgrams_med"])
+
+        elif row[self.ms_type] == "SPMS":
+            self.words_all_s.append(row["all_txt"])
+            self.bigrams_all_s.append(row["all_txt_bigrams"])
+            self.trigrams_all_s.append(row["all_txt_trigrams"])
+            self.quadgrams_all_s.append(row["all_txt_quadgrams"])
+
+            self.words_no_stop_s.append(row["no_stop_txt"])
+            self.bigrams_no_stop_s.append(row["no_stop_bigrams"])
+            self.trigrams_no_stop_s.append(row["no_stop_trigrams"])
+            self.quadgrams_no_stop_s.append(row["no_stop_quadgrams"])
+
+            self.words_all_med_s.append(row["all_txt_med"])
+            self.bigrams_all_med_s.append(row["all_txt_bigrams_med"])
+            self.trigrams_all_med_s.append(row["all_txt_trigrams_med"])
+            self.quadgrams_all_med_s.append(row["all_txt_quadgrams_med"])
+
+            self.words_no_stop_med_s.append(row["no_stop_txt_med"])
+            self.bigrams_no_stop_med_s.append(row["no_stop_bigrams_med"])
+            self.trigrams_no_stop_med_s.append(row["no_stop_trigrams_med"])
+            self.quadgrams_no_stop_med_s.append(row["no_stop_quadgrams_med"])
+
+        elif row[self.ms_type] == "RRMS":
+            self.words_all_r.append(row["all_txt"])
+            self.bigrams_all_r.append(row["all_txt_bigrams"])
+            self.trigrams_all_r.append(row["all_txt_trigrams"])
+            self.quadgrams_all_r.append(row["all_txt_quadgrams"])
+
+            self.words_no_stop_r.append(row["no_stop_txt"])
+            self.bigrams_no_stop_r.append(row["no_stop_bigrams"])
+            self.trigrams_no_stop_r.append(row["no_stop_trigrams"])
+            self.quadgrams_no_stop_r.append(row["no_stop_quadgrams"])
+
+            self.words_all_med_r.append(row["all_txt_med"])
+            self.bigrams_all_med_r.append(row["all_txt_bigrams_med"])
+            self.trigrams_all_med_r.append(row["all_txt_trigrams_med"])
+            self.quadgrams_all_med_r.append(row["all_txt_quadgrams_med"])
+
+            self.words_no_stop_med_r.append(row["no_stop_txt_med"])
+            self.bigrams_no_stop_med_r.append(row["no_stop_bigrams_med"])
+            self.trigrams_no_stop_med_r.append(row["no_stop_trigrams_med"])
+            self.quadgrams_no_stop_med_r.append(row["no_stop_quadgrams_med"])
+
+
 
     def preProcess(self):
         """ Input: remove_stopwords (boolean)
@@ -834,144 +1168,718 @@ class FrequencyAnalyser:
         self.no_dup_trigrams_no_stop_med_r = []
         self.no_dup_quadgrams_no_stop_med_r = []
 
+        self.words_all_b = []
+        self.bigrams_all_b = []
+        self.trigrams_all_b = []
+        self.quadgrams_all_b = []
+
+        self.words_no_stop_b =[]
+        self.bigrams_no_stop_b = []
+        self.trigrams_no_stop_b =[]
+        self.quadgrams_no_stop_b = []
+
+        self.words_all_med_b = []
+        self.bigrams_all_med_b = []
+        self.trigrams_all_med_b =[]
+        self.quadgrams_all_med_b = []
+
+        self.words_no_stop_med_b = []
+        self.bigrams_no_stop_med_b = []
+        self.trigrams_no_stop_med_b = []
+        self.quadgrams_no_stop_med_b = []
+
+        self.words_all_p = []
+        self.bigrams_all_p = []
+        self.trigrams_all_p = []
+        self.quadgrams_all_p = []
+
+        self.words_no_stop_p =[]
+        self.bigrams_no_stop_p = []
+        self.trigrams_no_stop_p =[]
+        self.quadgrams_no_stop_p = []
+
+        self.words_all_med_p = []
+        self.bigrams_all_med_p = []
+        self.trigrams_all_med_p =[]
+        self.quadgrams_all_med_p = []
+
+        self.words_no_stop_med_p = []
+        self.bigrams_no_stop_med_p = []
+        self.trigrams_no_stop_med_p = []
+        self.quadgrams_no_stop_med_p = []
+
+        self.words_all_s = []
+        self.bigrams_all_s = []
+        self.trigrams_all_s = []
+        self.quadgrams_all_s = []
+
+        self.words_no_stop_s =[]
+        self.bigrams_no_stop_s = []
+        self.trigrams_no_stop_s =[]
+        self.quadgrams_no_stop_s = []
+
+        self.words_all_med_s = []
+        self.bigrams_all_med_s = []
+        self.trigrams_all_med_s =[]
+        self.quadgrams_all_med_s = []
+
+        self.words_no_stop_med_s = []
+        self.bigrams_no_stop_med_s = []
+        self.trigrams_no_stop_med_s = []
+        self.quadgrams_no_stop_med_s = []
+
+        self.words_all_r = []
+        self.bigrams_all_r = []
+        self.trigrams_all_r = []
+        self.quadgrams_all_r = []
+
+        self.words_no_stop_r =[]
+        self.bigrams_no_stop_r = []
+        self.trigrams_no_stop_r =[]
+        self.quadgrams_no_stop_r = []
+
+        self.words_all_med_r = []
+        self.bigrams_all_med_r = []
+        self.trigrams_all_med_r =[]
+        self.quadgrams_all_med_r = []
+
+        self.words_no_stop_med_r = []
+        self.bigrams_no_stop_med_r = []
+        self.trigrams_no_stop_med_r = []
+        self.quadgrams_no_stop_med_r = []
+
         # Build entries for each user entry in the dataframe
         for index,row in self.df.iterrows():
             self.buildUniqueDictionaries(row)   
-            self.buildNoDuplicatesPerEntry(row)                 
+            self.buildNoDuplicatesPerEntry(row)  
+            self.buildAllByMsType(row)               
 
         """ Generate the 42 lexicons"""
         self.createLexiconswithDuplicates()
         self.createLexiconsOfUniqueUserWords()
         self.createLexiconsOfNoDuplicatesPerEntry() 
 
-    def getNgrams(self,ngram,stopwords,medical,allow_duplicates,allow_duplicates_across_entries):
-         
-        if stopwords and medical and allow_duplicates_across_entries:
-            if ngram == 1:
-                n_grams = self.no_dup_words_no_stop_med
-            elif ngram == 2:
-                n_grams = self.no_dup_bigrams_no_stop_med
-            elif ngram == 3:
-                n_grams = self.no_dup_trigrams_no_stop_med
-            elif ngram == 4:
-                n_grams = self.no_dup_quadgrams_no_stop_med
-        
-        elif stopwords and allow_duplicates_across_entries:
-            if ngram == 1:
-                n_grams = self.no_dup_words_no_stop
-            elif ngram == 2:
-                n_grams = self.no_dup_bigrams_no_stop
-            elif ngram == 3:
-                n_grams = self.no_dup_trigrams_no_stop
-            elif ngram == 4:
-                n_grams = self.no_dup_quadgrams_no_stop
-        
-        elif medical and allow_duplicates_across_entries:
-            if ngram == 1:
-                n_grams = self.no_dup_words_all_med
-            elif ngram == 2:
-                n_grams = self.no_dup_bigrams_all_med
-            elif ngram == 3:
-                n_grams = self.no_dup_trigrams_all_med
-            elif ngram == 4:
-                n_grams = self.no_dup_quadgrams_all_med
+    def getNgrams(self,ngram,stopwords,medical,allow_duplicates,allow_duplicates_across_entries,ms_type):
 
-        elif allow_duplicates_across_entries:
-            if ngram == 1:
-                n_grams = self.no_dup_words_all
-            elif ngram == 2:
-                n_grams = self.no_dup_bigrams_all
-            elif ngram == 3:
-                n_grams = self.no_dup_trigrams_all
-            elif ngram == 4:
-                n_grams = self.no_dup_quadgrams_all
+        if ms_type == "All":         
+            if stopwords and medical and allow_duplicates_across_entries:
+                if ngram == 1:
+                    n_grams = self.no_dup_words_no_stop_med
+                elif ngram == 2:
+                    n_grams = self.no_dup_bigrams_no_stop_med
+                elif ngram == 3:
+                    n_grams = self.no_dup_trigrams_no_stop_med
+                elif ngram == 4:
+                    n_grams = self.no_dup_quadgrams_no_stop_med
+            
+            elif stopwords and allow_duplicates_across_entries:
+                if ngram == 1:
+                    n_grams = self.no_dup_words_no_stop
+                elif ngram == 2:
+                    n_grams = self.no_dup_bigrams_no_stop
+                elif ngram == 3:
+                    n_grams = self.no_dup_trigrams_no_stop
+                elif ngram == 4:
+                    n_grams = self.no_dup_quadgrams_no_stop
+            
+            elif medical and allow_duplicates_across_entries:
+                if ngram == 1:
+                    n_grams = self.no_dup_words_all_med
+                elif ngram == 2:
+                    n_grams = self.no_dup_bigrams_all_med
+                elif ngram == 3:
+                    n_grams = self.no_dup_trigrams_all_med
+                elif ngram == 4:
+                    n_grams = self.no_dup_quadgrams_all_med
 
-        elif stopwords and medical and allow_duplicates:
-            if ngram == 1:
-                n_grams = self.words_no_stop_med
-            elif ngram == 2:
-                n_grams = self.bigrams_no_stop_med
-            elif ngram == 3:
-                n_grams = self.trigrams_no_stop_med
-            elif ngram == 4:
-                n_grams = self.quadgrams_no_stop_med
-        
-        elif stopwords and allow_duplicates:
-            if ngram == 1:
-                n_grams = self.words_no_stop
-            elif ngram == 2:
-                n_grams = self.bigrams_no_stop
-            elif ngram == 3:
-                n_grams = self.trigrams_no_stop
-            elif ngram == 4:
-                n_grams = self.quadgrams_no_stop
-        
-        elif stopwords and medical:
-            if ngram == 1:
-                n_grams = self.unique_words_no_stop_med
-            elif ngram == 2:
-                n_grams = self.unique_bigrams_no_stop_med
-            elif ngram == 3:
-                n_grams = self.unique_trigrams_no_stop_med
-            elif ngram == 4:
-                n_grams = self.unique_quadgrams_no_stop_med
+            elif allow_duplicates_across_entries:
+                if ngram == 1:
+                    n_grams = self.no_dup_words_all
+                elif ngram == 2:
+                    n_grams = self.no_dup_bigrams_all
+                elif ngram == 3:
+                    n_grams = self.no_dup_trigrams_all
+                elif ngram == 4:
+                    n_grams = self.no_dup_quadgrams_all
 
-        
-        elif stopwords:
-            if ngram == 1:
-                n_grams = self.unique_words_no_stop
-            elif ngram == 2:
-                n_grams = self.unique_bigrams_no_stop
-            elif ngram == 3:
-                n_grams = self.unique_trigrams_no_stop
-            elif ngram == 4:
-                n_grams = self.unique_quadgrams_no_stop
+            elif stopwords and medical and allow_duplicates:
+                if ngram == 1:
+                    n_grams = self.words_no_stop_med
+                elif ngram == 2:
+                    n_grams = self.bigrams_no_stop_med
+                elif ngram == 3:
+                    n_grams = self.trigrams_no_stop_med
+                elif ngram == 4:
+                    n_grams = self.quadgrams_no_stop_med
+            
+            elif stopwords and allow_duplicates:
+                if ngram == 1:
+                    n_grams = self.words_no_stop
+                elif ngram == 2:
+                    n_grams = self.bigrams_no_stop
+                elif ngram == 3:
+                    n_grams = self.trigrams_no_stop
+                elif ngram == 4:
+                    n_grams = self.quadgrams_no_stop
+            
+            elif stopwords and medical:
+                if ngram == 1:
+                    n_grams = self.unique_words_no_stop_med
+                elif ngram == 2:
+                    n_grams = self.unique_bigrams_no_stop_med
+                elif ngram == 3:
+                    n_grams = self.unique_trigrams_no_stop_med
+                elif ngram == 4:
+                    n_grams = self.unique_quadgrams_no_stop_med
 
-        
-        elif medical and allow_duplicates:
-            if ngram == 1:
-                n_grams = self.words_all_med
-            elif ngram == 2:
-                n_grams = self.bigrams_all_med
-            elif ngram == 3:
-                n_grams = self.trigrams_all_med
-            elif ngram == 4:
-                n_grams = self.quadgrams_all_med
-        
-        elif medical:
-            if ngram == 1:
-                n_grams = self.unique_words_all_med
-            elif ngram == 2:
-                n_grams = self.unique_bigrams_all_med
-            elif ngram == 3:
-                n_grams = self.unique_trigrams_all_med
-            elif ngram == 4:
-                n_grams = self.unique_quadgrams_all_med
-        
-        elif allow_duplicates:
-            if ngram == 1:
-                n_grams = self.words_all
-            elif ngram == 2:
-                n_grams = self.bigrams_all
-            elif ngram == 3:
-                n_grams = self.trigrams_all
-            elif ngram == 4:
-                n_grams = self.quadgrams_all
-        
-        else:
-            if ngram == 1:
-                n_grams = self.unique_words_all
-            elif ngram == 2:
-                n_grams = self.unique_bigrams_all
-            elif ngram == 3:
-                n_grams = self.unique_trigrams_all
-            elif ngram == 4:
-                n_grams = self.unique_quadgrams_all
+            
+            elif stopwords:
+                if ngram == 1:
+                    n_grams = self.unique_words_no_stop
+                elif ngram == 2:
+                    n_grams = self.unique_bigrams_no_stop
+                elif ngram == 3:
+                    n_grams = self.unique_trigrams_no_stop
+                elif ngram == 4:
+                    n_grams = self.unique_quadgrams_no_stop
+
+            
+            elif medical and allow_duplicates:
+                if ngram == 1:
+                    n_grams = self.words_all_med
+                elif ngram == 2:
+                    n_grams = self.bigrams_all_med
+                elif ngram == 3:
+                    n_grams = self.trigrams_all_med
+                elif ngram == 4:
+                    n_grams = self.quadgrams_all_med
+            
+            elif medical:
+                if ngram == 1:
+                    n_grams = self.unique_words_all_med
+                elif ngram == 2:
+                    n_grams = self.unique_bigrams_all_med
+                elif ngram == 3:
+                    n_grams = self.unique_trigrams_all_med
+                elif ngram == 4:
+                    n_grams = self.unique_quadgrams_all_med
+            
+            elif allow_duplicates:
+                if ngram == 1:
+                    n_grams = self.words_all
+                elif ngram == 2:
+                    n_grams = self.bigrams_all
+                elif ngram == 3:
+                    n_grams = self.trigrams_all
+                elif ngram == 4:
+                    n_grams = self.quadgrams_all
+            
+            else:
+                if ngram == 1:
+                    n_grams = self.unique_words_all
+                elif ngram == 2:
+                    n_grams = self.unique_bigrams_all
+                elif ngram == 3:
+                    n_grams = self.unique_trigrams_all
+                elif ngram == 4:
+                    n_grams = self.unique_quadgrams_all
+
+        elif ms_type == "Benign":         
+            if stopwords and medical and allow_duplicates_across_entries:
+                if ngram == 1:
+                    n_grams = self.no_dup_words_no_stop_med_b
+                elif ngram == 2:
+                    n_grams = self.no_dup_bigrams_no_stop_med_b
+                elif ngram == 3:
+                    n_grams = self.no_dup_trigrams_no_stop_med_b
+                elif ngram == 4:
+                    n_grams = self.no_dup_quadgrams_no_stop_med_b
+            
+            elif stopwords and allow_duplicates_across_entries:
+                if ngram == 1:
+                    n_grams = self.no_dup_words_no_stop_b
+                elif ngram == 2:
+                    n_grams = self.no_dup_bigrams_no_stop_b
+                elif ngram == 3:
+                    n_grams = self.no_dup_trigrams_no_stop_b
+                elif ngram == 4:
+                    n_grams = self.no_dup_quadgrams_no_stop_b
+            
+            elif medical and allow_duplicates_across_entries:
+                if ngram == 1:
+                    n_grams = self.no_dup_words_all_med_b
+                elif ngram == 2:
+                    n_grams = self.no_dup_bigrams_all_med_b
+                elif ngram == 3:
+                    n_grams = self.no_dup_trigrams_all_med_b
+                elif ngram == 4:
+                    n_grams = self.no_dup_quadgrams_all_med_b
+
+            elif allow_duplicates_across_entries:
+                if ngram == 1:
+                    n_grams = self.no_dup_words_all_b
+                elif ngram == 2:
+                    n_grams = self.no_dup_bigrams_all_b
+                elif ngram == 3:
+                    n_grams = self.no_dup_trigrams_all_b
+                elif ngram == 4:
+                    n_grams = self.no_dup_quadgrams_all_b
+
+            elif stopwords and medical and allow_duplicates:
+                if ngram == 1:
+                    n_grams = self.words_no_stop_med_b
+                elif ngram == 2:
+                    n_grams = self.bigrams_no_stop_med_b
+                elif ngram == 3:
+                    n_grams = self.trigrams_no_stop_med_b
+                elif ngram == 4:
+                    n_grams = self.quadgrams_no_stop_med_b
+            
+            elif stopwords and allow_duplicates:
+                if ngram == 1:
+                    n_grams = self.words_no_stop_b
+                elif ngram == 2:
+                    n_grams = self.bigrams_no_stop_b
+                elif ngram == 3:
+                    n_grams = self.trigrams_no_stop_b
+                elif ngram == 4:
+                    n_grams = self.quadgrams_no_stop_b
+            
+            elif stopwords and medical:
+                if ngram == 1:
+                    n_grams = self.unique_words_no_stop_med_b
+                elif ngram == 2:
+                    n_grams = self.unique_bigrams_no_stop_med_b
+                elif ngram == 3:
+                    n_grams = self.unique_trigrams_no_stop_med_b
+                elif ngram == 4:
+                    n_grams = self.unique_quadgrams_no_stop_med_b
+
+            
+            elif stopwords:
+                if ngram == 1:
+                    n_grams = self.unique_words_no_stop_b
+                elif ngram == 2:
+                    n_grams = self.unique_bigrams_no_stop_b
+                elif ngram == 3:
+                    n_grams = self.unique_trigrams_no_stop_b
+                elif ngram == 4:
+                    n_grams = self.unique_quadgrams_no_stop_b
+
+            
+            elif medical and allow_duplicates:
+                if ngram == 1:
+                    n_grams = self.words_all_med_b
+                elif ngram == 2:
+                    n_grams = self.bigrams_all_med_b
+                elif ngram == 3:
+                    n_grams = self.trigrams_all_med_b
+                elif ngram == 4:
+                    n_grams = self.quadgrams_all_med_b
+            
+            elif medical:
+                if ngram == 1:
+                    n_grams = self.unique_words_all_med_b
+                elif ngram == 2:
+                    n_grams = self.unique_bigrams_all_med_b
+                elif ngram == 3:
+                    n_grams = self.unique_trigrams_all_med_b
+                elif ngram == 4:
+                    n_grams = self.unique_quadgrams_all_med_b
+            
+            elif allow_duplicates:
+                if ngram == 1:
+                    n_grams = self.words_all_b
+                elif ngram == 2:
+                    n_grams = self.bigrams_all_b
+                elif ngram == 3:
+                    n_grams = self.trigrams_all_b
+                elif ngram == 4:
+                    n_grams = self.quadgrams_all_b
+            
+            else:
+                if ngram == 1:
+                    n_grams = self.unique_words_all_b
+                elif ngram == 2:
+                    n_grams = self.unique_bigrams_all_b
+                elif ngram == 3:
+                    n_grams = self.unique_trigrams_all_b
+                elif ngram == 4:
+                    n_grams = self.unique_quadgrams_all_b
+
+        elif ms_type == "PPMS":         
+            if stopwords and medical and allow_duplicates_across_entries:
+                if ngram == 1:
+                    n_grams = self.no_dup_words_no_stop_med_p
+                elif ngram == 2:
+                    n_grams = self.no_dup_bigrams_no_stop_med_p
+                elif ngram == 3:
+                    n_grams = self.no_dup_trigrams_no_stop_med_p
+                elif ngram == 4:
+                    n_grams = self.no_dup_quadgrams_no_stop_med_p
+            
+            elif stopwords and allow_duplicates_across_entries:
+                if ngram == 1:
+                    n_grams = self.no_dup_words_no_stop_p
+                elif ngram == 2:
+                    n_grams = self.no_dup_bigrams_no_stop_p
+                elif ngram == 3:
+                    n_grams = self.no_dup_trigrams_no_stop_p
+                elif ngram == 4:
+                    n_grams = self.no_dup_quadgrams_no_stop_p
+            
+            elif medical and allow_duplicates_across_entries:
+                if ngram == 1:
+                    n_grams = self.no_dup_words_all_med_p
+                elif ngram == 2:
+                    n_grams = self.no_dup_bigrams_all_med_p
+                elif ngram == 3:
+                    n_grams = self.no_dup_trigrams_all_med_p
+                elif ngram == 4:
+                    n_grams = self.no_dup_quadgrams_all_med_p
+
+            elif allow_duplicates_across_entries:
+                if ngram == 1:
+                    n_grams = self.no_dup_words_all_p
+                elif ngram == 2:
+                    n_grams = self.no_dup_bigrams_all_p
+                elif ngram == 3:
+                    n_grams = self.no_dup_trigrams_all_p
+                elif ngram == 4:
+                    n_grams = self.no_dup_quadgrams_all_p
+
+            elif stopwords and medical and allow_duplicates:
+                if ngram == 1:
+                    n_grams = self.words_no_stop_med_p
+                elif ngram == 2:
+                    n_grams = self.bigrams_no_stop_med_p
+                elif ngram == 3:
+                    n_grams = self.trigrams_no_stop_med_p
+                elif ngram == 4:
+                    n_grams = self.quadgrams_no_stop_med_p
+            
+            elif stopwords and allow_duplicates:
+                if ngram == 1:
+                    n_grams = self.words_no_stop_p
+                elif ngram == 2:
+                    n_grams = self.bigrams_no_stop_p
+                elif ngram == 3:
+                    n_grams = self.trigrams_no_stop_p
+                elif ngram == 4:
+                    n_grams = self.quadgrams_no_stop_p
+            
+            elif stopwords and medical:
+                if ngram == 1:
+                    n_grams = self.unique_words_no_stop_med_p
+                elif ngram == 2:
+                    n_grams = self.unique_bigrams_no_stop_med_p
+                elif ngram == 3:
+                    n_grams = self.unique_trigrams_no_stop_med_p
+                elif ngram == 4:
+                    n_grams = self.unique_quadgrams_no_stop_med_p
+
+            
+            elif stopwords:
+                if ngram == 1:
+                    n_grams = self.unique_words_no_stop_p
+                elif ngram == 2:
+                    n_grams = self.unique_bigrams_no_stop_p
+                elif ngram == 3:
+                    n_grams = self.unique_trigrams_no_stop_p
+                elif ngram == 4:
+                    n_grams = self.unique_quadgrams_no_stop_p
+
+            
+            elif medical and allow_duplicates:
+                if ngram == 1:
+                    n_grams = self.words_all_med_p
+                elif ngram == 2:
+                    n_grams = self.bigrams_all_med_p
+                elif ngram == 3:
+                    n_grams = self.trigrams_all_med_p
+                elif ngram == 4:
+                    n_grams = self.quadgrams_all_med_p
+            
+            elif medical:
+                if ngram == 1:
+                    n_grams = self.unique_words_all_med_p
+                elif ngram == 2:
+                    n_grams = self.unique_bigrams_all_med_p
+                elif ngram == 3:
+                    n_grams = self.unique_trigrams_all_med_p
+                elif ngram == 4:
+                    n_grams = self.unique_quadgrams_all_med_p
+            
+            elif allow_duplicates:
+                if ngram == 1:
+                    n_grams = self.words_all_p
+                elif ngram == 2:
+                    n_grams = self.bigrams_all_p
+                elif ngram == 3:
+                    n_grams = self.trigrams_all_p
+                elif ngram == 4:
+                    n_grams = self.quadgrams_all_p
+            
+            else:
+                if ngram == 1:
+                    n_grams = self.unique_words_all_p
+                elif ngram == 2:
+                    n_grams = self.unique_bigrams_all_p
+                elif ngram == 3:
+                    n_grams = self.unique_trigrams_all_p
+                elif ngram == 4:
+                    n_grams = self.unique_quadgrams_all_p
+
+        elif ms_type == "SPMS":         
+            if stopwords and medical and allow_duplicates_across_entries:
+                if ngram == 1:
+                    n_grams = self.no_dup_words_no_stop_med_s
+                elif ngram == 2:
+                    n_grams = self.no_dup_bigrams_no_stop_med_s
+                elif ngram == 3:
+                    n_grams = self.no_dup_trigrams_no_stop_med_s
+                elif ngram == 4:
+                    n_grams = self.no_dup_quadgrams_no_stop_med_s
+            
+            elif stopwords and allow_duplicates_across_entries:
+                if ngram == 1:
+                    n_grams = self.no_dup_words_no_stop_s
+                elif ngram == 2:
+                    n_grams = self.no_dup_bigrams_no_stop_s
+                elif ngram == 3:
+                    n_grams = self.no_dup_trigrams_no_stop_s
+                elif ngram == 4:
+                    n_grams = self.no_dup_quadgrams_no_stop_s
+            
+            elif medical and allow_duplicates_across_entries:
+                if ngram == 1:
+                    n_grams = self.no_dup_words_all_med_s
+                elif ngram == 2:
+                    n_grams = self.no_dup_bigrams_all_med_s
+                elif ngram == 3:
+                    n_grams = self.no_dup_trigrams_all_med_s
+                elif ngram == 4:
+                    n_grams = self.no_dup_quadgrams_all_med_s
+
+            elif allow_duplicates_across_entries:
+                if ngram == 1:
+                    n_grams = self.no_dup_words_all_s
+                elif ngram == 2:
+                    n_grams = self.no_dup_bigrams_all_s
+                elif ngram == 3:
+                    n_grams = self.no_dup_trigrams_all_s
+                elif ngram == 4:
+                    n_grams = self.no_dup_quadgrams_all_s
+
+            elif stopwords and medical and allow_duplicates:
+                if ngram == 1:
+                    n_grams = self.words_no_stop_med_s
+                elif ngram == 2:
+                    n_grams = self.bigrams_no_stop_med_s
+                elif ngram == 3:
+                    n_grams = self.trigrams_no_stop_med_s
+                elif ngram == 4:
+                    n_grams = self.quadgrams_no_stop_med_s
+            
+            elif stopwords and allow_duplicates:
+                if ngram == 1:
+                    n_grams = self.words_no_stop_s
+                elif ngram == 2:
+                    n_grams = self.bigrams_no_stop_s
+                elif ngram == 3:
+                    n_grams = self.trigrams_no_stop_s
+                elif ngram == 4:
+                    n_grams = self.quadgrams_no_stop_s
+            
+            elif stopwords and medical:
+                if ngram == 1:
+                    n_grams = self.unique_words_no_stop_med_s
+                elif ngram == 2:
+                    n_grams = self.unique_bigrams_no_stop_med_s
+                elif ngram == 3:
+                    n_grams = self.unique_trigrams_no_stop_med_s
+                elif ngram == 4:
+                    n_grams = self.unique_quadgrams_no_stop_med_s
+
+            
+            elif stopwords:
+                if ngram == 1:
+                    n_grams = self.unique_words_no_stop_s
+                elif ngram == 2:
+                    n_grams = self.unique_bigrams_no_stop_s
+                elif ngram == 3:
+                    n_grams = self.unique_trigrams_no_stop_s
+                elif ngram == 4:
+                    n_grams = self.unique_quadgrams_no_stop_s
+
+            
+            elif medical and allow_duplicates:
+                if ngram == 1:
+                    n_grams = self.words_all_med_s
+                elif ngram == 2:
+                    n_grams = self.bigrams_all_med_s
+                elif ngram == 3:
+                    n_grams = self.trigrams_all_med_s
+                elif ngram == 4:
+                    n_grams = self.quadgrams_all_med_s
+            
+            elif medical:
+                if ngram == 1:
+                    n_grams = self.unique_words_all_med_s
+                elif ngram == 2:
+                    n_grams = self.unique_bigrams_all_med_s
+                elif ngram == 3:
+                    n_grams = self.unique_trigrams_all_med_s
+                elif ngram == 4:
+                    n_grams = self.unique_quadgrams_all_med_s
+            
+            elif allow_duplicates:
+                if ngram == 1:
+                    n_grams = self.words_all_s
+                elif ngram == 2:
+                    n_grams = self.bigrams_all_s
+                elif ngram == 3:
+                    n_grams = self.trigrams_all_s
+                elif ngram == 4:
+                    n_grams = self.quadgrams_all_s
+            
+            else:
+                if ngram == 1:
+                    n_grams = self.unique_words_all_s
+                elif ngram == 2:
+                    n_grams = self.unique_bigrams_all_s
+                elif ngram == 3:
+                    n_grams = self.unique_trigrams_all_s
+                elif ngram == 4:
+                    n_grams = self.unique_quadgrams_all_s
+
+        elif ms_type == "RRMS":         
+            if stopwords and medical and allow_duplicates_across_entries:
+                if ngram == 1:
+                    n_grams = self.no_dup_words_no_stop_med_r
+                elif ngram == 2:
+                    n_grams = self.no_dup_bigrams_no_stop_med_r
+                elif ngram == 3:
+                    n_grams = self.no_dup_trigrams_no_stop_med_r
+                elif ngram == 4:
+                    n_grams = self.no_dup_quadgrams_no_stop_med_r
+            
+            elif stopwords and allow_duplicates_across_entries:
+                if ngram == 1:
+                    n_grams = self.no_dup_words_no_stop_r
+                elif ngram == 2:
+                    n_grams = self.no_dup_bigrams_no_stop_r
+                elif ngram == 3:
+                    n_grams = self.no_dup_trigrams_no_stop_r
+                elif ngram == 4:
+                    n_grams = self.no_dup_quadgrams_no_stop_r
+            
+            elif medical and allow_duplicates_across_entries:
+                if ngram == 1:
+                    n_grams = self.no_dup_words_all_med_r
+                elif ngram == 2:
+                    n_grams = self.no_dup_bigrams_all_med_r
+                elif ngram == 3:
+                    n_grams = self.no_dup_trigrams_all_med_r
+                elif ngram == 4:
+                    n_grams = self.no_dup_quadgrams_all_med_r
+
+            elif allow_duplicates_across_entries:
+                if ngram == 1:
+                    n_grams = self.no_dup_words_all_r
+                elif ngram == 2:
+                    n_grams = self.no_dup_bigrams_all_r
+                elif ngram == 3:
+                    n_grams = self.no_dup_trigrams_all_r
+                elif ngram == 4:
+                    n_grams = self.no_dup_quadgrams_all_r
+
+            elif stopwords and medical and allow_duplicates:
+                if ngram == 1:
+                    n_grams = self.words_no_stop_med_r
+                elif ngram == 2:
+                    n_grams = self.bigrams_no_stop_med_r
+                elif ngram == 3:
+                    n_grams = self.trigrams_no_stop_med_r
+                elif ngram == 4:
+                    n_grams = self.quadgrams_no_stop_med_r
+            
+            elif stopwords and allow_duplicates:
+                if ngram == 1:
+                    n_grams = self.words_no_stop_r
+                elif ngram == 2:
+                    n_grams = self.bigrams_no_stop_r
+                elif ngram == 3:
+                    n_grams = self.trigrams_no_stop_r
+                elif ngram == 4:
+                    n_grams = self.quadgrams_no_stop_r
+            
+            elif stopwords and medical:
+                if ngram == 1:
+                    n_grams = self.unique_words_no_stop_med_r
+                elif ngram == 2:
+                    n_grams = self.unique_bigrams_no_stop_med_r
+                elif ngram == 3:
+                    n_grams = self.unique_trigrams_no_stop_med_r
+                elif ngram == 4:
+                    n_grams = self.unique_quadgrams_no_stop_med_r
+
+            
+            elif stopwords:
+                if ngram == 1:
+                    n_grams = self.unique_words_no_stop_r
+                elif ngram == 2:
+                    n_grams = self.unique_bigrams_no_stop_r
+                elif ngram == 3:
+                    n_grams = self.unique_trigrams_no_stop_r
+                elif ngram == 4:
+                    n_grams = self.unique_quadgrams_no_stop_r
+
+            
+            elif medical and allow_duplicates:
+                if ngram == 1:
+                    n_grams = self.words_all_med_r
+                elif ngram == 2:
+                    n_grams = self.bigrams_all_med_r
+                elif ngram == 3:
+                    n_grams = self.trigrams_all_med_r
+                elif ngram == 4:
+                    n_grams = self.quadgrams_all_med_r
+            
+            elif medical:
+                if ngram == 1:
+                    n_grams = self.unique_words_all_med_r
+                elif ngram == 2:
+                    n_grams = self.unique_bigrams_all_med_r
+                elif ngram == 3:
+                    n_grams = self.unique_trigrams_all_med_r
+                elif ngram == 4:
+                    n_grams = self.unique_quadgrams_all_med_r
+            
+            elif allow_duplicates:
+                if ngram == 1:
+                    n_grams = self.words_all_r
+                elif ngram == 2:
+                    n_grams = self.bigrams_all_r
+                elif ngram == 3:
+                    n_grams = self.trigrams_all_r
+                elif ngram == 4:
+                    n_grams = self.quadgrams_all_r
+            
+            else:
+                if ngram == 1:
+                    n_grams = self.unique_words_all_r
+                elif ngram == 2:
+                    n_grams = self.unique_bigrams_all_r
+                elif ngram == 3:
+                    n_grams = self.unique_trigrams_all_r
+                elif ngram == 4:
+                    n_grams = self.unique_quadgrams_all_r
 
         return n_grams
 
          
-    def getFrequencyOfNgram(self,phrase,ngram=1,stopwords=True,medical=False,allow_duplicates=False,allow_duplicates_across_entries=False):
+    def getFrequencyOfNgram(self,phrase,ngram=1,stopwords=True,medical=False,allow_duplicates=False,allow_duplicates_across_entries=False,ms_type = "All"):
         """
             Inputs: Phrase (string) - the phrase to return the frequency of
                    ngram (int, max=4) - number of words in the phrase
@@ -985,7 +1893,7 @@ class FrequencyAnalyser:
 
         """
 
-        n_grams = self.getNgrams(ngram,stopwords,medical,allow_duplicates,allow_duplicates_across_entries)
+        n_grams = self.getNgrams(ngram,stopwords,medical,allow_duplicates,allow_duplicates_across_entries,ms_type)
         
                
         freq_dist = FreqDist(n_grams)
@@ -993,10 +1901,10 @@ class FrequencyAnalyser:
 
 
     
-    def getMostFrequentNgrams(self,ngram=1,size=10,stopwords=True,medical=False,allow_duplicates=False,allow_duplicates_across_entries=False):
+    def getMostFrequentNgrams(self,ngram=1,size=10,stopwords=True,medical=False,allow_duplicates=False,allow_duplicates_across_entries=False,ms_type = "All"):
         """"""
 
-        n_grams = self.getNgrams(ngram,stopwords,medical,allow_duplicates,allow_duplicates_across_entries)
+        n_grams = self.getNgrams(ngram,stopwords,medical,allow_duplicates,allow_duplicates_across_entries,ms_type)
         freq_dist = FreqDist(n_grams)
 
         # Freq Dist Tabulate outputs table to stdout, so we need to temporarily redirect the output stream
@@ -1011,9 +1919,9 @@ class FrequencyAnalyser:
         return most_frequent_table
 
     
-    def graphMostFrequentNgrams(self,ngram=1,size=10,stopwords=True,medical=False,allow_duplicates=False,allow_duplicates_across_entries=False):
+    def graphMostFrequentNgrams(self,ngram=1,size=10,stopwords=True,medical=False,allow_duplicates=False,allow_duplicates_across_entries=False,ms_type = "All"):
         """"""
-        n_grams = self.getNgrams(ngram,stopwords,medical,allow_duplicates,allow_duplicates_across_entries)
+        n_grams = self.getNgrams(ngram,stopwords,medical,allow_duplicates,allow_duplicates_across_entries,ms_type)
         freq_dist = FreqDist(n_grams)
 
         freq_dist.plot(size)
