@@ -46,9 +46,10 @@ class FrequencyPage:
 
         # Search box
         freq_phrase = StringVar()
-        freq_box = ttk.Entry(self.frame, textvariable=freq_phrase)
-        freq_box.grid(column=0, row=4, sticky=(N,S,E,W))
+        freq_box = ttk.Entry(self.frame, textvariable = freq_phrase)
+        freq_box.grid(column = 0, row = 4, sticky = (N,S,E,W))
 
+        self.freq_phrase = freq_phrase
         self.freq_box = freq_box
 
         # 'Get phrase frequency' button
@@ -156,18 +157,29 @@ class FrequencyPage:
                             command = lambda: self.app.displayFrame("main frame"))
         back_b.grid(column = 0, row = 50, pady = 20, sticky=(N,S,E,W))
 
-
     # Loads the Word Frequency Analysis page frame (from Main Menu)
     # Heavy function - creates dictionaries from csv
     def freqPageEntry(self):
-        self.analyser = FrequencyAnalyser(self.app.df,self.app.csv_header_combo_boxes[2].get(),self.app.csv_header_combo_boxes[0].get(),self.app.csv_header_combo_boxes[4].get())
+        self.analyser = FrequencyAnalyser(self.app.df, 
+                                          self.app.csv_header_combo_boxes[2].get(), 
+                                          self.app.csv_header_combo_boxes[0].get(), 
+                                          self.app.csv_header_combo_boxes[4].get())
         self.app.displayFrame("freq frame")
 
-    # Action of 'Get phrase frequency' button (search button)
+    # 'Get phrase frequency' button (search button) : behaviour
     def freqSearchButtonClick(self):
 
-        freq_search_phrase = self.freq_box.get()
-        ngrams = int(self.ngram_list.get())
+        freq_search_phrase = self.freq_box.get().strip()
+        # change to read in number entered
+        # prevent from moving forward with more than 4 words in a phrase
+        #ngrams = int(self.ngram_list.get())
+        ngrams = count_words_in_string(self.freq_phrase.get())
+        if ngrams <= 0 or ngrams > 4:
+            self.display_results.configure(state = "normal")
+            self.display_results.delete('1.0', 'end')
+            self.display_results.insert('1.0', "Please enter a phrase containing 4 words or fewer")
+            self.display_results.configure(state = "disabled")
+            return
         ms_type = str(self.ms_type_list.get())      
 
         # Build Boolean variables
@@ -189,11 +201,17 @@ class FrequencyPage:
         if allow_duplicates == False:
             allow_duplicates_across_entries = False
 
-        frequency_count = self.analyser.getFrequencyOfNgram(freq_search_phrase,ngrams,remove_stopwords,medical_only,allow_duplicates,allow_duplicates_across_entries,ms_type)
+        frequency_count = self.analyser.getFrequencyOfNgram(freq_search_phrase, 
+                                                            ngrams, 
+                                                            remove_stopwords, 
+                                                            medical_only, 
+                                                            allow_duplicates, 
+                                                            allow_duplicates_across_entries, 
+                                                            ms_type)
 
-        result = "Frequency of the phrase: "
+        result = "Frequency of the phrase: '"
         result += freq_search_phrase
-        result += " is: "
+        result += "' is: "
         result += str(frequency_count)
 
         self.display_results.configure(state="normal")
@@ -268,3 +286,16 @@ class FrequencyPage:
             allow_duplicates_across_entries = False
 
         self.analyser.graphMostFrequentNgrams(ngrams,size,remove_stopwords,medical_only,allow_duplicates,allow_duplicates_across_entries,ms_type)
+        
+        #
+        #
+        
+# HELPER FUNCTIONS #
+
+def count_words_in_string(string):
+    return len(string.split())
+
+
+#
+#
+#
