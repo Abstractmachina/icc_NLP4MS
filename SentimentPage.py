@@ -3,8 +3,6 @@ import os
 from tkinter import *
 from tkinter import ttk, filedialog, messagebox
 
-import pandas as pd
-
 from SentimentController import SentimentController
 
 
@@ -113,13 +111,31 @@ class SentimentPage:
         #Display frame
         ########################################################################
         f_display = ttk.Frame(self.frame)
-        f_display.grid(column = 1, row = 1, sticky=(N,S,E))
-        results = Text(f_display, width=95, height=20)
-        results.grid(row=0, column = 0, sticky=(N,S,E, W))
+        f_display.grid(column = 1, row = 1, sticky=(N,S,E, W))
+
+            
+        canvas = Canvas(f_display)
+        canvas.grid(row = 0, column = 0, sticky=(N,S,E, W))
+        
+        scrollbar = ttk.Scrollbar(f_display, orient=VERTICAL, command=canvas.yview)
+        scrollbar.grid(row=0, column = 1, sticky=(N,S))
+        
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        self.f2_container = ttk.Frame(canvas)
+        self.f2_container.grid(sticky=(N,S,E, W))
+        self.f2_container.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+        canvas.create_window((0,0), window=self.f2_container, anchor="nw")
+        
+        for i in range(50):
+             Button(self.f2_container, text=f'Button {1+i} Yoo!', font="arial 20").grid(sticky=(W,E))
+
+        results = Text(self.f2_container, width=95, height=20)
+        results.grid(row=0, column = 0, sticky=(E,W))
         results.insert("1.0","Result will appear here")
         results.configure(font="16")
         results.configure(state="disabled")
-        self.displayFrame = f_display
+        
         
         return
     
@@ -173,17 +189,17 @@ class SentimentPage:
         self.searchBox.delete(0, "end")
         
         #clear display frame
-        for widget in self.displayFrame.winfo_children():
+        for widget in self.f2_container.winfo_children():
             widget.destroy()
 
         #build graphs
-        self.controller.buildUserGraphs(userId, self.displayFrame, 
+        self.controller.buildUserGraphs(userId, self.f2_container, 
                                         self.sa_on, self.disabl_on,
                                         self.combine_on)
             
         #create user info header
         userInfo = self.controller.buildUserInfo(userId)
-        r = Text(self.displayFrame, width = 95, height = 10)
+        r = Text(self.f2_container, width = 95, height = 10)
         r.insert("end", userInfo)
         
         #list free text
@@ -196,7 +212,7 @@ class SentimentPage:
         r.grid(row=0, column = 0, sticky=(N,S,E,W))
         
             
-        r_scroll = ttk.Scrollbar(self.displayFrame, orient=VERTICAL, command=r.yview)
-        r_scroll.grid(row=0, column=1, rowspan = 1, sticky=(N,S))
-        r["yscrollcommand"] = r_scroll.set
+        # r_scroll = ttk.Scrollbar(self.displayFrame, orient=VERTICAL, command=r.yview)
+        # r_scroll.grid(row=0, column=1, rowspan = 1, sticky=(N,S))
+        # r["yscrollcommand"] = r_scroll.set
         return
