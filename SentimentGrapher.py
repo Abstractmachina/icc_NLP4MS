@@ -77,7 +77,7 @@ class SentimentGrapher_tk (ISentimentGraphAdapter):
         #canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
         canvas.get_tk_widget().grid(row=1, column = 0)
         
-        #matplotlib tool. not needed atm
+        #matplotlib toolbar not needed atm
         #toolbar = NavigationToolbar2Tk(canvas, tk_page)
         #toolbar.update()
         #canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
@@ -95,39 +95,15 @@ class SentimentGrapher_tk (ISentimentGraphAdapter):
             count +=1
             
         figure = Figure(figsize=(6,3*count), dpi=100)
-        
-        
         idx = 1
-        if sent_on:
-            uniqueId = pd.unique(sentimentHistory.loc[:,"UserId"])
-            ax_sent = figure.add_subplot(int(f"{count}1{idx}"))
-            #fig, ax = plt.subplots(2,1, figsize=(13,10))
-            for i in range(len(uniqueId)):
-                dataPts = sentimentHistory.loc[sentimentHistory["UserId"] == uniqueId[i]]
-                
-                sortedPts = dataPts.sort_values(by="CompletedDate")
-                ax_sent.plot(sortedPts["CompletedDate"], sortedPts["Sent_Comp"])
-                
-                # if sortedPts.iloc[0]["Sent_Comp"] < sortedPts.iloc[-1]["Sent_Comp"]:
-                #     ax[0].plot(sortedPts["CompletedDate"], sortedPts["Sent_Comp"])
-                # else:
-                #     ax[1].plot(sortedPts["CompletedDate"], sortedPts["Sent_Comp"])
-                    
-            ax_sent.set_title("Sentiment Trend")
+        if sent_on:            
+            subplotArrangement = int(f"{count}1{idx}")
+            SentimentGrapher_tk.plotSentimentHistory(figure, subplotArrangement, sentimentHistory)
             idx += 1
             
         if disabl_on:
-            uniqueId = pd.unique(edssHistory.loc[:,"UserId"])
-            ax_disa = figure.add_subplot(int(f"{count}1{idx}"))
-
-            for i in range(len(uniqueId)):
-                dataPts = edssHistory.loc[sentimentHistory["UserId"] == uniqueId[i]]
-                
-                sortedPts = dataPts.sort_values(by="CompletedDate")
-                ax_disa.plot(sortedPts["CompletedDate"], sortedPts["EDSS"])
-                
-            ax_disa.set_title("EDSS Trend")
-            idx += 1
+            subplotArrangement = int(f"{count}1{idx}")
+            SentimentGrapher_tk.plotEdssHistory(figure, subplotArrangement, edssHistory)
         
         #add to tkinter canvas
         canvas = FigureCanvasTkAgg(figure, tk_frame)
@@ -235,6 +211,8 @@ class SentimentGrapher_tk (ISentimentGraphAdapter):
         plt.xlabel("negative sentiment")
         plt.ylabel("positive sentiment")
         plt.show()
+        return
+        
         
         
     ############### SENTIMENT ANALYSIS  ##########################
@@ -268,46 +246,36 @@ class SentimentGrapher_tk (ISentimentGraphAdapter):
         return
     
     @staticmethod
-    def plotSentimentHistory(sentimentHistory, tk_page):
-        """Plot sentiment history of a collection of users. 
+    def plotSentimentHistory(figure, subplotArrangement, sentimentHistory = pd.DataFrame):
+        """
+        Plot sentiment history of a collection of users. 
+        
         Args:
-            sentimentHistory (pd.DataFrame): 
-                ["UserId", "CompletedDate", 
-                "Sent_Neg", "Sent_Neu", "Sent_Pos", "Sent_Comp"]
+            sentimentHistory (pd.DataFrame): preprocessed dataframe
+            figure: matplotlib figure
+            subplotArrangement: int specifying position of subplot. 
+                                ex: (312) second subplot in a layout with 3 rows, 1 column
+            
                 
         """
-        
-        #build matplotlib fifure
-        f = Figure(figsize=(6,3), dpi=100)
-        ax = f.add_subplot(111)
-        sortedPts = sentimentHistory.sort_values(by="CompletedDate")
-        ax.plot(sortedPts["CompletedDate"], sortedPts["Sent_Comp"])
-        
-        #add to tkinter canvas
-        canvas = FigureCanvasTkAgg(f, tk_page)
-        canvas.draw()
-        #canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-        canvas.get_tk_widget().grid(row=1, column = 0)
-        canvas._tkcanvas.grid(row=1, column = 0)
-        
-        return
-        print("Building sentiment history plot...")
         uniqueId = pd.unique(sentimentHistory.loc[:,"UserId"])
-        fig, ax = plt.subplots(2,1, figsize=(13,10))
-        for user in range(len(uniqueId)):
-            dataPts = sentimentHistory.loc[sentimentHistory["UserId"] == uniqueId[user]]
+        ax_sent = figure.add_subplot(subplotArrangement)
+        for i in range(len(uniqueId)):
+            dataPts = sentimentHistory.loc[sentimentHistory["UserId"] == uniqueId[i]]
             
             sortedPts = dataPts.sort_values(by="CompletedDate")
+            ax_sent.plot(sortedPts["CompletedDate"], sortedPts["Sent_Comp"])
             
-            if sortedPts.iloc[0]["Sent_Comp"] < sortedPts.iloc[-1]["Sent_Comp"]:
-                ax[0].plot(sortedPts["CompletedDate"], sortedPts["Sent_Comp"])
-            else:
-                ax[1].plot(sortedPts["CompletedDate"], sortedPts["Sent_Comp"])
+            # if sortedPts.iloc[0]["Sent_Comp"] < sortedPts.iloc[-1]["Sent_Comp"]:
+            #     ax[0].plot(sortedPts["CompletedDate"], sortedPts["Sent_Comp"])
+            # else:
+            #     ax[1].plot(sortedPts["CompletedDate"], sortedPts["Sent_Comp"])
                 
-        ax[0].set_title("Improved Outcome")
-        ax[1].set_title("Deteriorated Outcome")
-        plt.show()
+        ax_sent.set_title("Sentiment Trend")
         return
+    
+    
+    
     ############################## EDSS  ####################################
     @staticmethod
     def plotEDSSHistory_single(inputData, tk_frame):
@@ -328,9 +296,21 @@ class SentimentGrapher_tk (ISentimentGraphAdapter):
         canvas._tkcanvas.grid(row=1, column = 0)
         return
     
+    
     @staticmethod
-    def plotDisabilityScore() :
-        return    
+    def plotEdssHistory(figure, subplotArrangement, edssHistory = pd.DataFrame):
+        uniqueId = pd.unique(edssHistory.loc[:,"UserId"])
+        ax_disa = figure.add_subplot(subplotArrangement)
+
+        for i in range(len(uniqueId)):
+            dataPts = edssHistory.loc[edssHistory["UserId"] == uniqueId[i]]
+            
+            sortedPts = dataPts.sort_values(by="CompletedDate")
+            ax_disa.plot(sortedPts["CompletedDate"], sortedPts["EDSS"])
+            
+        ax_disa.set_title("EDSS Trend")
+        return
+    
     
     @staticmethod
     def plot_EDSS_sentiment(userId, edss_history, sentiment_history):
