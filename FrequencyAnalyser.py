@@ -1259,6 +1259,7 @@ class FrequencyAnalyser:
         self.createLexiconsOfUniqueUserWords()
         self.createLexiconsOfNoDuplicatesPerEntry() 
 
+    # returns a list of all n_grams found in the data given the parameters?
     def getNgrams(self,ngram,stopwords,medical,allow_duplicates,allow_duplicates_across_entries,ms_type):
 
         if ms_type == "All":         
@@ -1911,6 +1912,9 @@ class FrequencyAnalyser:
         usual_stdout = sys.stdout
         most_frequent_table = StringIO()
         sys.stdout = most_frequent_table
+        # length 0 can be found and will cause error below this check
+        if len(n_grams) == 0:
+            return ''
         freq_dist.tabulate(size)
         most_frequent_table = most_frequent_table.getvalue()
 

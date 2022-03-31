@@ -244,16 +244,22 @@ class FrequencyPage:
         if allow_duplicates == False:
             allow_duplicates_across_entries = False
 
-        frequency_list = self.analyser.getMostFrequentNgrams(ngrams,size,remove_stopwords,medical_only,allow_duplicates,allow_duplicates_across_entries,ms_type)
-        
-
-        result = "Most frequent "
-        result += str(size)
-        result += " "
-        result += str(ngrams)
-        result += " ngrams are: \n"
-        result += frequency_list
-
+        frequency_list = self.analyser.getMostFrequentNgrams(ngrams, 
+                                                             size, 
+                                                             remove_stopwords, 
+                                                             medical_only, 
+                                                             allow_duplicates, 
+                                                             allow_duplicates_across_entries, 
+                                                             ms_type)
+        if frequency_list == '':
+            result = "No n-grams found with the given settings."
+        else:
+            result = "Most frequent "
+            result += str(size)
+            result += " "
+            result += str(ngrams)
+            result += " ngrams are: \n"
+            result += frequency_list
         
         self.display_results.configure(state="normal")
         self.display_results.delete('1.0','end')
