@@ -1908,26 +1908,83 @@ class FrequencyAnalyser:
         n_grams = self.getNgrams(ngram,stopwords,medical,allow_duplicates,allow_duplicates_across_entries,ms_type)
         freq_dist = FreqDist(n_grams)
 
-        # Freq Dist Tabulate outputs table to stdout, so we need to temporarily redirect the output stream
-        usual_stdout = sys.stdout
-        most_frequent_table = StringIO()
-        sys.stdout = most_frequent_table
-        # length 0 can be found and will cause error below this check
-        if len(n_grams) == 0:
-            return ''
-        freq_dist.tabulate(size)
-        most_frequent_table = most_frequent_table.getvalue()
+        return str(freq_dist.most_common(size))
 
-        sys.stdout = usual_stdout
-     
-        return most_frequent_table
+    def getPlotValuesFromFdist(self,freq_dist,size):
+        
+        try:
+            words,freq = zip(*freq_dist.most_common(size))
+        except:
+            words = "N/A"
+            freq = -1
+            return words,freq
+        words = words[::-1]
+        freq = freq[::-1]
+        return words, freq
 
     
-    def graphMostFrequentNgrams(self,ngram=1,size=10,stopwords=True,medical=False,allow_duplicates=False,allow_duplicates_across_entries=False,ms_type = "All"):
+    def graphMostFrequentNgrams(self,ngram=1,size=10,stopwords=True,medical=False,allow_duplicates=False,allow_duplicates_across_entries=False,ms_type = "All",plot_by_type=False):
         """"""
         n_grams = self.getNgrams(ngram,stopwords,medical,allow_duplicates,allow_duplicates_across_entries,ms_type)
         freq_dist = FreqDist(n_grams)
 
-        freq_dist.plot(size)
+        print(plot_by_type)
+
+        if self.ms_type != None and plot_by_type == True:
+            n_grams_b = self.getNgrams(ngram,stopwords,medical,allow_duplicates,allow_duplicates_across_entries,"Benign")
+            n_grams_p = self.getNgrams(ngram,stopwords,medical,allow_duplicates,allow_duplicates_across_entries,"PPMS")
+            n_grams_s = self.getNgrams(ngram,stopwords,medical,allow_duplicates,allow_duplicates_across_entries,"SPMS")
+            n_grams_r = self.getNgrams(ngram,stopwords,medical,allow_duplicates,allow_duplicates_across_entries,"RRMS")
+
+            freq_dist_b = FreqDist(n_grams_b)
+            freq_dist_p = FreqDist(n_grams_p)
+            freq_dist_s = FreqDist(n_grams_s)
+            freq_dist_r = FreqDist(n_grams_r)
+
+            words_b, freq_b = self.getPlotValuesFromFdist(freq_dist_b,size)
+            words_p, freq_p = self.getPlotValuesFromFdist(freq_dist_p,size)
+            words_s, freq_s = self.getPlotValuesFromFdist(freq_dist_s,size)
+            words_r, freq_r = self.getPlotValuesFromFdist(freq_dist_r,size)
+
+            fig,axs = plt.subplots(2,2)
+            axs[0,0].barh(words_b,freq_b)
+            axs[0,0].set_title("Benign MS")
+            axs[0,1].barh(words_p,freq_p,color ="orange")
+            axs[0,1].set_title("PPMS")
+            axs[1,0].barh(words_s,freq_s,color = "green")
+            axs[1,0].set_title("SPMS")
+            axs[1,1].barh(words_r,freq_r,color = "red")
+            axs[1,1].set_title("RRMS")
+
+            if ngram == 2:
+                plt.subplots_adjust(wspace=0.5)
+            elif ngram == 3:
+                plt.subplots_adjust(wspace=0.75)
+            elif ngram == 4:
+                plt.subplots_adjust(wspace=1.0)
+
+          
+
+        else:
+            # Returns a tuple of words and a tuple of the corresponding frequncies
+            words,freq = self.getPlotValuesFromFdist(freq_dist,size)
+
+            # Reverse the order so that the most frequeent
+            words = words[::-1]
+            freq = freq[::-1]        
+
+            fig,ax = plt.subplots()
+            
+
+            ax.barh(words,freq)
+            # Plot the x-axis at the top of the figure
+            ax.xaxis.tick_top()
+
+        window = plt.get_current_fig_manager()
+        window.window.state("zoomed")
+            
+        plt.show()
+
+        
         
 

@@ -102,6 +102,12 @@ class FrequencyPage:
                                        text = "Plot most frequent n-grams", 
                                        command = lambda: self.graphMostFreqNgramsClick())
         graph_freq_button.grid(column = 1, row = 8, sticky = (N,S,E,W))
+
+        self.plot_by_type = IntVar()
+        plot_by_type = ttk.Checkbutton(self.frame, 
+                                           text = "Plot by MS type", 
+                                           variable = self.plot_by_type)
+        plot_by_type.grid(column=2,row=8, sticky = W)
         
         # SETTINGS #
         
@@ -291,7 +297,13 @@ class FrequencyPage:
         if allow_duplicates == False:
             allow_duplicates_across_entries = False
 
-        self.analyser.graphMostFrequentNgrams(ngrams,size,remove_stopwords,medical_only,allow_duplicates,allow_duplicates_across_entries,ms_type)
+        plt_by_type = False
+
+        if self.plot_by_type.get():
+            plt_by_type = True
+
+        self.analyser.graphMostFrequentNgrams(ngrams,size,remove_stopwords,medical_only,allow_duplicates,
+                                              allow_duplicates_across_entries,ms_type,plot_by_type=plt_by_type)
         
         #
         #
