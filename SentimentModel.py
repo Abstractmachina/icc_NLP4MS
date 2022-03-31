@@ -14,15 +14,17 @@ class SentimentModel():
     
     def __init__(self):
         self.rawData = pd.DataFrame()
-        self.sentimentHistory = pd.DataFrame()
+        self.sentimentHistory = None
         self.sentimentSet = pd.DataFrame()
         self.comboTable = pd.DataFrame()
         self.EDSS = pd.DataFrame()
+        self.EDSS_history = None
         self.HADS = pd.DataFrame()
         #adapter must return single sentiment as a dict with keys
         #["neg", "neu", "pos", "compound"].
         self.adapter = VaderSentimentAdapter()
-        pass
+        self.DATEFORMAT = "%d/%m/%Y"
+        
         
     def importFile(self, csvPath, 
                    userId = "UserId", date = "CompletedDate", 
@@ -68,7 +70,7 @@ class SentimentModel():
         user = self.rawData.loc[self.rawData["UserId"] == userId]
         return user["Value"].values.tolist()
         
-    def calcSentiments(self, inputData = pd.DataFrame, numPts = 10) -> pd.DataFrame:
+    def calcSentiments(self, inputData = None, numPts = 0) -> pd.DataFrame:
         """Calculate sentiments by entry. Will process all data points
         in set if numPts is set to 0. Warning: If data set is large, 
         will have a high time cost.
@@ -83,31 +85,35 @@ class SentimentModel():
              ["UserId", "CompletedDate", 
              "Sent_Neg", "Sent_Neu", "Sent_Pos", "Sent_Comp"]
         """
-        #calc sentiments   
-        data = inputData.filter(["Value"])
-        sens = np.zeros((numPts, 4))
+        if (inputData == None):
+            inputData = self.rawData
+            
+        data = inputData.sample(frac=1).reset_index(drop=True)
+        
         col = ["UserId", "CompletedDate", "Sent_Neg", "Sent_Neu", "Sent_Pos", "Sent_Comp"]
-        sentiSet = pd.DataFrame(columns = col)
+        sentiments = pd.DataFrame(columns = col)
 
         setLength = len(data) if numPts == 0 else numPts
  
-        count = 0
+        i = 0
         for idx, row in data.iterrows():
-            if idx % int(setLength/10) == 0:
-                print(f"Processing sentiments {idx/numPts * 100}% ...")
-            if numPts != 0 and count == numPts:
+            modulo = int(setLength/10)
+            if modulo != 0 and idx % modulo == 0:
+                    print(f"Processing sentiments {idx/setLength * 100}% ...")
+            if numPts != 0 and i == numPts:
                 break
-            res = VaderSentimentAdapter.calculateSentiment(str(row['Value']))
-            sens[idx] = res["compound"], res["neg"] , res["neu"] , res["pos"]
-            processedDate = datetime.strptime(str(row["CompletedDate"]), "%d/%m/%Y")
-            content = [row["UserId"], processedDate, res["neg"], res["neu"], res["pos"], res["compound"]]
-            sentiSet.loc[count] = content
-            count+=1
             
-        return sens
+            res = self.adapter.calculateSentiment(str(row['Value']))
+            processedDate = datetime.strptime(str(row["CompletedDate"]), self.DATEFORMAT)
+            content = [row["UserId"], processedDate, res["neg"], res["neu"], res["pos"], res["compound"]]
+            sentiments.loc[i] = content
+            i+=1
+            
+        self.sentimentSet = sentiments
+        return sentiments
             
 
-    def buildSentimentHistory(self, inputData = pd.DataFrame, minN = 3, cap = 0) -> pd.DataFrame:
+    def buildSentimentHistory(self, inputData = None, minN = 3, cap = 0) -> pd.DataFrame:
         """Build sentiment table sorted by UserId with cap specifying number of users. 
         User must have a minimum of minN data points to be added to the table.
 
@@ -121,6 +127,8 @@ class SentimentModel():
             pd.DataFrame: ["UserId", "CompletedDate", "Sent_Neg", "Sent_Neu", "Sent_Pos", "Sent_Comp"]
              sorted by UserId
         """
+        if (inputData == None):
+            inputData = self.rawData
         uniqueUserId = pd.unique(inputData.loc[:,"UserId"])
 
         
@@ -139,14 +147,16 @@ class SentimentModel():
             for index, row in dataPts.iterrows():
                 
                 s = self.adapter.calculateSentiment(str(row['Value']))
-                #process date format. some are just strings.
+                
                 date = str(row["CompletedDate"])            
-                dateProcessed = datetime.strptime(date , "%d/%m/%Y")
+                dateProcessed = datetime.strptime(date , self.DATEFORMAT)
+                
                 content = [uniqueUserId[i], dateProcessed, s["neg"], s["neu"], s["pos"], s["compound"]]
                 sentiments.loc[idx] = content
                 idx += 1
             userCount += 1
         print("Finished Calculating Sentiments")
+        self.sentimentHistory = sentiments
         return sentiments
     
 
@@ -179,17 +189,17 @@ class SentimentModel():
             s = VaderSentimentAdapter.calculateSentiment(str(row["Value"]))
             #process date format. some are just strings.
             date = str(row["CompletedDate"])            
-            dateProcessed = datetime.strptime(date , "%d/%m/%Y")
+            dateProcessed = datetime.strptime(date , self.DATEFORMAT)
             content = [userId, dateProcessed, s["neg"], s["neu"], s["pos"], s["compound"]]
             sentiments.loc[idx] = content
             idx += 1
         
         return sentiments
     
-    ##################################################################################
-    #                       EDSS & HADS
     #################################################################################
-    def processEDSS(self, csvPath, userId = "UserId", date = "CompletedDate_webEDSS",
+    #                                   EDSS
+    #################################################################################
+    def processEDSS(self, csvPath= None, inputData = None, userId = "UserId", date = "CompletedDate",
                     score = "webEDSS") :
         """Import CSV file for EDSS scoring, assign standardized header names and 
         store in class member self.EDSS.
@@ -200,46 +210,25 @@ class SentimentModel():
             date (str, optional): Defaults to "CompletedDate_webEDSS".
             score (str, optional): Defaults to "webEDSS".
         """
-        qb = builder.query(csvPath).add(userId).add(date).add(score)
-        df = qb.build().execute()
         standardizedHeaders = {userId : "UserId",
-                              date : "Date",
-                              score: "EDSS"}
-        df.rename(columns = standardizedHeaders, inplace=True)
+                                date : "CompletedDate",
+                                score: "EDSS"}
+        if (csvPath != None):
+            qb = builder.query(csvPath).add(userId).add(date).add(score)
+            df = qb.build().execute()
+            
+            df.rename(columns = standardizedHeaders, inplace=True)
+            self.EDSS = df
+            return
         
+        if (inputData == None):
+            inputData = self.rawData
+            
+        df = inputData[[userId, date, score]]
+        df.rename(columns = standardizedHeaders, inplace = True)
         self.EDSS = df
         return
-    
-    def processHADS(self, csvPath, userId = "UserId", date = "CompletedDate",
-                    anxietySums = "anxiety_sums", 
-                    anxietySums_norm = "anxiety_sums_norm",
-                    depressionSums = "depression_sums", 
-                    depressionSums_norm = "depression_sums_norm") :
-        """Import CSV file for HADS scoring, assign standardized header names and 
-        store in class member self.HADS.
-
-        Args:
-            csvPath (str): Full file path to CSV file.
-            userId (str, optional): Defaults to "UserId".
-            date (str, optional): Defaults to "CompletedDate".
-            anxietySums (str, optional): Defaults to "anxiety_sums".
-            anxietySums_norm (str, optional): Defaults to "anxiety_sums_norm".
-            depressionSums (str, optional): Defaults to "depression_sums".
-            depressionSums_norm (str, optional): Defaults to "depression_sums_norm".
-        """
-        qb = builder.query(csvPath)
-        qb = qb.add(userId).add(date)
-        qb = qb.add(anxietySums)
-        qb = qb.add(depressionSums)
-        df = qb.build().execute()
-        
-        standardizedHeaders = {userId : "UserId",
-                              date : "Date",
-                              anxietySums: "Anxiety",
-                              depressionSums: "Depression"}
-        df.rename(columns = standardizedHeaders, inplace=True)
-        self.HADS = df
-        return
+            
     
     def buildEDSSHistory_single(self, userId, minN = 3) -> pd.DataFrame:
         """_summary_
@@ -265,15 +254,15 @@ class SentimentModel():
         idx = 0
         for index, row in dataPts.iterrows():
             date = str(row["CompletedDate"])
-            dateProcessed = datetime.strptime(date, "%d/%m/%Y")
+            dateProcessed = datetime.strptime(date, self.DATEFORMAT)
             
             content = [userId, dateProcessed, row["webEDSS"]]
             EDSS.loc[idx] = content
             idx+=1
         return EDSS
         
-    def buildEDSSHistory(self, inputData = pd.DataFrame, dateFormat = str, minN = 3, cap = 0):
-        """_summary_
+    def buildEDSSHistory(self, inputData = None, minN = 3, cap = 0):
+        """Build EDSS history by unique user. if cap is 0, will process all data points.
 
         Args:
             inputData (pd.DataFrame): _description_
@@ -284,6 +273,10 @@ class SentimentModel():
         Returns:
             _type_: _description_
         """
+        
+        if (inputData == None):
+            inputData = self.EDSS
+            
         uniqueUserId = pd.unique(inputData.loc[:,"UserId"])
 
         col = ["UserId", "CompletedDate", "EDSS"]
@@ -303,23 +296,52 @@ class SentimentModel():
                     print(f"Calculating EDSS {int((userCount/cap) * 100)}%")
                     
             for index, row in dataPts.iterrows():
-                date = str(row["CompletedDate_webEDSS"])
-                dateProcessed = datetime.strptime(date , dateFormat)
+                date = str(row["CompletedDate"])
+                dateProcessed = datetime.strptime(date , self.DATEFORMAT)
                 
-                
-                content = [uniqueUserId[i], dateProcessed, row["webEDSS"]]
-                #temp = pd.DataFrame(content, columns = col)
+                content = [uniqueUserId[i], dateProcessed, row["EDSS"]]
                 EDSS.loc[idx] = content
                 idx+=1
             userCount += 1
             
         print("Finished building EDSS")
+        self.EDSS_history = EDSS
         return EDSS
     
-    
-    
+    #################################################################################
+    #                                   HADS
+    #################################################################################
+    def processHADS(self, csvPath, userId = "UserId", date = "CompletedDate",
+                    anxietySums = "anxiety_sums", 
+                    depressionSums = "depression_sums") :
+        """Import CSV file for HADS scoring, assign standardized header names and 
+        store in class member self.HADS.
+
+        Args:
+            csvPath (str): Full file path to CSV file.
+            userId (str, optional): Defaults to "UserId".
+            date (str, optional): Defaults to "CompletedDate".
+            anxietySums (str, optional): Defaults to "anxiety_sums".
+            depressionSums (str, optional): Defaults to "depression_sums".
+        """
+        qb = builder.query(csvPath)
+        qb = qb.add(userId).add(date)
+        qb = qb.add(anxietySums)
+        qb = qb.add(depressionSums)
+        df = qb.build().execute()
+        
+        standardizedHeaders = {userId : "UserId",
+                              date : "Date",
+                              anxietySums: "Anxiety",
+                              depressionSums: "Depression"}
+        df.rename(columns = standardizedHeaders, inplace=True)
+        self.HADS = df
+        return
     
             
+    #################################################################################
+    #                                   UTILITY
+    #################################################################################
     def _collapseSameDateEntries(userId, dataPts) :
         """ Checks if there are several entries for the same date. If there are,
             entries will be collapsed into one with mean taken for the sentiments.

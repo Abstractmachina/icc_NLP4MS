@@ -1,7 +1,7 @@
 import os
 
 from tkinter import *
-from tkinter import ttk, filedialog
+from tkinter import ttk, filedialog, messagebox
 
 import pandas as pd
 
@@ -131,7 +131,11 @@ class SentimentPage:
     def generate_click(self) :
         #store entered user id
         #TODO: sanity check, only ints allowed
-        userId = int(self.searchBox.get())
+        try:
+            userId = int(self.searchBox.get())
+        except:
+            messagebox.showerror("Input Error", "Error: Only Integers Allowed!")
+            return
         self.searchBox.delete(0, "end")
         
         #clear display frame
