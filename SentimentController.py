@@ -5,19 +5,12 @@ from SentimentGrapher import SentimentGrapher_tk as sg
 class SentimentController:
     def __init__(self) :
         self.model = SentimentModel()
-        
-        
-    def setUserView(self, view):
-        self.userview = view
-        
-        
-    def setTrendview(self, view) :
-        self.trendview = view
-    
+
     
     def loadCSV(self, filepath):
         #TODO: need to check that all dates follow "%d/%m/%Y" format
         self.model.importFile(filepath)
+    
     
     def validateCSV(self, input = pd.DataFrame, csv_headers = list()):
         #process input csv into standardized dataframe

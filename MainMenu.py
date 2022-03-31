@@ -46,7 +46,7 @@ class MainMenu:
                                  command= self.sent_page.validateAndInit)
         sentiment_b.grid(column=0,row=2,sticky=(N,S,E,W))
         
-        trend_b = ttk.Button(self.frame, text="Trend Analysis", command= lambda: self.app.displayFrame("trend frame"))
+        trend_b = ttk.Button(self.frame, text="Trend Analysis", command= self.trend_page.validateAndInit)
         trend_b.grid(column=0,row=3,sticky=(N,S,E,W))
 
         back_b = ttk.Button(self.frame, text="Back", command= lambda: self.app.displayFrame("home frame"))

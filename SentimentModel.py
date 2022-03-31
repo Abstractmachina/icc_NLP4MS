@@ -215,7 +215,7 @@ class SentimentModel():
     #                                   EDSS
     #################################################################################
     def processEDSS(self, csvPath= None, inputData = None, userId = "UserId", date = "CompletedDate",
-                    score = "webEDSS") :
+                    score = "EDSS") :
         """Import CSV file for EDSS scoring, assign standardized header names and 
         store in class member self.EDSS.
 

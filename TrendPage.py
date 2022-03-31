@@ -37,15 +37,15 @@ class TrendPage:
         f_controls = ttk.Frame(self.frame)
         f_controls.grid(column=0, row = 1, sticky = (N,S))
         
-        ##  load CSV
-        f2_loadCSV = ttk.Frame(f_controls)
-        f2_loadCSV.grid(row = 0)
+        # ##  load CSV
+        # f2_loadCSV = ttk.Frame(f_controls)
+        # f2_loadCSV.grid(row = 0)
         
-        l_loadFile = ttk.Label(f2_loadCSV, text="Load CSV File")
-        l_loadFile.grid(row = 0)
-        b_loadFile = ttk.Button(f2_loadCSV, text = "Open File", 
-                                command = lambda: self.loadFile_click())
-        b_loadFile.grid(row = 1)
+        # l_loadFile = ttk.Label(f2_loadCSV, text="Load CSV File")
+        # l_loadFile.grid(row = 0)
+        # b_loadFile = ttk.Button(f2_loadCSV, text = "Open File", 
+        #                         command = lambda: self.loadFile_click())
+        # b_loadFile.grid(row = 1)
                
         
         ##  options frame
@@ -75,14 +75,14 @@ class TrendPage:
         l_trends = ttk.Label(f3_trends, text = "Trend Graphs")
         l_trends.grid(row = 0)
         self.sa_on = IntVar()
-        check_sa = ttk.Checkbutton(f3_trends, text = "Sentiment Trend", 
+        self.check_sa = ttk.Checkbutton(f3_trends, text = "Sentiment Trend", 
                                    variable=self.sa_on)
-        check_sa.grid(row = 1)
+        self.check_sa.grid(row = 1)
         
         self.disabl_on = IntVar()
-        check_disabl = ttk.Checkbutton(f3_trends,text = "EDSS Trend", 
+        self.check_disabl = ttk.Checkbutton(f3_trends,text = "EDSS Trend", 
                                        variable=self.disabl_on)
-        check_disabl.grid(row = 2)
+        self.check_disabl.grid(row = 2)
         
     
         ### distribution graphs
@@ -93,29 +93,29 @@ class TrendPage:
         l_distribution.grid(row = 0)
         
         self.distroNeg_on = IntVar()
-        check_distroNeg = ttk.Checkbutton(f3_distro, text="Negative", 
+        self.check_distroNeg = ttk.Checkbutton(f3_distro, text="Negative", 
                                           variable=self.distroNeg_on)
-        check_distroNeg.grid(row = 1)
+        self.check_distroNeg.grid(row = 1)
         
         self.distroNeu_on = IntVar()
-        check_distroNeu = ttk.Checkbutton(f3_distro, text="Neutral", 
+        self.check_distroNeu = ttk.Checkbutton(f3_distro, text="Neutral", 
                                           variable=self.distroNeu_on)
-        check_distroNeu.grid(row = 2)
+        self.check_distroNeu.grid(row = 2)
         
         self.distroPos_on = IntVar()
-        check_distroPos = ttk.Checkbutton(f3_distro, text="Positive", 
+        self.check_distroPos = ttk.Checkbutton(f3_distro, text="Positive", 
                                           variable=self.distroPos_on)
-        check_distroPos.grid(row = 3)
+        self.check_distroPos.grid(row = 3)
         
         self.distroComp_on = IntVar()
-        check_distroComp = ttk.Checkbutton(f3_distro, text="Compound", 
+        self.check_distroComp = ttk.Checkbutton(f3_distro, text="Compound", 
                                           variable=self.distroComp_on)
-        check_distroComp.grid(row = 4)
+        self.check_distroComp.grid(row = 4)
         
         self.scatter_on = IntVar()
-        check_scatter = ttk.Checkbutton(f3_distro, text="Scatter", 
+        self.check_scatter = ttk.Checkbutton(f3_distro, text="Scatter", 
                                           variable=self.scatter_on)
-        check_scatter.grid(row = 5)
+        self.check_scatter.grid(row = 5)
         
         
         ##control footer frame
@@ -146,7 +146,46 @@ class TrendPage:
         
         return
     
+    def validateAndInit(self):
+        """
+        validate imported csv file and feed into 
+        sentiment model with standardized headers
+        
+        """ 
+        h = self.app.csv_header_combo_boxes
+        #userId
+        if h[0].get() == "NONE":
+            messagebox.showerror("Input Error", "Error: User ID required")
+            return
+        #value
+        if h[2].get() == "NONE":
+            self.check_sa.configure(state="disabled")
+            self.check_distroNeg.configure(state="disabled")
+            self.check_distroNeu.configure(state="disabled")
+            self.check_distroPos.configure(state="disabled")
+            self.check_distroComp.configure(state="disabled")
+            self.check_scatter.configure(state="disabled")
+        #edss
+        if h[6].get() == "NONE":
+            self.check_disabl.configure(state="disabled")
+        #date
+        if h[3].get() == "NONE":
+            messagebox.showerror("Input Error", 
+                                 "Error: Completed Date required")
+            return
+        
+        #import and standardize headers
+        self.controller.validateCSV(self.app.df, self.app.csv_header_combo_boxes)
+        
+        #display this page
+        self.app.displayFrame("trend frame")
+        return
+    
     def loadFile_click(self):
+        """
+        OBSOLETE
+        
+        """
         file = filedialog.askopenfile(mode="r", 
                                       filetypes=[("CSV Files", "*.csv")])
         if file:
