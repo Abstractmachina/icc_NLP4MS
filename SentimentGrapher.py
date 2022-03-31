@@ -131,12 +131,12 @@ class SentimentGrapher_tk (ISentimentGraphAdapter):
         
         #add to tkinter canvas
         canvas = FigureCanvasTkAgg(figure, tk_frame)
-        canvas.get_tk_widget().grid(row=1, column = 0)
+        canvas.get_tk_widget().grid(row=0, column = 0)
         
         #matplotlib tool. not needed atm
         #toolbar = NavigationToolbar2Tk(canvas, tk_page)
         #toolbar.update()
-        canvas._tkcanvas.grid(row=1, column = 0)
+        canvas._tkcanvas.grid(row=0, column = 0)
         return
     
     

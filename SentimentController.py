@@ -77,10 +77,6 @@ class SentimentController:
                               distroNeg_on, distroNeu_on,
                               distroPos_on, distroComp_on,
                               scatter_on):
-        
-        print(self.model.sentimentSet)
-        print(len(self.model.sentimentSet))
-        print(self.model.sentimentSet.shape)
         sg.plotSentimentDistribution(num, displayFrame, self.model.sentimentSet,
                               distroNeg_on.get(), distroNeu_on.get(),
                               distroPos_on.get(), distroComp_on.get(),
