@@ -1,3 +1,6 @@
+# ChooseCsvHeaders.py
+# Page where CSV headers are mapped by the user after selecting their CSV file
+
 from tkinter import *
 from tkinter import ttk
 
@@ -100,12 +103,22 @@ class ChooseCsvHeaders:
 
         ######################## Set up the Buttons #######################################################################
 
-        # Must be a lambda as command expects a defined function
-        done_b = ttk.Button(self.frame, text="Done", command= lambda: self.app.displayFrame("home frame"))
-        done_b.grid(column=0,row=14,columnspan=2,sticky=(N,S,E,W))  
-
         # Insert a blank row before the button to put button at bottom of screen
-        self.frame.rowconfigure(13,weight=1)       
+        self.frame.rowconfigure(13, weight = 1)  
+        
+        # Back button
+        back_b = ttk.Button(self.frame, 
+                            text = "Back", 
+                            command = lambda: self.app.displayFrame("home frame"))
+        back_b.grid(column = 0, row = 14, sticky = (N,S,E,W))  
+        
+        # Done button
+        done_b = ttk.Button(self.frame, 
+                            text = "Done", 
+                            command = lambda: self.app.displayFrame("main frame"))
+        done_b.grid(column = 1, row = 14, sticky = (N,S,E,W))  
+
+ 
 
         
     

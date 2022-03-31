@@ -49,5 +49,14 @@ class MainMenu:
         trend_b = ttk.Button(self.frame, text="Trend Analysis", command= self.trend_page.validateAndInit)
         trend_b.grid(column=0,row=3,sticky=(N,S,E,W))
 
-        back_b = ttk.Button(self.frame, text="Back", command= lambda: self.app.displayFrame("home frame"))
-        back_b.grid(column=0, row=4, sticky=(N,S,E,W))
+        # Back button #
+        back_b = ttk.Button(self.frame, 
+                            text = "Back", 
+                            command = lambda: self.app.displayFrame("choose headers"))
+        back_b.grid(column = 0, row = 4, sticky = (N,S,E,W))
+        
+        # Home button #
+        home_b = ttk.Button(self.frame, 
+                            text = "Home", 
+                            command = lambda: self.app.displayFrame("home frame"))
+        home_b.grid(column = 0, row = 5, sticky = (N,S,E,W))

@@ -41,10 +41,9 @@ class HomePage:
         model_button = ttk.Button(self.frame, text="Predict MS Type", command= lambda: self.app.displayFrame("model frame"))
         model_button.grid(column=1,row=4,sticky=(N,S,E,W))
 
-
         # Need to alter button click command so that it checks whether the CSV file has been loaded and alerts the user to do so if it has not
-        next_button = ttk.Button(self.frame,text="Main Menu", command= lambda: self.app.displayFrame("main frame"))
-        next_button.grid(column=0,row=4, sticky=(N,S,E,W))
+        main_menu_button = ttk.Button(self.frame,text="Main Menu", command= lambda: self.app.displayFrame("main frame"))
+        main_menu_button.grid(column=0,row=4, sticky=(N,S,E,W))
     
     def loadCSVClick(self):       
         
