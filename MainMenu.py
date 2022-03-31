@@ -42,11 +42,12 @@ class MainMenu:
         search_b = ttk.Button(self.frame, text="Search the free text", command=self.search_page.searchEntryButtonClick)
         search_b.grid(column=0,row=1,sticky=(N,S,E,W))
         
-        sentiment_b = ttk.Button(self.frame, text="User Analysis", command= lambda: self.app.displayFrame("sent frame"))
+        sentiment_b = ttk.Button(self.frame, text="User Analysis", 
+                                 command= self.sent_page.validateAndInit)
         sentiment_b.grid(column=0,row=2,sticky=(N,S,E,W))
         
-        sentiment_b = ttk.Button(self.frame, text="Trend Analysis", command= lambda: self.app.displayFrame("trend frame"))
-        sentiment_b.grid(column=0,row=3,sticky=(N,S,E,W))
+        trend_b = ttk.Button(self.frame, text="Trend Analysis", command= lambda: self.app.displayFrame("trend frame"))
+        trend_b.grid(column=0,row=3,sticky=(N,S,E,W))
 
         back_b = ttk.Button(self.frame, text="Back", command= lambda: self.app.displayFrame("home frame"))
         back_b.grid(column=0, row=4, sticky=(N,S,E,W))

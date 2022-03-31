@@ -73,17 +73,39 @@ class ChooseCsvHeaders:
 
         ms_onset_year = ttk.Combobox(self.frame, textvariable=None)
         ms_onset_year.grid(column=1,row=8)
+        
+        
+        l_edss = ttk.Label(self.frame, 
+                           text = "Select the column that contains the EDSS", 
+                           font=("bold"))
+        l_edss.grid(column=0, row=9, padx=10, pady=10)
+        edss = ttk.Combobox(self.frame, textvariable=None)
+        edss.grid(column=0,row=10)
+        
+        l_diagnosis = ttk.Label(self.frame, 
+                           text = "Select the column that contains the users' diagnosis date", 
+                           font=("bold"))
+        l_diagnosis.grid(column=1, row=9, padx=10, pady=10)
+        diagnosisDate = ttk.Combobox(self.frame, textvariable=None)
+        diagnosisDate.grid(column=1,row=10)
+        
+        l_gender = ttk.Label(self.frame, 
+                           text = "Select the column that contains the users' gender", 
+                           font=("bold"))
+        l_gender.grid(column=0, row=11, padx=10, pady=10)
+        gender = ttk.Combobox(self.frame, textvariable=None)
+        gender.grid(column=0,row=12)
 
-        self.combo_boxes = [user_id, dob, free_txt, completed_date, ms_type, ms_onset_year]   
+        self.combo_boxes = [user_id, dob, free_txt, completed_date, ms_type, ms_onset_year, edss, diagnosisDate, gender]   
 
         ######################## Set up the Buttons #######################################################################
 
         # Must be a lambda as command expects a defined function
         done_b = ttk.Button(self.frame, text="Done", command= lambda: self.app.displayFrame("home frame"))
-        done_b.grid(column=0,row=10,columnspan=2,sticky=(N,S,E,W))  
+        done_b.grid(column=0,row=14,columnspan=2,sticky=(N,S,E,W))  
 
         # Insert a blank row before the button to put button at bottom of screen
-        self.frame.rowconfigure(9,weight=1)       
+        self.frame.rowconfigure(13,weight=1)       
 
         
     

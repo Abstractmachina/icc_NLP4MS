@@ -1,4 +1,4 @@
-from math import comb
+import pandas as pd
 from SentimentModel import SentimentModel
 from SentimentGrapher import SentimentGrapher_tk as sg
 
@@ -19,7 +19,63 @@ class SentimentController:
         #TODO: need to check that all dates follow "%d/%m/%Y" format
         self.model.importFile(filepath)
     
-    
+    def validateCSV(self, input = pd.DataFrame, csv_headers = list()):
+        #process input csv into standardized dataframe
+        #[user_id, dob, free_txt, 
+        # completed_date, ms_type, 
+        # ms_onset_year, edss, 
+        # diagnosisDate, gender]
+        data = pd.DataFrame()
+        headers = self.model.STANDARD_HEADERS
+        idx = 0
+        #userid
+        if csv_headers[0].get() != "NONE":
+            column = input[csv_headers[0].get()]
+            data.insert(idx, headers[0], column)
+            idx+=1
+        #dob
+        if csv_headers[1].get() != "NONE":
+            column = input[csv_headers[1].get()]
+            data.insert(idx, headers[1], column)
+            idx+=1
+        #value
+        if csv_headers[2].get() != "NONE":
+            column = input[csv_headers[2].get()]
+            data.insert(idx, headers[2], column)
+            idx+=1
+        #date
+        if csv_headers[3].get() != "NONE":
+            column = input[csv_headers[3].get()]
+            data.insert(idx, headers[3], column)
+            idx+=1
+        #ms type
+        if csv_headers[4].get() != "NONE":
+            column = input[csv_headers[4].get()]
+            data.insert(idx, headers[4], column)
+            idx+=1
+        #ms onset yr
+        if csv_headers[5].get() != "NONE":
+            column = input[csv_headers[5].get()]
+            data.insert(idx, headers[5], column)
+            idx+=1
+        #edss
+        if csv_headers[6].get() != "NONE":
+            column = input[csv_headers[6].get()]
+            data.insert(idx, headers[6], column)
+            idx+=1
+        #diagnosis date
+        if csv_headers[7].get() != "NONE":
+            column = input[csv_headers[7].get()]
+            data.insert(idx, headers[7], column)
+        #gender
+        if csv_headers[8].get() != "NONE":
+            column = input[csv_headers[8].get()]
+            data.insert(idx, headers[8], column)
+        
+        print(data)
+        self.model.rawData = data
+        return
+        
     #   USER PAGE
     def buildUserInfo(self, userId) -> str:
         #TODO: diagnosis date not imported correctly
@@ -73,11 +129,11 @@ class SentimentController:
         return
     
     
-    def buildSentDistribution(self, num, displayFrame,
+    def buildSentDistribution(self, displayFrame,
                               distroNeg_on, distroNeu_on,
                               distroPos_on, distroComp_on,
                               scatter_on):
-        sg.plotSentimentDistribution(num, displayFrame, self.model.sentimentSet,
+        sg.plotSentimentDistribution(displayFrame, self.model.sentimentSet,
                               distroNeg_on.get(), distroNeu_on.get(),
                               distroPos_on.get(), distroComp_on.get(),
                               scatter_on.get())

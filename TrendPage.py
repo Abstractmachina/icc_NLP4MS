@@ -16,7 +16,6 @@ class TrendPage:
         self.searchBox = None   #search box that contains user input
         self.displayFrame = None #frame where generated profile is displayed
         self.controller = SentimentController()
-        self.controller.setUserView(self)
         self.configureTrendPage()
 
         
@@ -183,7 +182,7 @@ class TrendPage:
         self.controller.buildTrendGraphs(num, self.displayFrame, 
                                         self.sa_on, 
                                         self.disabl_on)
-        self.controller.buildSentDistribution(num, self.displayFrame,
+        self.controller.buildSentDistribution(self.displayFrame,
                                               self.distroNeg_on,
                                               self.distroNeu_on, 
                                               self.distroPos_on,

@@ -24,6 +24,10 @@ class SentimentModel():
         #["neg", "neu", "pos", "compound"].
         self.adapter = VaderSentimentAdapter()
         self.DATEFORMAT = "%d/%m/%Y"
+        self.STANDARD_HEADERS = ["UserId", "DOB", "Value", 
+                                 "CompletedDate", "MS_Type", 
+                                 "OnsetDate", "EDSS", 
+                                 "DiagnosisDate", "Gender"]
         
         
     def importFile(self, csvPath, 
@@ -256,7 +260,7 @@ class SentimentModel():
             date = str(row["CompletedDate"])
             dateProcessed = datetime.strptime(date, self.DATEFORMAT)
             
-            content = [userId, dateProcessed, row["webEDSS"]]
+            content = [userId, dateProcessed, row["EDSS"]]
             EDSS.loc[idx] = content
             idx+=1
         return EDSS

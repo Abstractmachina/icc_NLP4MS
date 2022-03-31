@@ -8,6 +8,7 @@ import pandas as pd
 from SentimentController import SentimentController
 
 
+
 class SentimentPage:
 
     def __init__(self,root,frame,app):
@@ -17,8 +18,8 @@ class SentimentPage:
         self.searchBox = None   #search box that contains user input
         self.displayFrame = None #frame where generated profile is displayed
         self.controller = SentimentController()
-        self.controller.setUserView(self)
         self.configureSentimentPage()
+        
 
     def configureSentimentPage(self):
         ########################################################################
@@ -36,14 +37,15 @@ class SentimentPage:
         f_controls.grid(column=0, row = 1, sticky = (N,S))
         
         ##load CSV
-        f2_loadCSV = ttk.Frame(f_controls)
-        f2_loadCSV.grid(row = 0)
+        #OBSOLETE
+        # f2_loadCSV = ttk.Frame(f_controls)
+        # f2_loadCSV.grid(row = 0)
         
-        l_loadFile = ttk.Label(f2_loadCSV, text="Load CSV File")
-        l_loadFile.grid(row = 0)
-        b_loadFile = ttk.Button(f2_loadCSV, text = "Open File", 
-                                command = lambda: self.loadFile_click())
-        b_loadFile.grid(row = 1)
+        # l_loadFile = ttk.Label(f2_loadCSV, text="Load CSV File")
+        # l_loadFile.grid(row = 0)
+        # b_loadFile = ttk.Button(f2_loadCSV, text = "Open File", 
+        #                         command = lambda: self.loadFile_click())
+        # b_loadFile.grid(row = 1)
         
         
         ##search area
@@ -67,19 +69,20 @@ class SentimentPage:
         l_options.grid(row = 0)
         
         self.sa_on = IntVar()
-        check_sa = ttk.Checkbutton(f2_options, text = "Sentiment Analysis", 
+        self.check_sa = ttk.Checkbutton(f2_options, text = "Sentiment Analysis", 
                                    variable=self.sa_on)
-        check_sa.grid(row = 1)
+        self.check_sa.grid(row = 1)
+
         
         self.disabl_on = IntVar()
-        check_disabl = ttk.Checkbutton(f2_options,text = "Disability Score (EDSS)", 
+        self.check_disabl = ttk.Checkbutton(f2_options,text = "Disability Score (EDSS)", 
                                        variable=self.disabl_on)
-        check_disabl.grid(row = 2)
+        self.check_disabl.grid(row = 2)
         
         self.combine_on = IntVar()
-        check_combine = ttk.Checkbutton(f2_options, text = "Combine", 
+        self.check_combine = ttk.Checkbutton(f2_options, text = "Combine", 
                                         variable=self.combine_on)
-        check_combine.grid(row = 4)
+        self.check_combine.grid(row = 4)
         
         
         ##free text options
@@ -119,7 +122,35 @@ class SentimentPage:
         self.displayFrame = f_display
         
         return
+    
+    def validateAndInit(self):       
+        h = self.app.csv_header_combo_boxes
+        #userId
+        if h[0].get() == "NONE":
+            messagebox.showerror("Input Error", "Error: User ID required")
+            return
+        #value
+        if h[2].get() == "NONE":
+            self.check_sa.configure(state="disabled")
+            self.check_combine.configure(state="disabled")
+        #edss
+        if h[6].get() == "NONE":
+            self.check_disabl.configure(state="disabled")
+            self.check_combine.configure(state="disabled")
+        #date
+        if h[3].get() == "NONE":
+            messagebox.showerror("Input Error", "Error: Completed Date required")
+            return
         
+        #import and standardize headers
+        self.controller.validateCSV(self.app.df, self.app.csv_header_combo_boxes)
+        
+        #display this page
+        self.app.displayFrame("sent frame")
+        return
+        
+        
+    #OBSOLETE
     def loadFile_click(self):
         file = filedialog.askopenfile(mode="r", 
                                       filetypes=[("CSV Files", "*.csv")])

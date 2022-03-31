@@ -141,7 +141,7 @@ class SentimentGrapher_tk (ISentimentGraphAdapter):
     
     
     @staticmethod
-    def plotSentimentDistribution(num, tk_frame, sentiments, 
+    def plotSentimentDistribution(tk_frame, sentiments, 
                                   distroNeg_on, distroNeu_on, 
                                   distroPos_on, distroComp_on, 
                                   scatter_on):
