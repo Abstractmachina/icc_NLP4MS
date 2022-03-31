@@ -1,6 +1,8 @@
 # FrequencyPage.py
 # configures the UI for the Word Frequency Analysis page/frame
 
+# Dicts are created on page load - searches can then be performed instantly
+
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
@@ -16,45 +18,13 @@ class FrequencyPage:
         self.frame = frame
         self.app = app
 
-        
         self.configureFreqPage()
     
+    # configuration (called on initialisation)
     def configureFreqPage(self):
 
-        back_b = ttk.Button(self.frame, text="Back", command= lambda: self.app.displayFrame("main frame"))
-        back_b.grid(column=0, row=3, sticky=(N,S,E,W))
-
-        # Configure n-gram list
-        ngram_list = ttk.Combobox(self.frame, textvariable=None)
-        ngrams = [1,2,3,4]
-        ngram_list["values"] = ngrams
-        ngram_list.current(0)
-        ngram_list.state(["readonly"])
-        ngram_list.grid(column=1,row=4,sticky=(N,S,E,W))
-
-        self.ngram_list = ngram_list
-
-        # Configure most frequent number list
-        most_frequent_list = ttk.Combobox(self.frame, textvariable=None)
-        sizes = [5,10,15,20,25,30]
-        most_frequent_list["values"] = sizes
-        most_frequent_list.current(3)
-        most_frequent_list.state(["readonly"])
-        most_frequent_list.grid(column=1,row=3,sticky=(N,S,E,W))
-
-        self.most_frequent_list = most_frequent_list
-
-        # Configure the ms type list
-        ms_type_list = ttk.Combobox(self.frame, textvariable=None)
-        types = ["All","Benign","PPMS","SPMS","RRMS"]
-        ms_type_list["values"] = types
-        ms_type_list.current(0)
-        ms_type_list.state(["readonly"])
-        ms_type_list.grid(column=1,row=5,sticky=(N,S,E,W))
-
-        self.ms_type_list = ms_type_list
-
-
+        # RESULTS BOX #
+        
         # Configure the area where frequency results will be displayed
         results = Text(self.frame, width=95, height=20)
         results.grid(row=0,column=0,rowspan=3,columnspan=3,sticky=(N,S,E,W))
@@ -62,55 +32,138 @@ class FrequencyPage:
         results.configure(font="16")
         results.configure(state="disabled")
 
-        self.display_results = results
-
-        # Configure the results scrollbar
+        self.display_results = results    
+        
+        # Configure the results scrollbar - *for 'list most freq' only?*
         results_scroll = ttk.Scrollbar(self.frame, orient=VERTICAL, command=results.yview)
         results_scroll.grid(row=0,column=3,rowspan=3,sticky=(N,S))
         results["yscrollcommand"] = results_scroll.set
+        
+        # SEARCH #
+        
+        search_header = ttk.Label(self.frame, anchor = CENTER, text = "Find phrase frequency in data")
+        search_header.grid(column = 0, row = 3, columnspan = 2, pady = 8, sticky = NSEW)
 
-        # Configure search box for query
+        # Search box
         freq_phrase = StringVar()
-        freq_box = ttk.Entry(self.frame,textvariable=freq_phrase)
-        freq_box.grid(column=0,row=4,sticky=(N,S,E,W))
+        freq_box = ttk.Entry(self.frame, textvariable=freq_phrase)
+        freq_box.grid(column=0, row=4, sticky=(N,S,E,W))
 
         self.freq_box = freq_box
 
-        # Configure 'Get phrase frequency' (search) button
-        freq_search_button = ttk.Button(self.frame,text="Get phrase frequency",command= lambda: self.freqSearchButtonClick())
-        freq_search_button.grid(column=0,row=5,sticky=(N,S,E,W))
+        # 'Get phrase frequency' button
+        freq_search_button = ttk.Button(self.frame, 
+                                        text = "Get phrase frequency", 
+                                        command = lambda: self.freqSearchButtonClick())
+        freq_search_button.grid(column=1,row=4,sticky=(N,S,E,W))
 
-        # Configure list freq button
-        list_freq_button = ttk.Button(self.frame,text="List most frequent n-grams",command= lambda: self.listMostFrequentNgramsClick())
-        list_freq_button.grid(column=0,row=6,sticky=(N,S,E,W))
 
-        # Configure graoh freq button
-        graph_freq_button = ttk.Button(self.frame,text="Plot most frequent n-grams",command= lambda: self.graphMostFreqNgramsClick())
-        graph_freq_button.grid(column=0,row=7,sticky=(N,S,E,W))
+        # MOST FREQUENT N-GRAMS #
+        
+        most_freq_header = ttk.Label(self.frame, anchor = CENTER, text = "Most frequent n-grams in data")
+        most_freq_header.grid(column = 0, row = 5, columnspan = 2, pady = 8, sticky = NSEW)
+        
+        # n-gram list ('n' in 'n-gram)
+        ngram_list_label = ttk.Label(self.frame, anchor = CENTER, text = "Number of words in the n-gram")
+        ngram_list_label.grid(column = 0, row = 6, sticky = NSEW)
+        
+        ngram_list = ttk.Combobox(self.frame, textvariable=None)
+        ngrams = [1,2,3,4]
+        ngram_list["values"] = ngrams
+        ngram_list.current(0)
+        ngram_list.state(["readonly"])
+        ngram_list.grid(column=1, row=6, sticky=(N,S,E,W))
+        
+        self.ngram_list = ngram_list
+        
+        # most frequent number list (length of list displayed)
+        
+        most_frequent_list_label = ttk.Label(self.frame, anchor = CENTER, text = "Length of list")
+        most_frequent_list_label.grid(column = 0, row = 7, sticky = NSEW)
+        
+        most_frequent_list = ttk.Combobox(self.frame, textvariable=None)
+        sizes = [5,10,15,20,25,30]
+        most_frequent_list["values"] = sizes
+        most_frequent_list.current(3)
+        most_frequent_list.state(["readonly"])
+        most_frequent_list.grid(column = 1, row = 7, sticky = (N,S,E,W))
 
-        # Configure checkbuttons to allow the user to display additional information from their query
+        self.most_frequent_list = most_frequent_list
+
+        # list freq button
+        list_freq_button = ttk.Button(self.frame, 
+                                      text = "List most frequent n-grams", 
+                                      command = lambda: self.listMostFrequentNgramsClick())
+        list_freq_button.grid(column = 0, row = 8, sticky = (N,S,E,W))
+
+        # graph/plot freq button
+        graph_freq_button = ttk.Button(self.frame, 
+                                       text = "Plot most frequent n-grams", 
+                                       command = lambda: self.graphMostFreqNgramsClick())
+        graph_freq_button.grid(column = 1, row = 8, sticky = (N,S,E,W))
+        
+        # SETTINGS #
+        
+        settings_header = ttk.Label(self.frame, anchor = CENTER, text = "Settings")
+        settings_header.grid(column = 0, row = 9, columnspan = 2, pady = 8, sticky = NSEW)
+
+        # Configure the ms type list
+        ms_type_list_label = ttk.Label(self.frame, anchor = CENTER, text = "MS Type")
+        ms_type_list_label.grid(column = 0, row = 10, sticky = NSEW)
+        
+        ms_type_list = ttk.Combobox(self.frame, textvariable=None)
+        types = ["All","Benign","PPMS","SPMS","RRMS"]
+        ms_type_list["values"] = types
+        ms_type_list.current(0)
+        ms_type_list.state(["readonly"])
+        ms_type_list.grid(column = 1, row = 10, sticky = (N,S,E,W))
+
+        self.ms_type_list = ms_type_list
+
+        # SETTINGS - CHECKBOXES #
+        # stopwords
         self.remove_stopwords = IntVar()
-        remove_stopwords = ttk.Checkbutton(self.frame,text="Remove Stopwords",variable=self.remove_stopwords)
-        remove_stopwords.grid(column=1,row=6)
+        remove_stopwords = ttk.Checkbutton(self.frame, 
+                                           text = "Remove Stopwords", 
+                                           variable = self.remove_stopwords)
+        remove_stopwords.grid(column=0,row=11, sticky = W)
 
+        # only medical words
         self.medical_only = IntVar()
-        medical_only = ttk.Checkbutton(self.frame,text="Search Medical Terms Only",variable=self.medical_only)
-        medical_only.grid(column=1,row=7)
+        medical_only = ttk.Checkbutton(self.frame, 
+                                       text = "Search Medical Terms Only", 
+                                       variable = self.medical_only)
+        medical_only.grid(column = 0, row = 12, sticky = W)
 
+        # unique users
         self.unique_only = IntVar()
-        unique_only = ttk.Checkbutton(self.frame,text="Only Count A Word Once For All User Entries",variable=self.unique_only)
-        unique_only.grid(column=1,row=8)
+        unique_only = ttk.Checkbutton(self.frame, 
+                                      text = "Only Count A Word Once For All User Entries", 
+                                      variable = self.unique_only)
+        unique_only.grid(column = 0, row = 13, sticky = W)
 
+        # count word once per text entry
         self.different_entries_only = IntVar()
-        different_entries_only = ttk.Checkbutton(self.frame,text="Only Count A Word Once Per User Entry",variable=self.different_entries_only)
-        different_entries_only.grid(column=1,row=9)
+        different_entries_only = ttk.Checkbutton(self.frame, 
+                                                 text = "Only Count A Word Once Per User Entry", 
+                                                 variable = self.different_entries_only)
+        different_entries_only.grid(column = 0, row = 14, sticky = W)
+        
+        # BACK BUTTON #
+
+        back_b = ttk.Button(self.frame, 
+                            text = "Back", 
+                            command = lambda: self.app.displayFrame("main frame"))
+        back_b.grid(column = 0, row = 50, pady = 20, sticky=(N,S,E,W))
 
 
-
+    # Loads the Word Frequency Analysis page frame (from Main Menu)
+    # Heavy function - creates dictionaries from csv
     def freqPageEntry(self):
         self.analyser = FrequencyAnalyser(self.app.df,self.app.csv_header_combo_boxes[2].get(),self.app.csv_header_combo_boxes[0].get(),self.app.csv_header_combo_boxes[4].get())
         self.app.displayFrame("freq frame")
 
+    # Action of 'Get phrase frequency' button (search button)
     def freqSearchButtonClick(self):
 
         freq_search_phrase = self.freq_box.get()
@@ -148,6 +201,7 @@ class FrequencyPage:
         self.display_results.insert('1.0',result)
         self.display_results.configure(state="disabled")
 
+    # Button of same name
     def listMostFrequentNgramsClick(self):
 
         ngrams = int(self.ngram_list.get())
@@ -188,6 +242,7 @@ class FrequencyPage:
         self.display_results.insert('1.0',result)
         self.display_results.configure(state="disabled")
 
+    # Button of 'same' name ('plot _')
     def graphMostFreqNgramsClick(self):
 
         ngrams = int(self.ngram_list.get())
