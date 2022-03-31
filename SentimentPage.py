@@ -127,10 +127,10 @@ class SentimentPage:
         self.f2_container.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
         canvas.create_window((0,0), window=self.f2_container, anchor="nw")
         
-        for i in range(50):
-             Button(self.f2_container, text=f'Button {1+i} Yoo!', font="arial 20").grid(sticky=(W,E))
+        # for i in range(50):
+        #      Button(self.f2_container, text=f'Button {1+i} Yoo!', font="arial 20").grid(sticky=(W,E))
 
-        results = Text(self.f2_container, width=95, height=20)
+        results = Text(self.f2_container, width=95)
         results.grid(row=0, column = 0, sticky=(E,W))
         results.insert("1.0","Result will appear here")
         results.configure(font="16")

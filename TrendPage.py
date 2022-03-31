@@ -137,13 +137,35 @@ class TrendPage:
         ########################################################################
         f_display = ttk.Frame(self.frame)
         f_display.grid(column = 1, row = 1, sticky=(N,S,E))
-        results = Text(f_display, width=95, height=20)
-        results.grid(row=0, column = 0, sticky=(N,S,E, W))
+        # results = Text(f_display, width=95, height=20)
+        # results.grid(row=0, column = 0, sticky=(N,S,E, W))
+        # results.insert("1.0","Result will appear here")
+        # results.configure(font="16")
+        # results.configure(state="disabled")
+        self.displayFrame = f_display
+        
+        
+        canvas = Canvas(f_display)
+        canvas.grid(row = 0, column = 0, sticky=(N,S,E, W))
+        
+        scrollbar = ttk.Scrollbar(f_display, orient=VERTICAL, command=canvas.yview)
+        scrollbar.grid(row=0, column = 1, sticky=(N,S))
+        
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        self.f2_container = ttk.Frame(canvas)
+        self.f2_container.grid(sticky=(N,S,E, W))
+        self.f2_container.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+        canvas.create_window((0,0), window=self.f2_container, anchor="nw")
+        
+        # for i in range(50):
+        #      Button(self.f2_container, text=f'Button {1+i} Yoo!', font="arial 20").grid(sticky=(W,E))
+
+        results = Text(self.f2_container, width=95)
+        results.grid(row=0, column = 0, sticky=(E,W))
         results.insert("1.0","Result will appear here")
         results.configure(font="16")
         results.configure(state="disabled")
-        self.displayFrame = f_display
-        
         return
     
     def validateAndInit(self):
@@ -206,7 +228,7 @@ class TrendPage:
         
         
         #clear display frame
-        for widget in self.displayFrame.winfo_children():
+        for widget in self.f2_container.winfo_children():
             widget.destroy()
 
         #build graphs
@@ -218,10 +240,10 @@ class TrendPage:
         if self.disabl_on.get():
             self.controller.calcEDSS()
             
-        self.controller.buildTrendGraphs(num, self.displayFrame, 
+        self.controller.buildTrendGraphs(num, self.f2_container, 
                                         self.sa_on, 
                                         self.disabl_on)
-        self.controller.buildSentDistribution(self.displayFrame,
+        self.controller.buildSentDistribution(self.f2_container,
                                               self.distroNeg_on,
                                               self.distroNeu_on, 
                                               self.distroPos_on,
