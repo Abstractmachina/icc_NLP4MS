@@ -1,3 +1,6 @@
+# FrequencyPage.py
+# configures the UI for the Word Frequency Analysis page/frame
+
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
@@ -73,7 +76,7 @@ class FrequencyPage:
 
         self.freq_box = freq_box
 
-        # Configure search button
+        # Configure 'Get phrase frequency' (search) button
         freq_search_button = ttk.Button(self.frame,text="Get phrase frequency",command= lambda: self.freqSearchButtonClick())
         freq_search_button.grid(column=0,row=5,sticky=(N,S,E,W))
 
