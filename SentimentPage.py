@@ -150,8 +150,11 @@ class SentimentPage:
         return
         
         
-    #OBSOLETE
     def loadFile_click(self):
+        """
+        OBSOLETE
+        
+        """
         file = filedialog.askopenfile(mode="r", 
                                       filetypes=[("CSV Files", "*.csv")])
         if file:

@@ -60,13 +60,24 @@ class SentimentModel():
     def getUserInfo(self, userId) -> str:
         #generate user info header
         user = self.rawData.loc[self.rawData["UserId"] == userId].iloc[0]
-        userInfo = f"""
-        User ID:            {userId}
-        Date of Birth:      {user.loc["DOB"]}
-        Gender:             {user.loc["Gender"]}
-        MS TYPE:            {user.loc["MS_Type"]}
-        MS Onset Date:      {user.loc["OnsetDate"]}
-        MS Diagnosis Date:  {user.loc["DiagnosisDate"]}"""
+        userInfo = ""
+        userInfo += f"User ID: {userId}\n"
+        if "DOB" in self.rawData.columns:
+            dob = user.loc["DOB"]
+            userInfo += f"Date of Birth: {dob}\n"
+        if "Gender" in self.rawData.columns:
+            gen = user.loc["Gender"]
+            userInfo += f"Gender: {gen}\n"
+        if "MS_Type" in self.rawData.columns:
+            typ = user.loc["MS_Type"]
+            userInfo += f"MS Type: {typ}\n"
+        if "OnsetDate" in self.rawData.columns:
+            on = user.loc["OnsetDate"]
+            userInfo += f"MS Onset Date: {on}\n"
+        if "DiagnosisDate" in self.rawData.columns:
+            dia = user.loc["DiagnosisDate"]
+            userInfo += f"MS Diagnosis Date: {dia}"
+        
         return userInfo
         
     
