@@ -42,7 +42,7 @@ class HomePage:
         model_button.grid(column=1,row=4,sticky=(N,S,E,W))
 
         # Need to alter button click command so that it checks whether the CSV file has been loaded and alerts the user to do so if it has not
-        main_menu_button = ttk.Button(self.frame,text="Main Menu", command= lambda: self.app.displayFrame("main frame"))
+        main_menu_button = ttk.Button(self.frame,text="Main Menu", state = DISABLED, command= lambda: self.app.displayFrame("main frame"))
         main_menu_button.grid(column=0,row=4, sticky=(N,S,E,W))
     
     def loadCSVClick(self):       
@@ -55,8 +55,15 @@ class HomePage:
         """
 
         # Only permit CSV files, returns the full file path        
-        csv_file = filedialog.askopenfilename( title="Select a CSV file", filetypes=(("csv files", "*.csv"),))
-        self.header_page = ChooseCsvHeaders(self.root,self.app,self.app.addPageFrame("choose headers",self.root),csv_file)
+        csv_file = filedialog.askopenfilename(title="Select a CSV file", filetypes=(("csv files", "*.csv"), ))
+        print(csv_file)
+        if csv_file == "":
+            return
+        self.header_page = ChooseCsvHeaders(self.root, 
+                                            self.app, 
+                                            self.app.addPageFrame("choose headers", 
+                                                                  self.root), 
+                                            csv_file)
         self.header_page.chooseCSVHeaders()
         self.app.displayFrame("choose headers")
 
