@@ -40,8 +40,12 @@ class App:
         self.root = root     
 
         # Set up the two direct child pages
-        homepage = HomePage(self.root,self.addPageFrame("home frame",self.root),self) 
-        main_menu = MainMenu(self.root,self.addPageFrame("main frame",self.root),self)     
+        homepage = HomePage(self.root, 
+                            self.addPageFrame("home frame", self.root), 
+                            self) 
+        main_menu = MainMenu(self.root, 
+                             self.addPageFrame("main frame", self.root), 
+                             self)     
        
        
         # Display the home page
@@ -55,7 +59,7 @@ class App:
 
         Creates a new page frame and adds it so the class dictionary that contains all of the frame pages
 
-        returns the newly created frame
+        Returns the newly created frame
 
         """
 

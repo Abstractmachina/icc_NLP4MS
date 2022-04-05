@@ -5,7 +5,10 @@ from tkinter import filedialog
 from ChooseCsvHeaders import ChooseCsvHeaders
 from ModelPage import ModelPage
 
-
+# TODO:
+    # Write instructions page
+    # Specify starred imports explicitly
+    
 class HomePage:
 
     def __init__(self,root,frame,app):
@@ -23,7 +26,7 @@ class HomePage:
     def configurePage(self):
         """        
 
-        Configures the homepage frame       
+        Configures the homepage frame/page layout    
         
         """        
         self.frame.grid(column=0, row=0, sticky=(N,S,E,W))
@@ -34,7 +37,7 @@ class HomePage:
 
         title = ttk.Label(self.frame, justify=CENTER, text = "Patient\n\nFree Text\n\nExplorer", font=("bold",25))
         title.grid(column=0, columnspan=2,row=0,rowspan=2)
-        load_csv_button = ttk.Button(self.frame, text="Open CSV", command=self.loadCSVClick)
+        load_csv_button = ttk.Button(self.frame, text="Open CSV", command = self.loadCSVClick)
         load_csv_button.grid(column=1, row=3,sticky=(N,S,E,W))
         instruction_button = ttk.Button(self.frame, text="Instructions", command=self.instructionsClick)
         instruction_button.grid(column=0,row=3,sticky=(N,S,E,W))
@@ -55,17 +58,20 @@ class HomePage:
         """
 
         # Only permit CSV files, returns the full file path        
-        csv_file = filedialog.askopenfilename(title="Select a CSV file", filetypes=(("csv files", "*.csv"), ))
-        print(csv_file)
+        csv_file = filedialog.askopenfilename(title = "Select a CSV file", 
+                                              filetypes=(("csv files", "*.csv"),
+                                                         ))
         if csv_file == "":
             return
+        # initialise class for csv page frame
         self.header_page = ChooseCsvHeaders(self.root, 
                                             self.app, 
                                             self.app.addPageFrame("choose headers", 
                                                                   self.root), 
                                             csv_file)
+        # set up data for csv page and display the page
         self.header_page.chooseCSVHeaders()
-        self.app.displayFrame("choose headers")
+        #self.app.displayFrame("choose headers")
 
     def instructionsClick(self):
         

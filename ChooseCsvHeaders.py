@@ -16,7 +16,16 @@ Class for the csv header select page
 
 class ChooseCsvHeaders:
 
-    def __init__(self,root,app,frame,csv_file):
+    def __init__(self, root , app, frame, csv_file):
+        
+        """
+        Parameters:
+            root Tk() instance of the app
+            app class instance containing root
+            own frame object
+            csv file name string
+            
+        """
         self.root = root
         self.frame = frame
         self.app = app
@@ -24,7 +33,6 @@ class ChooseCsvHeaders:
         self.combo_boxes = None
         self.configureHeaderSelectFrame()
 
-    
     def configureHeaderSelectFrame(self):
 
         """
