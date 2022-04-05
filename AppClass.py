@@ -40,7 +40,7 @@ class App:
         self.root = root     
 
         # Set up the two direct child pages
-        homepage = HomePage(self.root, 
+        self.homepage = HomePage(self.root, 
                             self.addPageFrame("home frame", self.root), 
                             self) 
         main_menu = MainMenu(self.root, 

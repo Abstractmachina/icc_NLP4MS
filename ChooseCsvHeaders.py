@@ -167,6 +167,9 @@ class ChooseCsvHeaders:
         
         # Store the combo boxes in the App Class
         self.app.csv_header_combo_boxes = self.combo_boxes
+        
+        # Enables main menu button on homepage
+        self.app.homepage.main_menu_button['state'] = 'normal'
 
         # Display the choose headers frame
         self.app.displayFrame("choose headers")  

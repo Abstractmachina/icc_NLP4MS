@@ -44,9 +44,13 @@ class HomePage:
         model_button = ttk.Button(self.frame, text="Predict MS Type", command= lambda: self.app.displayFrame("model frame"))
         model_button.grid(column=1,row=4,sticky=(N,S,E,W))
 
-        # Need to alter button click command so that it checks whether the CSV file has been loaded and alerts the user to do so if it has not
-        main_menu_button = ttk.Button(self.frame,text="Main Menu", state = DISABLED, command= lambda: self.app.displayFrame("main frame"))
-        main_menu_button.grid(column=0,row=4, sticky=(N,S,E,W))
+        # Disabled by default
+        # Set to normal by ChooseCsvHeaders.chooseCsvHeaders() function
+        self.main_menu_button = ttk.Button(self.frame, 
+                                           text = "Main Menu", 
+                                           state = DISABLED, 
+                                           command = lambda: self.app.displayFrame("main frame"))
+        self.main_menu_button.grid(column = 0, row = 4, sticky = NSEW)
     
     def loadCSVClick(self):       
         
@@ -71,7 +75,7 @@ class HomePage:
                                             csv_file)
         # set up data for csv page and display the page
         self.header_page.chooseCSVHeaders()
-        #self.app.displayFrame("choose headers")
+        #self.app.displayFrame("choose headers") # part of above function?
 
     def instructionsClick(self):
         
