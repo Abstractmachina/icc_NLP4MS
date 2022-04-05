@@ -10,9 +10,7 @@ from tkinter import ttk
 import pandas as pd
 
 # TODO:
-    # disallow leaving csv header page without selecting column for free text
-    # Done enabled when free text header selected
-    # Main Menu button enabled when Done is pressed
+    # Main Menu button enabled only when 'Done' is pressed
 
 """
 Class for the csv header select page
@@ -157,10 +155,18 @@ class ChooseCsvHeaders:
         self.done_b = ttk.Button(self.frame, 
                             text = "Done", 
                             state = DISABLED, 
-                            command = lambda: self.app.displayFrame("main frame"))
+                            command = self.doneButtonClick)
         self.done_b.grid(column = 1, row = 14, sticky = (N,S,E,W))  
 
-
+        
+    def doneButtonClick(self):
+        """
+        Enables Main Menu button on homepage
+        Then loads the Main Menu
+        
+        """
+        self.app.homepage.main_menu_button['state'] = 'normal'
+        self.app.displayFrame("main frame")
     
     def chooseCSVHeaders(self):
 
@@ -174,7 +180,7 @@ class ChooseCsvHeaders:
         Finally, displays the choose headers page
 
         """
-        
+        self.app.homepage.main_menu_button['state'] = 'disabled'
         df = pd.read_csv(self.csv_file)
 
         # Store the dataframe as an object datamember
@@ -195,9 +201,6 @@ class ChooseCsvHeaders:
         
         # Store the combo boxes in the App Class
         self.app.csv_header_combo_boxes = self.combo_boxes
-        
-        # Enables main menu button on homepage
-        self.app.homepage.main_menu_button['state'] = 'normal'
 
         # Display the choose headers frame
         self.app.displayFrame("choose headers")  
