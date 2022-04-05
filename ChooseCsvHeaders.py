@@ -1,5 +1,7 @@
 # ChooseCsvHeaders.py
-# Page where CSV headers are mapped by the user after selecting their CSV file
+# Class for CSV headers select page 
+
+# where headers are mapped by the user after selecting their CSV file
 
 from tkinter import *
 from tkinter import ttk
@@ -7,6 +9,10 @@ from tkinter import ttk
 
 import pandas as pd
 
+"""
+Class for the csv header select page
+
+"""
 
 class ChooseCsvHeaders:
 
@@ -119,8 +125,6 @@ class ChooseCsvHeaders:
         done_b.grid(column = 1, row = 14, sticky = (N,S,E,W))  
 
  
-
-        
     
     def chooseCSVHeaders(self):
 
@@ -146,8 +150,6 @@ class ChooseCsvHeaders:
         self.headers = list(df.columns.values)       
         self.headers.append("NONE") 
 
-        print(self.headers)
-        
         # Add the CSV headers as options for the combo boxes
         for combo_box in self.combo_boxes:
             combo_box["values"] = list(self.headers)
