@@ -36,7 +36,7 @@ class MainMenu:
         """
 
         ############# Configure Buttons ################################################
-        freq_b = ttk.Button(self.frame, text="Word Frequency Analysis", command=self.freq_page.freqPageEntry)
+        freq_b = ttk.Button(self.frame, text="Word Frequency Analysis", command=self.freq_page.validateAndInit)
         freq_b.grid(column=0,row=0,sticky=(N,S,E,W))
 
         search_b = ttk.Button(self.frame, text="Search the free text", command=self.search_page.searchEntryButtonClick)

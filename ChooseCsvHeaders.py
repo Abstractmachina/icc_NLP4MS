@@ -70,8 +70,7 @@ class ChooseCsvHeaders:
         instruction_l.grid(column=0,row=0,rowspan=2, columnspan=2,padx=10,pady=10,sticky=(N,S,E,W))
         
         user_id_l = ttk.Label(self.frame, 
-                              text = "Select the column that contains UserIDs", 
-                              font = "TkDefaultFont 12 bold")
+                              text = "Select the column that contains UserIDs")
         user_id_l.grid(column = 0, row = 3, padx = 10, pady = 10)
 
         dob_l = ttk.Label(self.frame, 
@@ -88,8 +87,7 @@ class ChooseCsvHeaders:
         completed_date_l.grid(column=1,row=5,padx=10,pady=10)
 
         ms_type_l = ttk.Label(self.frame, 
-                              text = "Select the column that contains users' MS type", 
-                              font = "TkDefaultFont 12 bold")
+                              text = "Select the column that contains users' MS type")
         ms_type_l.grid(column = 0, row = 7, padx = 10, pady = 10)
 
         ms_onset_l = ttk.Label(self.frame, 
@@ -137,7 +135,8 @@ class ChooseCsvHeaders:
 
         gender = ttk.Combobox(self.frame, textvariable=None)
         gender.grid(column=0,row=12)
-
+        
+        # Headers data names
         self.combo_boxes = [user_id, dob, free_txt, completed_date, ms_type, ms_onset_year, edss, diagnosisDate, gender]   
 
         ######################## Set up the Buttons #######################################################################

@@ -6,6 +6,7 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
+from tkinter import messagebox
 
 import pandas as pd
 
@@ -163,9 +164,49 @@ class FrequencyPage:
                             command = lambda: self.app.displayFrame("main frame"))
         back_b.grid(column = 0, row = 50, pady = 20, sticky=(N,S,E,W))
 
+    def validateAndInit(self):       
+        h = self.app.csv_header_combo_boxes
+        #userId
+        if h[0].get() == "NONE":
+            messagebox.showerror("Input Error", "Error: User ID required")
+            return
+        #value
+        if h[2].get() == "NONE":
+            self.check_sa.configure(state="disabled")
+            self.check_combine.configure(state="disabled")
+        #edss
+        if h[6].get() == "NONE":
+            self.check_disabl.configure(state="disabled")
+            self.check_combine.configure(state="disabled")
+        #date
+        if h[3].get() == "NONE":
+            messagebox.showerror("Input Error", "Error: Completed Date required")
+            return
+        
+        #import and standardize headers
+        self.controller.validateCSV(self.app.df, self.app.csv_header_combo_boxes)
+        
+        #display this page
+        self.app.displayFrame("sent frame")
+        return
+
     # Loads the Word Frequency Analysis page frame (from Main Menu)
     # Heavy function - creates dictionaries from csv
-    def freqPageEntry(self):
+    def validateAndInit(self):
+        # validate
+        # user ID
+        if self.app.csv_header_combo_boxes[0].get() == "NONE":
+            messagebox.showerror("Input Error", "Error: User ID required")
+            return
+        # free text
+        if self.app.csv_header_combo_boxes[2].get() == "NONE":
+            messagebox.showerror("Input Error", "Error: Free Text required")
+            return
+        # MS Type
+        if self.app.csv_header_combo_boxes[4].get() == "NONE":
+            messagebox.showerror("Input Error", "Error: MS Type required")
+            return
+        # init
         self.analyser = FrequencyAnalyser(self.app.df, 
                                           self.app.csv_header_combo_boxes[2].get(), 
                                           self.app.csv_header_combo_boxes[0].get(), 
