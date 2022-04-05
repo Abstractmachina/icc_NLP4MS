@@ -45,4 +45,4 @@ def predict(predict_text):
     return MS_type_labels[ans]
 
 # print(textPredictor.model)
-# print(predict('hello my name is johnston'))
+# print(predict('hello my name is johnston'))w
