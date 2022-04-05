@@ -1,6 +1,7 @@
 import random
 import pickle
-from random_model import Model
+# from random_model import Model
+from sklearn.feature_extraction.text import CountVectorizer
 
 MS_type_labels = {
         0: 'PPMS',
@@ -10,9 +11,16 @@ MS_type_labels = {
         4: 'Unknown'
     }
 
-# model_name = 'regression_model_bow.sav'
-model_name = 'random_model.sav'
+model_name = 'regression_model_bow.sav'
+# model_name = 'random_model.sav'
 
+class MSDataset(object):
+    def __init__(self, data, labels, idxs_train, idxs_test):
+        self.train_set = [data[i] for i in idxs_train]
+        self.train_labels = [labels[i] for i in idxs_train]
+        self.test_set = [data[i] for i in idxs_test]
+        self.test_labels = [labels[i] for i in idxs_test]
+        
 class TextPredictor:
     def __init__(self, model_name):
         """
@@ -28,8 +36,13 @@ textPredictor = TextPredictor(model_name=model_name)
 
 def predict(predict_text):
     print(predict_text)
-
+    bow = CountVectorizer()
+    
+    sample = bow.transform([predict_text])
     # here we should import the model, and call the actual predict funtions
-    ans = textPredictor.predict(predict_text=predict_text)
+    ans = textPredictor.predict(predict_text=sample)
 
     return MS_type_labels[ans]
+
+print(textPredictor.model)
+print(predict('hello my name is johnston'))
