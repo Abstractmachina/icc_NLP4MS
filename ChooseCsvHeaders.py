@@ -11,6 +11,8 @@ import pandas as pd
 
 # TODO:
     # disallow leaving csv header page without selecting column for free text
+    # Done enabled when free text header selected
+    # Main Menu button enabled when Done is pressed
 
 """
 Class for the csv header select page
@@ -35,6 +37,16 @@ class ChooseCsvHeaders:
         self.csv_file = csv_file
         self.combo_boxes = None
         self.configureHeaderSelectFrame()
+        self.user_ids_selected = False
+        self.free_text_selected = False
+
+    def enableDoneButton(self, event):
+        """
+        Enables the Done button
+        Only suitable for single requirement case
+        
+        """
+        self.done_b['state'] = 'normal'
 
     def configureHeaderSelectFrame(self):
 
@@ -107,6 +119,7 @@ class ChooseCsvHeaders:
         dob.grid(column=1,row=4)
 
         free_txt = ttk.Combobox(self.frame, textvariable=None)
+        free_txt.bind('<<ComboboxSelected>>', self.enableDoneButton)
         free_txt.grid(column=0,row=6)
 
         completed_date = ttk.Combobox(self.frame, textvariable=None)
@@ -141,12 +154,13 @@ class ChooseCsvHeaders:
         back_b.grid(column = 0, row = 14, sticky = (N,S,E,W))  
         
         # Done button
-        done_b = ttk.Button(self.frame, 
+        self.done_b = ttk.Button(self.frame, 
                             text = "Done", 
+                            state = DISABLED, 
                             command = lambda: self.app.displayFrame("main frame"))
-        done_b.grid(column = 1, row = 14, sticky = (N,S,E,W))  
+        self.done_b.grid(column = 1, row = 14, sticky = (N,S,E,W))  
 
- 
+
     
     def chooseCSVHeaders(self):
 
@@ -187,4 +201,6 @@ class ChooseCsvHeaders:
 
         # Display the choose headers frame
         self.app.displayFrame("choose headers")  
+        
+        
         
