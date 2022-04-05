@@ -11,8 +11,8 @@ MS_type_labels = {
         4: 'Unknown'
     }
 
-model_name = 'regression_model_bow.sav'
-# model_name = 'random_model.sav'
+# model_name = 'regression_model_bow.sav'
+model_name = 'random_model.sav'
 
 class MSDataset(object):
     def __init__(self, data, labels, idxs_train, idxs_test):
@@ -35,14 +35,14 @@ class TextPredictor:
 textPredictor = TextPredictor(model_name=model_name)
 
 def predict(predict_text):
-    print(predict_text)
+    print("Predicting using model for: \n'",predict_text, "'\n ...")
     bow = CountVectorizer()
     
-    sample = bow.transform([predict_text])
+    # sample = bow.transform([predict_text])
     # here we should import the model, and call the actual predict funtions
-    ans = textPredictor.predict(predict_text=sample)
+    ans = textPredictor.predict(predict_text=predict_text)
 
     return MS_type_labels[ans]
 
-print(textPredictor.model)
-print(predict('hello my name is johnston'))
+# print(textPredictor.model)
+# print(predict('hello my name is johnston'))
