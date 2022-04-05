@@ -9,6 +9,9 @@ from tkinter import ttk
 
 import pandas as pd
 
+# TODO:
+    # disallow leaving csv header page without selecting column for free text
+
 """
 Class for the csv header select page
 
@@ -50,26 +53,50 @@ class ChooseCsvHeaders:
 
         ######################## Set up the Labels #######################################################################
         instructions = " Use the drop down menus below to select the header of the csv column that contains the relevant data.\n If there is no such column, select NONE"
-        instruction_l = ttk.Label(self.frame, justify=CENTER, text=instructions, font=("bold",14),)
+        instruction_l = ttk.Label(self.frame, 
+                                  justify=CENTER, 
+                                  text=instructions, 
+                                  font=("bold",14),)
         instruction_l.grid(column=0,row=0,rowspan=2, columnspan=2,padx=10,pady=10,sticky=(N,S,E,W))
         
-        user_id_l = ttk.Label(self.frame, text = "Select the column that contains UserIDs", font=("bold"))
-        user_id_l.grid(column=0,row=3,padx=10,pady=10)
+        user_id_l = ttk.Label(self.frame, 
+                              text = "Select the column that contains UserIDs", 
+                              font = "TkDefaultFont 12 bold")
+        user_id_l.grid(column = 0, row = 3, padx = 10, pady = 10)
 
-        dob_l = ttk.Label(self.frame, text = "Select the column that contains users' date of birth", font=("bold"))
+        dob_l = ttk.Label(self.frame, 
+                          text = "Select the column that contains users' date of birth")
         dob_l.grid(column=1,row=3,padx=10,pady=10)
 
-        free_txt_l = ttk.Label(self.frame, text = "Select the column that contains users' free text", font=("bold"))
+        free_txt_l = ttk.Label(self.frame, 
+                               text = "Select the column that contains users' free text", 
+                               font = "TkDefaultFont 12 bold")
         free_txt_l.grid(column=0,row=5,padx=10,pady=10)
 
-        completed_date_l = ttk.Label(self.frame, text = "Select the column that contains the date the users completed the survey", font=("bold"))
+        completed_date_l = ttk.Label(self.frame, 
+                                     text = "Select the column that contains the date the users completed the survey")
         completed_date_l.grid(column=1,row=5,padx=10,pady=10)
 
-        ms_type_l = ttk.Label(self.frame, text = "Select the column that contains users' MS type", font=("bold"))
-        ms_type_l.grid(column=0,row=7,padx=10,pady=10)
+        ms_type_l = ttk.Label(self.frame, 
+                              text = "Select the column that contains users' MS type", 
+                              font = "TkDefaultFont 12 bold")
+        ms_type_l.grid(column = 0, row = 7, padx = 10, pady = 10)
 
-        ms_onset_l = ttk.Label(self.frame, text = "Select the column that contains users' MS onset year", font=("bold"))
+        ms_onset_l = ttk.Label(self.frame, 
+                               text = "Select the column that contains users' MS onset year")
         ms_onset_l.grid(column=1,row=7,padx=10,pady=10)
+        
+        l_edss = ttk.Label(self.frame, 
+                           text = "Select the column that contains the EDSS")
+        l_edss.grid(column=0, row=9, padx=10, pady=10)
+        
+        l_diagnosis = ttk.Label(self.frame, 
+                           text = "Select the column that contains the users' diagnosis date")
+        l_diagnosis.grid(column=1, row=9, padx=10, pady=10)
+        
+        l_gender = ttk.Label(self.frame, 
+                           text = "Select the column that contains the users' gender")
+        l_gender.grid(column=0, row=11, padx=10, pady=10)
 
         ######################## Set up the ComboBoxes ###################################################################
        
@@ -91,25 +118,12 @@ class ChooseCsvHeaders:
         ms_onset_year = ttk.Combobox(self.frame, textvariable=None)
         ms_onset_year.grid(column=1,row=8)
         
-        
-        l_edss = ttk.Label(self.frame, 
-                           text = "Select the column that contains the EDSS", 
-                           font=("bold"))
-        l_edss.grid(column=0, row=9, padx=10, pady=10)
         edss = ttk.Combobox(self.frame, textvariable=None)
         edss.grid(column=0,row=10)
-        
-        l_diagnosis = ttk.Label(self.frame, 
-                           text = "Select the column that contains the users' diagnosis date", 
-                           font=("bold"))
-        l_diagnosis.grid(column=1, row=9, padx=10, pady=10)
+
         diagnosisDate = ttk.Combobox(self.frame, textvariable=None)
         diagnosisDate.grid(column=1,row=10)
-        
-        l_gender = ttk.Label(self.frame, 
-                           text = "Select the column that contains the users' gender", 
-                           font=("bold"))
-        l_gender.grid(column=0, row=11, padx=10, pady=10)
+
         gender = ttk.Combobox(self.frame, textvariable=None)
         gender.grid(column=0,row=12)
 
