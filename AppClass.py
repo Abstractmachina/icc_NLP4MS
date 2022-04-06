@@ -16,7 +16,9 @@ class App:
 
         Sets up a dictionary to store all of the App's pages
 
-        """
+        """        
+
+        
 
         root.title("Patient free text explorer")
         root.geometry("900x640")               
@@ -80,6 +82,11 @@ class App:
 
 # Responsible for creating an instance of the app and running the app
 # TODO: should move this into its own main function
-root = Tk()
-App(root)
-root.mainloop()
+
+
+""" I have commented it out as don't want to delete, but this can be initiated by the LoadAppClass file, which will also perform the Loading Window. If this causes any problems,
+uncomment the below and run from AppClass rather than LoadAppClass"""
+
+# root = Tk()
+# App(root)
+# root.mainloop()
