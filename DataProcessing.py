@@ -6,8 +6,8 @@ NavigationToolbar2Tk)
 
 import csv
 import random
-import lipsum
 import time
+# import lipsum # for testing purposes only!
 
 #================================================================
 class DataQuery:
@@ -152,6 +152,8 @@ def min_max_scaling(self, data, minV, maxV):
 #===============================================================
 #                   RANDOM CSV GENERATOR
 #===============================================================
+"""
+For testing purposes only.
 
 def generateFreeText(filename, N):
     headers = ["UserId","Value","CompletedDate", "webEDSS", "Anxiety", "Depression", "DOB", "Gender", "MS_Type", "OnsetDate", "DiagnosisDate"]
@@ -200,13 +202,13 @@ def generateScores(filename, N):
     return
 
 def str_time_prop(start, end, time_format, prop):
-    """Get a time at a proportion of a range of two formatted times.
+    '''Get a time at a proportion of a range of two formatted times.
 
     start and end should be strings specifying times formatted in the
     given format (strftime-style), giving an interval [start, end].
     prop specifies how a proportion of the interval to be taken after
     start.  The returned time will be in the specified format.
-    """
+    '''
 
     stime = time.mktime(time.strptime(start, time_format))
     etime = time.mktime(time.strptime(end, time_format))
@@ -221,3 +223,5 @@ def random_date(start, end, prop):
 
 if __name__ == "__main__":
     generateFreeText("dummy_free2.csv", 100)
+    
+"""
