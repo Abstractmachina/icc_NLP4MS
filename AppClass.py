@@ -87,6 +87,8 @@ class App:
 """ I have commented it out as don't want to delete, but this can be initiated by the LoadAppClass file, which will also perform the Loading Window. If this causes any problems,
 uncomment the below and run from AppClass rather than LoadAppClass"""
 
-# root = Tk()
-# App(root)
-# root.mainloop()
+#root = Tk()
+#style = ttk.Style()
+#style.theme_use('classic')
+#App(root)
+#root.mainloop()
