@@ -23,6 +23,8 @@ class HomePage:
 
         self.model_page = ModelPage(self.root,self.app.addPageFrame("model frame",self.root),self.app)
         self.configurePage()
+
+        self.full_screen = False
     
     def configurePage(self):
         """        
@@ -50,6 +52,9 @@ class HomePage:
         model_button = ttk.Button(self.frame, text="Predict MS Type", command= lambda: self.app.displayFrame("model frame"))
         model_button.grid(column=1,row=5,sticky=(N,S,E,W))
 
+        full_screen_button = ttk.Button(self.frame, text = "Toggle Fullscreen", command = self.fullscreen)
+        full_screen_button.grid(column=1,row=7,sticky=(N,S,E,W))
+
         # Disabled by default
         # Set to normal by ChooseCsvHeaders.chooseCsvHeaders() function
         self.main_menu_button = ttk.Button(self.frame, 
@@ -57,6 +62,16 @@ class HomePage:
                                            state = DISABLED, 
                                            command = lambda: self.app.displayFrame("main frame"))
         self.main_menu_button.grid(column = 1, row = 4, sticky = NSEW)
+
+    def fullscreen(self):
+        
+        if ( self.full_screen == False ):
+            self.app.root.attributes('-fullscreen', True)
+            self.full_screen = True
+        else:
+            self.app.root.attributes('-fullscreen', False)
+            self.full_screen = False
+
     
     def loadCSVClick(self):       
         
