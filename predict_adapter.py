@@ -1,6 +1,6 @@
 import random
 import pickle
-from random_model import Model
+from model.random_model import Model
 from sklearn.feature_extraction.text import CountVectorizer
 
 MS_type_labels = {
@@ -45,5 +45,5 @@ def predict(predict_text):
     return MS_type_labels[ans[0]] 
     # MS_type_labels[ans]
 
-print(textPredictor.model)
-print(predict('hello my name is johnston'))
+# print(textPredictor.model)
+# print(predict('hello my name is johnston'))
