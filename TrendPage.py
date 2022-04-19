@@ -16,46 +16,60 @@ class TrendPage:
         self.searchBox = None   #search box that contains user input
         self.displayFrame = None #frame where generated profile is displayed
         self.controller = SentimentController()
+        self.totalWidth = 900
+        self.totalHeight = 640
+        self.optionsWidth = 200
+        self.scrollbarWidth = 10
+        self.headerHeight = 30
+        self.NhsBlue = '#005EB8'
+        
         self.configureTrendPage()
+        return
 
         
     def configureTrendPage(self):
+        totalWidth = self.totalWidth
+        totalHeight = self.totalHeight
+        optionsWidth = self.optionsWidth
+        scrollbarWidth = self.scrollbarWidth
+        displayWidth = totalWidth - optionsWidth - scrollbarWidth
+        mainHeight = totalHeight - self.headerHeight
+        
+        NhsBlue = self.NhsBlue
+         # Initialize style
+        s = ttk.Style()
+        # Create style used by default for all Frames
+        s.configure('TFrame')
+
+        # style for debugging
+        s.configure('Frame1.TFrame', background='red')
+        s.configure('HeaderFrame.TFrame', background = NhsBlue)
+        s.configure('Label1.TLabel', background = NhsBlue)
         ########################################################################
         #Header Frame
         ########################################################################
-        #TODO: style not working
-        headerStyle = ttk.Style()
-        headerStyle.configure("header.TFrame", background = "blue")
-        f_header = ttk.Frame(self.frame, style = "header.TFrame", height = 30)
-        f_header.grid(column =0, row = 0)
-        l_pageTitle = ttk.Label(f_header, text ="TREND ANALYSIS")
+        f_header = ttk.Frame(self.frame, style = "HeaderFrame.TFrame", height = self.headerHeight)
+        f_header.place(x= 0, y = 0, relwidth=1.0, height= self.headerHeight)
+        
+        l_pageTitle = ttk.Label(f_header, text ="TREND ANALYSIS", foreground='white', style = 'Label1.TLabel')
         l_pageTitle.grid(column=0,row=0)
         
         #########################################################################
         #Control frame
         ########################################################################
         f_controls = ttk.Frame(self.frame)
-        f_controls.grid(column=0, row = 1, sticky = (N,S))
-        
-        # ##  load CSV
-        # f2_loadCSV = ttk.Frame(f_controls)
-        # f2_loadCSV.grid(row = 0)
-        
-        # l_loadFile = ttk.Label(f2_loadCSV, text="Load CSV File")
-        # l_loadFile.grid(row = 0)
-        # b_loadFile = ttk.Button(f2_loadCSV, text = "Open File", 
-        #                         command = lambda: self.loadFile_click())
-        # b_loadFile.grid(row = 1)
-               
+        # f_controls.grid(column=0, row = 1, sticky = (N,S))
+        f_controls.place(x = 0, y = self.headerHeight, width = optionsWidth, height= mainHeight)
         
         ##  options frame
         f2_options = ttk.Frame(f_controls)
-        f2_options.grid(row =2)
-        
+        #f2_options.grid(row =2)
+        f2_options.place(x = 0, rely=0.0, width=optionsWidth, relheight=0.8)
         
         ### input
         f3_input = ttk.Frame(f2_options)
-        f3_input.grid(row = 0)
+        #f3_input.grid(row = 0)
+        f3_input.place(relx=0, rely=0, relwidth=1, relheight=0.2)
         
         l_options = ttk.Label(f3_input, text = "Options")
         l_options.grid(row = 0)
@@ -70,7 +84,8 @@ class TrendPage:
         
         ### trend graphs
         f3_trends = ttk.Frame(f2_options)
-        f3_trends.grid(row = 1)
+        #f3_trends.grid(row = 1)
+        f3_trends.place(relx=0, rely=1/3, relwidth=1, relheight=1/3)
 
         l_trends = ttk.Label(f3_trends, text = "Trend Graphs")
         l_trends.grid(row = 0)
@@ -87,7 +102,8 @@ class TrendPage:
     
         ### distribution graphs
         f3_distro = ttk.Frame(f2_options)
-        f3_distro.grid(row = 2)
+        # f3_distro.grid(row = 2)
+        f3_distro.place(relx=0, rely=2/3, relwidth=1, relheight=1/3)
         
         l_distribution = ttk.Label(f3_distro, text = "Distribution Graphs")
         l_distribution.grid(row = 0)
@@ -120,23 +136,30 @@ class TrendPage:
         
         ##control footer frame
         f2_footer = ttk.Frame(f_controls)
-        f2_footer.grid(row = 4)
+        #f2_footer.grid(row = 4)
+        f2_footer.place(x = 0, rely=0.8, relwidth=1.0, relheight=0.2)
         
         b_generate = ttk.Button(f2_footer, text = "Generate", 
                                 command = lambda: self.generate_click())
-        b_generate.grid(row = 0)
+        # b_generate.grid(row = 0)
+        b_generate.place(x = 0, y= 0, width=optionsWidth, relheight=1/3)
+        
         b_download = ttk.Button(f2_footer, text="Download")
-        b_download.grid(row=1, sticky=(N,S,E,W))
+        # b_download.grid(row=1, sticky=(N,S,E,W))
+        b_download.place(x = 0, rely=1/3, width=optionsWidth, relheight=1/3)
+        
         b_back = ttk.Button(f2_footer, text="Back", 
                             command= lambda: self.app.displayFrame("main frame"))
-        b_back.grid(row=2, sticky=(N,S,E,W))
+        # b_back.grid(row=2, sticky=(N,S,E,W))
+        b_back.place(x = 0, rely=2/3, width=optionsWidth, relheight=1/3)
         
         
         ########################################################################
         #Display frame
         ########################################################################
         f_display = ttk.Frame(self.frame)
-        f_display.grid(column = 1, row = 1, sticky=(N,S,E))
+        #f_display.grid(column = 1, row = 1, sticky=(N,S,E))
+        f_display.place(x=optionsWidth, y = self.headerHeight, width=displayWidth, height=mainHeight)
         # results = Text(f_display, width=95, height=20)
         # results.grid(row=0, column = 0, sticky=(N,S,E, W))
         # results.insert("1.0","Result will appear here")
@@ -146,15 +169,18 @@ class TrendPage:
         
         
         canvas = Canvas(f_display)
-        canvas.grid(row = 0, column = 0, sticky=(N,S,E, W))
+        #canvas.grid(row = 0, column = 0, sticky=(N,S,E, W))
+        canvas.place(relx=0, rely=0, relheight=1, relwidth=0.95)
         
         scrollbar = ttk.Scrollbar(f_display, orient=VERTICAL, command=canvas.yview)
-        scrollbar.grid(row=0, column = 1, sticky=(N,S))
+        #scrollbar.grid(row=0, column = 1, sticky=(N,S))
+        scrollbar.place(relx=0.95, rely=0, relheight = 1, relwidth = 0.05)
         
         canvas.configure(yscrollcommand=scrollbar.set)
 
         self.f2_container = ttk.Frame(canvas)
-        self.f2_container.grid(sticky=(N,S,E, W))
+        #self.f2_container.grid(sticky=(N,S,E, W))
+        self.f2_container.place(relx= 0, rely=0,relheight=1, relwidth=1)
         self.f2_container.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
         canvas.create_window((0,0), window=self.f2_container, anchor="nw")
         
@@ -162,7 +188,7 @@ class TrendPage:
         #      Button(self.f2_container, text=f'Button {1+i} Yoo!', font="arial 20").grid(sticky=(W,E))
 
         results = Text(self.f2_container, width=95)
-        results.grid(row=0, column = 0, sticky=(E,W))
+        results.grid(row=0, column = 0, sticky=(N,S,E,W))
         results.insert("1.0","Result will appear here")
         results.configure(font="16")
         results.configure(state="disabled")

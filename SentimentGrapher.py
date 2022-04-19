@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from turtle import color
 
 import matplotlib
 import matplotlib.pyplot as plt
@@ -33,7 +34,8 @@ class SentimentGrapher_tk (ISentimentGraphAdapter):
     
     @staticmethod
     def plotUserGraphs( tk_frame, sent_on, disabl_on, combine_on,
-                       sentimentHistory = None, edssHistory = None
+                       sentimentHistory = None, edssHistory = None,
+                       height = 0
                         ):
         count = 0
         if sent_on:
@@ -48,11 +50,15 @@ class SentimentGrapher_tk (ISentimentGraphAdapter):
         idx = 1
         if sent_on:
             ax_sent = figure.add_subplot(int(f"{count}1{idx}"))
+            ax_sent.set_ylabel("Sentiment")
+            ax_sent.set_ylim(-1, 1)
             sortedPts = sentimentHistory.sort_values(by="CompletedDate")
             ax_sent.plot(sortedPts["CompletedDate"], sortedPts["Sent_Comp"])
             idx += 1
         if disabl_on:
             ax_disa = figure.add_subplot(int(f"{count}1{idx}"))
+            ax_disa.set_ylabel("EDSS")
+            ax_disa.set_ylim(0, 10)
             sortedPts = edssHistory.sort_values(by="CompletedDate")
             ax_disa.plot(sortedPts["CompletedDate"], sortedPts["EDSS"])
             idx += 1
@@ -62,26 +68,29 @@ class SentimentGrapher_tk (ISentimentGraphAdapter):
             
             ax_comb1 = figure.add_subplot(int(f"{count}1{idx}"))
             ax_comb1.set_xlabel("Date")
-            ax_comb1.set_ylabel("EDSS")
+            ax_comb1.set_ylabel("EDSS", color = "blue")
+            ax_comb1.set_ylim(-1, 1)
             ax_comb1.tick_params(axis="y", labelcolor = "blue")
             ax_comb1.plot(sorted_edss["CompletedDate"], sorted_edss["EDSS"], color="blue")
             
             ax_comb2 = ax_comb1.twinx()
-            ax_comb2.set_ylabel("Sentiment")
+            ax_comb2.set_ylabel("Sentiment", color = "red")
             ax_comb2.tick_params(axis="y", labelcolor = "red")
+            ax_comb2.set_ylim(0, 10)
             ax_comb2.plot(sorted_sent["CompletedDate"], sorted_sent["Sent_Comp"], color="red")
         
         #add to tkinter canvas
         canvas = FigureCanvasTkAgg(figure, tk_frame)
         canvas.draw()
         #canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-        canvas.get_tk_widget().grid(row=1, column = 0)
+        canvas.get_tk_widget().grid(row=1, column = 0, sticky=(tk.E,tk.W))
+        #canvas.get_tk_widget().place(relx= 0.5, y = height + 10, relwidth=1.0, anchor="center")
         
         #matplotlib toolbar not needed atm
-        #toolbar = NavigationToolbar2Tk(canvas, tk_page)
-        #toolbar.update()
+        toolbar = NavigationToolbar2Tk(canvas, tk_frame)
+        toolbar.update()
         #canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-        canvas._tkcanvas.grid(row=1, column = 0)
+        canvas._tkcanvas.grid(row=1, column = 0, sticky=(tk.E,tk.W))
         return
     
     @staticmethod
@@ -272,6 +281,9 @@ class SentimentGrapher_tk (ISentimentGraphAdapter):
             #     ax[1].plot(sortedPts["CompletedDate"], sortedPts["Sent_Comp"])
                 
         ax_sent.set_title("Sentiment Trend")
+        ax_sent.set_ylim(-1, 1)
+        ax_sent.set_ylabel("Sentiment Score")
+        ax_sent.set_xlabel("Date")
         return
     
     
@@ -309,6 +321,9 @@ class SentimentGrapher_tk (ISentimentGraphAdapter):
             ax_disa.plot(sortedPts["CompletedDate"], sortedPts["EDSS"])
             
         ax_disa.set_title("EDSS Trend")
+        ax_disa.set_ylim(0, 10)
+        ax_disa.set_ylabel("EDSS")
+        ax_disa.set_xlabel("Date")
         return
     
     

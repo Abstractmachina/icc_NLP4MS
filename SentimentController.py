@@ -2,6 +2,8 @@ import pandas as pd
 from SentimentModel import SentimentModel
 from SentimentGrapher import SentimentGrapher_tk as sg
 
+import textwrap
+
 class SentimentController:
     def __init__(self) :
         self.model = SentimentModel()
@@ -75,8 +77,19 @@ class SentimentController:
         return self.model.getUserInfo(userId)
     
     
+    def getFreeTxt(self, userId, tWidth = 40) -> list:
+        result = "\n\n\n"
+        txt = self.model.getUserFreetxt(userId)
+        for entry in txt:
+            w = textwrap.wrap(entry, tWidth)
+            w2 = '\n'.join(w)
+            result += w2
+            result += "\n\n"
+        return result
+    
+    
     def buildUserGraphs(self, userId, tk_frame, sent_on, 
-                        disabl_on, combine_on):
+                        disabl_on, combine_on, height = 0):
         sHist = None
         dHist = None
         if sent_on.get() or combine_on.get():
@@ -86,17 +99,11 @@ class SentimentController:
         
         sg.plotUserGraphs(  tk_frame, sent_on.get(), 
                             disabl_on.get(), combine_on.get(), 
-                            sentimentHistory=sHist, edssHistory=dHist)
+                            sentimentHistory=sHist, edssHistory=dHist, height = height)
         return
     
     
-    def getFreeTxt(self, userId) -> list:
-        result = "\n\n\n"
-        txt = self.model.getUserFreetxt(userId)
-        for entry in txt:
-            result += entry
-            result += "\n\n"
-        return result
+
     
     #TREND PAGE
     def calcSentiments(self):
