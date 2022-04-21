@@ -20,8 +20,6 @@ class FrequencyAnalyser:
         self.ms_type = ms_type
 
         # Load NLTK Enlgish stopwords
-        self.stop_words = stopwords.words("english")
-
         cwd = os.getcwd()
         nltk_data_directory = cwd
         nltk_data_directory += "//nltk_data"
@@ -29,6 +27,9 @@ class FrequencyAnalyser:
         nltk_data_directory = cwd
         nltk_data_directory += "\\nltk_data"
         nltk.data.path.append(nltk_data_directory)
+        self.stop_words = stopwords.words("english")
+
+     
 
         self.processed = processed
 
