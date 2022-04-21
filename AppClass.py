@@ -48,7 +48,7 @@ class App:
         self.homepage = HomePage(self.root, 
                             self.addPageFrame("home frame", self.root), 
                             self) 
-        main_menu = MainMenu(self.root, 
+        self.main_menu = MainMenu(self.root, 
                              self.addPageFrame("main frame", self.root), 
                              self)     
        
@@ -92,7 +92,8 @@ class App:
         self.frames_dict[frame_name].tkraise()      
 
 
-
+    def resizeWindow(self, size):
+        self.root.geometry(size)
 
 
 
