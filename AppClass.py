@@ -5,6 +5,9 @@ from tkinter import filedialog
 from HomePage import HomePage
 from MainMenu import MainMenu
 
+import os
+import nltk
+
 class App:
 
     def __init__(self,root):
@@ -51,7 +54,20 @@ class App:
        
        
         # Display the home page
-        self.displayFrame("home frame")      
+        self.displayFrame("home frame")   
+
+        # Set the nltk data directory
+        self.setNltkDirectory() 
+
+    def setNltkDirectory(self):
+         # Sets the nltk data path depending on where this application is saved on the users' machine
+        cwd = os.getcwd()
+        nltk_data_directory = cwd
+        nltk_data_directory += "//nltk_data"
+        nltk.data.path.append(nltk_data_directory)
+        nltk_data_directory = cwd
+        nltk_data_directory += "\\nltk_data"
+        nltk.data.path.append(nltk_data_directory)
    
     def addPageFrame(self, frame_name,root):
         
