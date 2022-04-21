@@ -39,7 +39,7 @@ class MainMenu:
         freq_b = ttk.Button(self.frame, text="Word Frequency Analysis", command=self.freq_page.validateAndInit)
         freq_b.grid(column=0,row=0,sticky=(N,S,E,W))
 
-        search_b = ttk.Button(self.frame, text="Search the free text", command=self.search_page.searchEntryButtonClick)
+        search_b = ttk.Button(self.frame, text="Search the free text", command=self.search_page.validateAndInit)
         search_b.grid(column=0,row=1,sticky=(N,S,E,W))
         
         sentiment_b = ttk.Button(self.frame, text="User Analysis", 

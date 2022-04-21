@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
+from tkinter import messagebox
 
 import pandas as pd
 
@@ -118,7 +119,7 @@ class SearchPage:
         self.ms_type_c_s = ms_type_c
         self.ms_onset_year_c_s = ms_onset_year_c
     
-    def searchEntryButtonClick(self):
+    def validateAndInit(self):
 
         """
         Defines the behaviour for when the text search button on the main menu is clicked
@@ -132,7 +133,11 @@ class SearchPage:
         # Disable the combo boxes for those that the user has not told us are in the CSV file
         # Combo boxes: [user_id, dob, free_txt, completed_date, ms_type, ms_onset_year] 
         
-        csv_header_combo_boxes = self.app.csv_header_combo_boxes 
+        csv_header_combo_boxes = self.app.csv_header_combo_boxes
+        
+        if self.app.csv_header_combo_boxes[2].get() == "NONE":
+            messagebox.showerror("Input Error", "Error: Free Text required")
+            return
         
         if csv_header_combo_boxes[0].get() == "NONE":
             self.user_id_c_s.configure(state="disabled")
