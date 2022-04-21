@@ -6,6 +6,9 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.probability import FreqDist
 from nltk.util import everygrams
+import nltk
+import os
+
 
 class FrequencyAnalyser:
     def __init__(self,df,txt_hd,id_hd,ms_type=None, processed = False):
@@ -18,6 +21,14 @@ class FrequencyAnalyser:
 
         # Load NLTK Enlgish stopwords
         self.stop_words = stopwords.words("english")
+
+        cwd = os.getcwd()
+        nltk_data_directory = cwd
+        nltk_data_directory += "//nltk_data"
+        nltk.data.path.append(nltk_data_directory)
+        nltk_data_directory = cwd
+        nltk_data_directory += "\\nltk_data"
+        nltk.data.path.append(nltk_data_directory)
 
         self.processed = processed
 
