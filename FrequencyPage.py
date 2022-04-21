@@ -27,6 +27,7 @@ class FrequencyPage:
 
         # RESULTS BOX #
         
+        
         # Configure the area where frequency results will be displayed
         results = Text(self.frame, width=95, height=20)
         results.grid(row=0,column=0,rowspan=3,columnspan=3,sticky=(N,S,E,W))
@@ -162,9 +163,13 @@ class FrequencyPage:
 
         back_b = ttk.Button(self.frame, 
                             text = "Back", 
-                            command = lambda: self.app.displayFrame("main frame"))
+                            command = lambda: self.backButtonClick())
         back_b.grid(column = 0, row = 50, pady = 20, sticky=(N,S,E,W))
 
+
+    def backButtonClick(self):
+        self.app.resizeWindow("900x640")
+        self.app.displayFrame("main frame")
 
     # Loads the Word Frequency Analysis page frame (from Main Menu)
     # Heavy function - creates dictionaries from csv
@@ -183,7 +188,7 @@ class FrequencyPage:
             messagebox.showerror("Input Error", "Error: MS Type required")
             return
         # init
-
+        self.app.resizeWindow("900x800")
         if self.analyser == None:
             self.analyser = FrequencyAnalyser(self.app.df, 
                                             self.app.csv_header_combo_boxes[2].get(), 
