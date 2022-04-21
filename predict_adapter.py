@@ -1,6 +1,6 @@
 import random
 import pickle
-from model.random_model import Model
+#from model.random_model import Model
 from sklearn.feature_extraction.text import CountVectorizer
 
 MS_type_labels = {
