@@ -7,11 +7,10 @@ from nltk.corpus import stopwords
 from nltk.probability import FreqDist
 from nltk.util import everygrams
 import os
-from io import StringIO
-import sys
+
 
 class FrequencyAnalyser:
-    def __init__(self,df,txt_hd,id_hd,ms_type=None):
+    def __init__(self,df,txt_hd,id_hd,ms_type=None, processed = False):
         
         
         self.df = df
@@ -31,11 +30,15 @@ class FrequencyAnalyser:
         # Load NLTK Enlgish stopwords
         self.stop_words = stopwords.words("english")
 
-        # Load Medical Terms
-        self.loadMedicalCorpus()
+        self.processed = processed
 
-        # Preprocess text
-        self.preProcess()
+        if processed == False:
+
+            # Load Medical Terms
+            self.loadMedicalCorpus()
+
+            # Preprocess text
+            self.preProcess()
 
     def loadMedicalCorpus(self):
         """ Loads in the medical corpus downloaded 

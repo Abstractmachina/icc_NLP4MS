@@ -3,7 +3,7 @@ from tkinter import ttk
 from tkinter import filedialog
 
 from ChooseCsvHeaders import ChooseCsvHeaders
-from ModelPage import ModelPage
+#from ModelPage import ModelPage
 
 # TODO:
     # Write instructions page
@@ -21,7 +21,8 @@ class HomePage:
         self.header_page = None
         self.csv_file_string = None
 
-        self.model_page = ModelPage(self.root,self.app.addPageFrame("model frame",self.root),self.app)
+        
+        # self.model_page = ModelPage(self.root,self.app.addPageFrame("model frame",self.root),self.app)
         self.configurePage()
 
         self.full_screen = False
