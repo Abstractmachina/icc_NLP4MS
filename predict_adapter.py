@@ -1,7 +1,20 @@
-import random
+# import random
 import pickle
 #from model.random_model import Model
 from sklearn.feature_extraction.text import CountVectorizer
+
+'''
+In the future, when there is a different NLP model that is created,
+it should be relatively straightforward to add it here. To do so, just
+import the relevant packages, load the pre-trained model as model_name,
+and ensure it has a 'predict' function associated with it.
+Additionally, if the MS type labels change, etc., please ensure that this 
+is changed in the MS_type_labels dictionary below.
+
+This original release version includes a Bag-of-Words linear regression model.
+To understand how this model was created, please inspect the .ipynb file
+titled "BoW_model.ipynb". 
+'''
 
 MS_type_labels = {
         0: 'PPMS',
@@ -39,11 +52,7 @@ def predict(predict_text):
     bow = pickle.load(open('model/vectorizer_full.sav', 'rb'))
     predict_vector = bow.transform([predict_text]) # transform to a bag of words vector
 
-    # here we should import the model, and call the actual predict funtions
+    # here we use the imported model, and call the predict funtions
     ans = textPredictor.predict(predict_text=predict_vector)
 
     return MS_type_labels[ans[0]] 
-    # MS_type_labels[ans]
-
-# print(textPredictor.model)
-# print(predict('hello my name is johnston'))
