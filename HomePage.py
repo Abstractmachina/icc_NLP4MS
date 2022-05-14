@@ -47,14 +47,12 @@ class HomePage:
         csv_name_box = Label(self.frame, textvariable = self.csv_file_string)
         csv_name_box.grid(column = 1, row = 2, sticky="NSEW")
         load_csv_button = ttk.Button(self.frame, text="Open CSV", command = self.loadCSVClick)
-        load_csv_button.grid(column=1, row=3,sticky=(N,S,E,W))
+        load_csv_button.grid(column=1, row=3,sticky=(N,S,E,W),padx=10,pady=10)
         instruction_button = ttk.Button(self.frame, text="Instructions", command=self.instructionsClick)
-        instruction_button.grid(column=1,row=6,sticky=(N,S,E,W))
-        model_button = ttk.Button(self.frame, text="Predict MS Type", command= lambda: self.app.displayFrame("model frame"))
-        model_button.grid(column=1,row=5,sticky=(N,S,E,W))
+        instruction_button.grid(column=1,row=6,sticky=(N,S,E,W),padx=10,pady=10)
+        #model_button = ttk.Button(self.frame, text="Predict MS Type", command= lambda: self.app.displayFrame("model frame"))
+        #model_button.grid(column=1,row=5,sticky=(N,S,E,W))
 
-        full_screen_button = ttk.Button(self.frame, text = "Toggle Fullscreen", command = self.fullscreen)
-        full_screen_button.grid(column=1,row=7,sticky=(N,S,E,W))
 
         # Disabled by default
         # Set to normal by ChooseCsvHeaders.chooseCsvHeaders() function
@@ -62,16 +60,8 @@ class HomePage:
                                            text = "Main Menu", 
                                            state = DISABLED, 
                                            command = lambda: self.app.displayFrame("main frame"))
-        self.main_menu_button.grid(column = 1, row = 4, sticky = NSEW)
+        self.main_menu_button.grid(column = 1, row = 4, sticky = NSEW,padx=10,pady=10)
 
-    def fullscreen(self):
-        
-        if ( self.full_screen == False ):
-            self.app.root.attributes('-fullscreen', True)
-            self.full_screen = True
-        else:
-            self.app.root.attributes('-fullscreen', False)
-            self.full_screen = False
 
     
     def loadCSVClick(self):       

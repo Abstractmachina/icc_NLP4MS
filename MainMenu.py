@@ -34,29 +34,37 @@ class MainMenu:
         which is what the user sees after selecting the csv file and pressing next
 
         """
+        ############# Configure Frame ##############################################
+        self.frame.columnconfigure(0,weight=1)
+        self.frame.rowconfigure(0,weight=1)
+        self.frame.columnconfigure(2,weight=1)
+
+        ############# Configure Title ##################################################
+        title = ttk.Label(self.frame, text="Select an analysis tool to use",justify =CENTER,font=("bold",25))
+        title.grid(column=1,row=0)
 
         ############# Configure Buttons ################################################
         freq_b = ttk.Button(self.frame, text="Word Frequency Analysis", command=self.freq_page.validateAndInit)
-        freq_b.grid(column=0,row=0,sticky=(N,S,E,W))
+        freq_b.grid(column=1,row=1,sticky=(N,S,E,W),padx=10,pady=10)
 
         search_b = ttk.Button(self.frame, text="Search the free text", command=self.search_page.validateAndInit)
-        search_b.grid(column=0,row=1,sticky=(N,S,E,W))
+        search_b.grid(column=1,row=2,sticky=(N,S,E,W),padx=10,pady=10)
         
         sentiment_b = ttk.Button(self.frame, text="User Analysis", 
                                  command= self.sent_page.validateAndInit)
-        sentiment_b.grid(column=0,row=2,sticky=(N,S,E,W))
+        sentiment_b.grid(column=1,row=3,sticky=(N,S,E,W),padx=10,pady=10)
         
         trend_b = ttk.Button(self.frame, text="Trend Analysis", command= self.trend_page.validateAndInit)
-        trend_b.grid(column=0,row=3,sticky=(N,S,E,W))
+        trend_b.grid(column=1,row=4,sticky=(N,S,E,W),padx=10,pady=10)
 
         # Back button #
         back_b = ttk.Button(self.frame, 
                             text = "Back", 
                             command = lambda: self.app.displayFrame("choose headers"))
-        back_b.grid(column = 0, row = 4, sticky = (N,S,E,W))
+        back_b.grid(column = 1, row = 5, sticky = (N,S,E,W),padx=10,pady=10)
         
         # Home button #
         home_b = ttk.Button(self.frame, 
                             text = "Home", 
                             command = lambda: self.app.displayFrame("home frame"))
-        home_b.grid(column = 0, row = 5, sticky = (N,S,E,W))
+        home_b.grid(column = 1, row = 6, sticky = (N,S,E,W),padx=10,pady=10)
