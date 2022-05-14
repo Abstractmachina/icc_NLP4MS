@@ -132,6 +132,8 @@ def setTheme(root):
     root.tk.call("set_theme","light") 
 
 
+
+
 # Responsible for creating an instance of the app and running the app
 # TODO: should move this into its own main function
 if  __name__ == "__main__":

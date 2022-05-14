@@ -8,7 +8,7 @@ import os
 
 class TextSearcher:
 
-    def __init__(self,df,csv_header_combo_boxes):
+    def __init__(self,df,csv_header_combo_boxes,loading_bar=None,loading_window=None):
 
         self.df=df
         self.current_txt = None
@@ -17,6 +17,10 @@ class TextSearcher:
         self.finished = False
         self.occurence_found = False
         self.csv_headers = csv_header_combo_boxes
+        self.loading_bar = loading_bar
+        self.loading_window = loading_window
+
+        
 
         # Sets the nltk data path depending on where this application is saved on the users' machine
         cwd = os.getcwd()
@@ -26,6 +30,7 @@ class TextSearcher:
         nltk_data_directory = cwd
         nltk_data_directory += "\\nltk_data"
         nltk.data.path.append(nltk_data_directory)
+        self.number_of_rows = len(df.index)
 
     def removePunctuation(self,text):
         
@@ -70,7 +75,19 @@ class TextSearcher:
         """
 
         proccesed_list = []
+        count = 0
+
+        if self.loading_bar != None:
+            total_rows = len(self.df.index)
+            increments = total_rows//5
+
         for _,row in self.df.iterrows():
+            count += 1
+            if self.loading_bar != None:
+                if count == increments:
+                    self.loading_bar["value"] += 25
+                    self.loading_window.update_idletasks()
+                    increments += increments
             proccesed_list.append(self.clean(row[text_col_name]))
 
         self.df["cleaned_txt"] = proccesed_list
@@ -101,6 +118,7 @@ class TextSearcher:
         print_str = ""
 
         for index,row in df_to_search.iterrows():
+
             if self.searched == False:
                 current_txt = row["cleaned_txt"]
                 new_str, self.new_txt = self.getPhraseInString(current_txt,phrase,window)
@@ -134,7 +152,10 @@ class TextSearcher:
                 new_str = query + new_str
 
             print_str += new_str
-            print_str += "\n\n\n"
+            print_str += "\n\n"
+            print_str += "-------------------------------------------------------------------------------------"
+            print_str += "-------------------------------------------------------------------------------------"
+            print_str += "\n\n"
 
                    
 

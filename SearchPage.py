@@ -14,6 +14,7 @@ class SearchPage:
         self.root = root
         self.frame = frame
         self.app = app
+        self.searcher = None
 
         self.configureSearchPage()
 
@@ -83,23 +84,23 @@ class SearchPage:
 
         # Configure checkbuttons to allow the user to display additional information from their query
         self.user_id_c_sv = IntVar()
-        user_id_c = ttk.Checkbutton(self.frame,text="User ID        ",variable=self.user_id_c_sv)
+        user_id_c = ttk.Checkbutton(self.frame,text="User ID",variable=self.user_id_c_sv)
         user_id_c.grid(column=1,row=6,sticky=W,padx=40)
 
         self.dob_c_sv = IntVar()
-        dob_c = ttk.Checkbutton(self.frame,text="Date of Birth  ",variable=self.dob_c_sv)
+        dob_c = ttk.Checkbutton(self.frame,text="Date of Birth",variable=self.dob_c_sv)
         dob_c.grid(column=1,row=7,sticky=W,padx=40)
 
         self.survey_date_c_sv = IntVar()
-        survey_date_c = ttk.Checkbutton(self.frame,text="Survey Date    ",variable=self.survey_date_c_sv)
+        survey_date_c = ttk.Checkbutton(self.frame,text="Survey Date",variable=self.survey_date_c_sv)
         survey_date_c.grid(column=1,row=8,sticky=W,padx=40)
 
         self.ms_type_c_sv = IntVar()
-        ms_type_c = ttk.Checkbutton(self.frame,text="MS Type        ",variable=self.ms_type_c_sv)
+        ms_type_c = ttk.Checkbutton(self.frame,text="MS Type",variable=self.ms_type_c_sv)
         ms_type_c.grid(column=1,row=9,sticky=W,padx=40)
 
         self.ms_onset_year_c_sv = IntVar()
-        ms_onset_year_c = ttk.Checkbutton(self.frame,text="MS Onset Year  ",variable=self.ms_onset_year_c_sv)
+        ms_onset_year_c = ttk.Checkbutton(self.frame,text="MS Onset Year",variable=self.ms_onset_year_c_sv)
         ms_onset_year_c.grid(column=1,row=10,sticky=W,padx=40,pady=5)       
         
         # Configure labels
@@ -150,11 +151,23 @@ class SearchPage:
         if csv_header_combo_boxes[5].get() == "NONE":
             self.ms_onset_year_c_s.configure(state="disabled")
 
+        if self.searcher == None:
+            loading_window = Toplevel(self.root)
+            loading_window.geometry("400x150")
+            loading_window.transient()
+            loading_window.update_idletasks()
+            loading_label = Label(loading_window,text="Loading... this make take a while for large datasets")
+            loading_label.grid(column=0, row=0, sticky=(N,S,E,W))
+            loading_bar = ttk.Progressbar(loading_window,orient=HORIZONTAL,mode="determinate",length=200)
+            loading_bar.grid(column=0,row=1)
+            loading_window.update_idletasks()
+            self.searcher = TextSearcher(self.app.df,csv_header_combo_boxes,loading_bar=loading_bar,loading_window=loading_window)
+            text_header = csv_header_combo_boxes[2].get()
+            self.searcher.preProcessText(text_header)
+            self.clearButtonClick_sf()
+            loading_window.destroy()
 
-        self.searcher = TextSearcher(self.app.df,csv_header_combo_boxes)
-        text_header = csv_header_combo_boxes[2].get()
-        self.searcher.preProcessText(text_header)
-        self.clearButtonClick_sf()
+
         self.app.resizeWindow("900x750")
         self.app.displayFrame("search frame")      
 
