@@ -43,19 +43,19 @@ class SearchPage:
 
         # Configure search button
         search_button = ttk.Button(self.frame,text="Search",command= lambda: self.searchButtonClick_sf())
-        search_button.grid(column=0,row=5,sticky=(N,S,E,W))
+        search_button.grid(column=0,row=5,sticky=(N,S,E,W),pady=5)
 
         # Configure download button
         download_b = ttk.Button(self.frame, text="Download results", command= lambda: self.downloadButtonClick_sf())
-        download_b.grid(column=0, row=6, sticky=(N,S,E,W))
+        download_b.grid(column=0, row=6, sticky=(N,S,E,W),pady=5)
 
         # Configure clear button
         clear_b = ttk.Button(self.frame, text="Clear", command=lambda: self.clearButtonClick_sf())
-        clear_b.grid(column=0,row=7,sticky=(N,S,E,W))
+        clear_b.grid(column=0,row=7,sticky=(N,S,E,W),pady=5)
         
         # Configure back button
         back_b = ttk.Button(self.frame, text="Back", command= lambda: self.app.displayFrame("main frame"))
-        back_b.grid(column=0, row=8, sticky=(N,S,E,W))
+        back_b.grid(column=0, row=8, sticky=(N,S,E,W),pady=5)
 
         # Configure search window list
         window_list = ttk.Combobox(self.frame, textvariable=None)
@@ -84,23 +84,23 @@ class SearchPage:
         # Configure checkbuttons to allow the user to display additional information from their query
         self.user_id_c_sv = IntVar()
         user_id_c = ttk.Checkbutton(self.frame,text="User ID        ",variable=self.user_id_c_sv)
-        user_id_c.grid(column=1,row=6)
+        user_id_c.grid(column=1,row=6,sticky=W,padx=40)
 
         self.dob_c_sv = IntVar()
         dob_c = ttk.Checkbutton(self.frame,text="Date of Birth  ",variable=self.dob_c_sv)
-        dob_c.grid(column=1,row=7)
+        dob_c.grid(column=1,row=7,sticky=W,padx=40)
 
         self.survey_date_c_sv = IntVar()
         survey_date_c = ttk.Checkbutton(self.frame,text="Survey Date    ",variable=self.survey_date_c_sv)
-        survey_date_c.grid(column=1,row=8)
+        survey_date_c.grid(column=1,row=8,sticky=W,padx=40)
 
         self.ms_type_c_sv = IntVar()
         ms_type_c = ttk.Checkbutton(self.frame,text="MS Type        ",variable=self.ms_type_c_sv)
-        ms_type_c.grid(column=1,row=9)
+        ms_type_c.grid(column=1,row=9,sticky=W,padx=40)
 
         self.ms_onset_year_c_sv = IntVar()
         ms_onset_year_c = ttk.Checkbutton(self.frame,text="MS Onset Year  ",variable=self.ms_onset_year_c_sv)
-        ms_onset_year_c.grid(column=1,row=10)       
+        ms_onset_year_c.grid(column=1,row=10,sticky=W,padx=40,pady=5)       
         
         # Configure labels
         search_box_l = ttk.Label(self.frame,text="Enter your search term below:")
@@ -155,6 +155,7 @@ class SearchPage:
         text_header = csv_header_combo_boxes[2].get()
         self.searcher.preProcessText(text_header)
         self.clearButtonClick_sf()
+        self.app.resizeWindow("900x750")
         self.app.displayFrame("search frame")      
 
     def clearButtonClick_sf(self):
