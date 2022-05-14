@@ -81,8 +81,12 @@ def test_pre_process(search_tester):
     assert cleaned_df["cleaned_txt"][13] == "once more into the brink"
     assert cleaned_df["cleaned_txt"][11] == "a test box with different cases now test punctuation done"
 
+
+
+"""
 def test_search(search_tester):
-    """ Test the searching of a phrase in a given window"""
+    """  """Test the searching of a phrase in a given window"""
+"""
     search_tester.searcher.preProcessText("free_txt")
 
     assert search_tester.searcher.findPhraseInText("brink", "All",[]) == "once more into the brink \n\n\n"
@@ -102,3 +106,4 @@ def test_search(search_tester):
     search_tester.searcher.reset()  
 
 # TODO: add tests for the additional information that can be extracted when searching the text
+"""
