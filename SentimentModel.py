@@ -9,7 +9,7 @@ from VaderSentimentAdapter import VaderSentimentAdapter
 from DataProcessing import DataQueryBuilder as builder
 
 
-######################################################
+########################################################################
 class SentimentModel():
     
     def __init__(self):
@@ -57,6 +57,15 @@ class SentimentModel():
         self.rawData = df
         return
     
+    def validateUserId(self, userId):
+        print("\nUSER INPUT: " + str(userId) + "\n\n")
+        try:
+            user = self.rawData.loc[self.rawData["UserId"] == userId].iloc[0]
+        except:
+            raise ValueError()
+        # print("\nUSER: " + str(user) + "\n\n")
+        return
+    
     def getUserInfo(self, userId) -> str:
         #generate user info header
         user = self.rawData.loc[self.rawData["UserId"] == userId].iloc[0]
@@ -85,6 +94,13 @@ class SentimentModel():
         user = self.rawData.loc[self.rawData["UserId"] == userId]
         return user["Value"].values.tolist()
         
+        
+    #region Sentiment
+    
+    #################################################################################
+    #                                   SENTIMENT
+    #################################################################################    
+    
     def calcSentiments(self, inputData = None, numPts = 0) -> pd.DataFrame:
         """Calculate sentiments by entry. Will process all data points
         in set if numPts is set to 0. Warning: If data set is large, 
@@ -210,6 +226,10 @@ class SentimentModel():
             idx += 1
         
         return sentiments
+    #endregion
+    
+    
+    #region EDSS
     
     #################################################################################
     #                                   EDSS
@@ -322,6 +342,11 @@ class SentimentModel():
         print("Finished building EDSS")
         self.EDSS_history = EDSS
         return EDSS
+    #endregion
+    
+    
+    """Note: HADS functionallity not implemented in current app."""
+    #region HADS
     
     #################################################################################
     #                                   HADS
@@ -352,8 +377,9 @@ class SentimentModel():
         df.rename(columns = standardizedHeaders, inplace=True)
         self.HADS = df
         return
-    
+    #endregion
             
+    
     #################################################################################
     #                                   UTILITY
     #################################################################################
