@@ -152,15 +152,7 @@ class SearchPage:
             self.ms_onset_year_c_s.configure(state="disabled")
 
         if self.searcher == None:
-            loading_window = Toplevel(self.root)
-            loading_window.geometry("400x150")
-            loading_window.transient()
-            loading_window.update_idletasks()
-            loading_label = Label(loading_window,text="Loading... this make take a while for large datasets")
-            loading_label.grid(column=0, row=0, sticky=(N,S,E,W))
-            loading_bar = ttk.Progressbar(loading_window,orient=HORIZONTAL,mode="determinate",length=200)
-            loading_bar.grid(column=0,row=1)
-            loading_window.update_idletasks()
+            loading_window,loading_bar = self.setupLoadingWindow()
             self.searcher = TextSearcher(self.app.df,csv_header_combo_boxes,loading_bar=loading_bar,loading_window=loading_window)
             text_header = csv_header_combo_boxes[2].get()
             self.searcher.preProcessText(text_header)
@@ -170,6 +162,21 @@ class SearchPage:
 
         self.app.resizeWindow("900x750")
         self.app.displayFrame("search frame")      
+
+    def setupLoadingWindow(self):
+        loading_window = Toplevel(self.root)
+        loading_window.geometry("300x60+750+500")
+        loading_window.transient()
+        loading_window.update_idletasks()
+        loading_label = Label(loading_window,text="Loading... this make take a while for large datasets")
+        loading_label.grid(column=0, row=0, sticky=(N,S,E,W))
+        loading_bar = ttk.Progressbar(loading_window,orient=HORIZONTAL,mode="determinate",length=200)
+        loading_bar.grid(column=0,row=1)
+        loading_window.update_idletasks()
+
+        return loading_window,loading_bar
+
+
 
     def clearButtonClick_sf(self):
 

@@ -89,7 +89,7 @@ class HomePage:
                                             csv_file)
         # set up data for csv page and display the page
         self.header_page.chooseCSVHeaders()
-        #self.app.displayFrame("choose headers") # part of above function?
+        
 
     def instructionsClick(self):
         

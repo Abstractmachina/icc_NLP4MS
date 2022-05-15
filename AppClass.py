@@ -24,7 +24,7 @@ class App:
         
 
         root.title("Patient free text explorer")
-        root.geometry("900x640")               
+        root.geometry("900x640+500+150")               
         
         root.columnconfigure(0, weight=1)
         root.rowconfigure(0, weight=1)    

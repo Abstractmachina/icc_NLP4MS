@@ -9,6 +9,7 @@ from tkinter import filedialog
 from tkinter import messagebox
 
 import pandas as pd
+import time
 
 from FrequencyAnalyser import FrequencyAnalyser
 
@@ -190,11 +191,22 @@ class FrequencyPage:
         # init
         self.app.resizeWindow("900x800")
         if self.analyser == None:
+            loading_window = Toplevel(self.root)
+            loading_window.geometry("400x150")
+            loading_window.transient()
+            loading_window.update_idletasks()
+            loading_label = Label(loading_window,text="Loading... this make take a while for large datasets")
+            loading_label.grid(column=0, row=0, sticky=(N,S,E,W))
+            loading_window.update_idletasks()
             self.analyser = FrequencyAnalyser(self.app.df, 
                                             self.app.csv_header_combo_boxes[2].get(), 
                                             self.app.csv_header_combo_boxes[0].get(), 
                                             self.app.csv_header_combo_boxes[4].get())
+            loading_window.destroy()
+            
         self.app.displayFrame("freq frame")
+        
+
 
     # 'Get phrase frequency' button (search button) : behaviour
     def freqSearchButtonClick(self):
