@@ -82,25 +82,30 @@ class SearchPage:
         txt_scroll.grid(row=0,column=3,rowspan=3,sticky=(N,S))
         results["yscrollcommand"] = txt_scroll.set
 
+        # Configure check button grid
+        check_frame = Frame(self.frame,relief=RIDGE,bd=10)
+        check_frame.grid(column=1,row=5,columnspan=1,rowspan=5,pady=20) 
+        
+
         # Configure checkbuttons to allow the user to display additional information from their query
         self.user_id_c_sv = IntVar()
-        user_id_c = ttk.Checkbutton(self.frame,text="User ID",variable=self.user_id_c_sv)
+        user_id_c = ttk.Checkbutton(check_frame,text="User ID",variable=self.user_id_c_sv)
         user_id_c.grid(column=1,row=6,sticky=W,padx=40)
 
         self.dob_c_sv = IntVar()
-        dob_c = ttk.Checkbutton(self.frame,text="Date of Birth",variable=self.dob_c_sv)
+        dob_c = ttk.Checkbutton(check_frame,text="Date of Birth",variable=self.dob_c_sv)
         dob_c.grid(column=1,row=7,sticky=W,padx=40)
 
         self.survey_date_c_sv = IntVar()
-        survey_date_c = ttk.Checkbutton(self.frame,text="Survey Date",variable=self.survey_date_c_sv)
+        survey_date_c = ttk.Checkbutton(check_frame,text="Survey Date",variable=self.survey_date_c_sv)
         survey_date_c.grid(column=1,row=8,sticky=W,padx=40)
 
         self.ms_type_c_sv = IntVar()
-        ms_type_c = ttk.Checkbutton(self.frame,text="MS Type",variable=self.ms_type_c_sv)
+        ms_type_c = ttk.Checkbutton(check_frame,text="MS Type",variable=self.ms_type_c_sv)
         ms_type_c.grid(column=1,row=9,sticky=W,padx=40)
 
         self.ms_onset_year_c_sv = IntVar()
-        ms_onset_year_c = ttk.Checkbutton(self.frame,text="MS Onset Year",variable=self.ms_onset_year_c_sv)
+        ms_onset_year_c = ttk.Checkbutton(check_frame,text="MS Onset Year",variable=self.ms_onset_year_c_sv)
         ms_onset_year_c.grid(column=1,row=10,sticky=W,padx=40,pady=5)       
         
         # Configure labels
@@ -110,7 +115,7 @@ class SearchPage:
         window_l = ttk.Label(self.frame,text="Choose how many words either side of your term you wish to extract:")
         window_l.grid(column=1,row=3)
 
-        checkbutton_l = ttk.Label(self.frame, text="Select additional information to display. If a box is greyed out it means the information\n was not provided when the CSV was loaded in")
+        checkbutton_l = ttk.Label(check_frame, text="Select additional information to display. If a box is greyed out it means the information\n was not provided when the CSV was loaded in")
         checkbutton_l.grid(column=1,row=5)
 
         # Store the combo boxes as data members to use in other member functions
