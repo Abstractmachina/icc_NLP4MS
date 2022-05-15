@@ -208,6 +208,14 @@ class SentimentPage:
             return
         self.searchBox.delete(0, "end")
         
+        #check if user id val
+        
+        try:
+            self.controller.validateUserId(userId)
+        except:
+            messagebox.showerror("Input Error", "Error: User ID not found!")
+            return
+        
         #clear display frame
         for widget in self.f2_container.winfo_children():
             widget.destroy()
@@ -225,8 +233,8 @@ class SentimentPage:
             
             
         h = outputText.count('\n') + 2
-        print(f"\n\n\n\nLength of output is {h}\n\n")
-        print(outputText)
+        # print(f"\n\n\n\nLength of output is {h}\n\n")
+        # print(outputText)
         r = Text(self.f2_container, width = tWidth, height = h ,padx= 20)
         r.insert("end", outputText)
         

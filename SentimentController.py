@@ -70,8 +70,13 @@ class SentimentController:
         print(data)
         self.model.rawData = data
         return
+       
         
-    #   USER PAGE
+    #region USER PAGE
+    def validateUserId(self, userId):
+        self.model.validateUserId(userId)
+        return
+    
     def buildUserInfo(self, userId) -> str:
         #TODO: diagnosis date not imported correctly
         return self.model.getUserInfo(userId)
@@ -101,11 +106,11 @@ class SentimentController:
                             disabl_on.get(), combine_on.get(), 
                             sentimentHistory=sHist, edssHistory=dHist, height = height)
         return
-    
+    #endregion
     
 
     
-    #TREND PAGE
+    #region TREND PAGE
     def calcSentiments(self):
         self.model.calcSentiments()
         return
@@ -138,3 +143,5 @@ class SentimentController:
                               distroPos_on.get(), distroComp_on.get(),
                               scatter_on.get())
         return
+    
+    #endregion
