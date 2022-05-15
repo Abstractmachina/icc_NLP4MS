@@ -189,24 +189,31 @@ class FrequencyPage:
             messagebox.showerror("Input Error", "Error: MS Type required")
             return
         # init
-        self.app.resizeWindow("900x800")
+        self.app.resizeWindow("900x850")
         if self.analyser == None:
-            loading_window = Toplevel(self.root)
-            loading_window.geometry("400x150")
-            loading_window.transient()
-            loading_window.update_idletasks()
-            loading_label = Label(loading_window,text="Loading... this make take a while for large datasets")
-            loading_label.grid(column=0, row=0, sticky=(N,S,E,W))
-            loading_window.update_idletasks()
+            loading_window,loading_bar = self.setupLoadingWindow()
             self.analyser = FrequencyAnalyser(self.app.df, 
                                             self.app.csv_header_combo_boxes[2].get(), 
                                             self.app.csv_header_combo_boxes[0].get(), 
-                                            self.app.csv_header_combo_boxes[4].get())
+                                            self.app.csv_header_combo_boxes[4].get(),
+                                            processed= False, loading_bar= loading_bar,
+                                            loading_window = loading_window)
             loading_window.destroy()
             
         self.app.displayFrame("freq frame")
         
+    def setupLoadingWindow(self):
+        loading_window = Toplevel(self.root)
+        loading_window.geometry("300x60+750+500")
+        loading_window.transient()
+        loading_window.update_idletasks()
+        loading_label = Label(loading_window,text="Loading... this may take a while for large datasets")
+        loading_label.grid(column=0, row=0, sticky=(N,S,E,W))
+        loading_bar = ttk.Progressbar(loading_window,orient=HORIZONTAL,mode="determinate",length=200)
+        loading_bar.grid(column=0,row=1)
+        loading_window.update_idletasks()
 
+        return loading_window,loading_bar
 
     # 'Get phrase frequency' button (search button) : behaviour
     def freqSearchButtonClick(self):

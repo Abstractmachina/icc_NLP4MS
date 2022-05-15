@@ -79,15 +79,16 @@ class TextSearcher:
 
         if self.loading_bar != None:
             total_rows = len(self.df.index)
-            increments = total_rows//5
+            increment_amount = total_rows//5
+            increment = increment_amount
 
         for _,row in self.df.iterrows():
             count += 1
             if self.loading_bar != None:
-                if count == increments:
+                if count == increment:
                     self.loading_bar["value"] += 25
                     self.loading_window.update_idletasks()
-                    increments += increments
+                    increment += increment_amount
             proccesed_list.append(self.clean(row[text_col_name]))
 
         self.df["cleaned_txt"] = proccesed_list

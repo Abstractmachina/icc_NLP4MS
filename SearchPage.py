@@ -173,7 +173,7 @@ class SearchPage:
         loading_window.geometry("300x60+750+500")
         loading_window.transient()
         loading_window.update_idletasks()
-        loading_label = Label(loading_window,text="Loading... this make take a while for large datasets")
+        loading_label = Label(loading_window,text="Loading... this may take a while for large datasets")
         loading_label.grid(column=0, row=0, sticky=(N,S,E,W))
         loading_bar = ttk.Progressbar(loading_window,orient=HORIZONTAL,mode="determinate",length=200)
         loading_bar.grid(column=0,row=1)

@@ -11,13 +11,15 @@ import os
 
 
 class FrequencyAnalyser:
-    def __init__(self,df,txt_hd,id_hd,ms_type=None, processed = False):
+    def __init__(self,df,txt_hd,id_hd,ms_type=None, processed = False, loading_bar = None, loading_window = None):
         
         
         self.df = df
         self.txt_hd = txt_hd
         self.id_hd = id_hd
         self.ms_type = ms_type
+        self.loading_bar = loading_bar
+        self.loading_window = loading_window
 
         # Load NLTK Enlgish stopwords
         cwd = os.getcwd()
@@ -196,6 +198,8 @@ class FrequencyAnalyser:
                     if word in self.medical_terms_no_stop:
                         new_entry.append(word)
             self.tokenized_txt_no_stop_med[index] = new_entry
+
+            
     
     def createNgramsForDf(self):
         """
@@ -966,7 +970,9 @@ class FrequencyAnalyser:
         """
 
         self.addTokenizedText()   
-        self.createNgramsForDf()                
+        self.createNgramsForDf()  
+
+        self.incrementLoadingBar(30)             
         
         """ Get unique n-grams for each user"""
         self.seen_user_words_all = {}
@@ -1253,15 +1259,35 @@ class FrequencyAnalyser:
         self.quadgrams_no_stop_med_r = []
 
         # Build entries for each user entry in the dataframe
+        count = 0
+        if self.loading_bar != None:
+            total_rows = len(self.df.index)
+            increment_amount = total_rows//60
+            increment = increment_amount
+
         for index,row in self.df.iterrows():
+            count += 1
             self.buildUniqueDictionaries(row)   
             self.buildNoDuplicatesPerEntry(row)  
-            self.buildAllByMsType(row)               
+            self.buildAllByMsType(row) 
+            if self.loading_bar != None:
+                if count == increment:
+                    self.incrementLoadingBar(1)
+                    increment += increment_amount   
+                    
 
         """ Generate the 42 lexicons"""
         self.createLexiconswithDuplicates()
+        self.incrementLoadingBar(10)
         self.createLexiconsOfUniqueUserWords()
+        self.incrementLoadingBar(10)
         self.createLexiconsOfNoDuplicatesPerEntry() 
+        self.incrementLoadingBar(10)
+
+    def incrementLoadingBar(self,value):
+        if self.loading_bar != None:
+              self.loading_bar["value"] += value
+              self.loading_window.update_idletasks()
 
     # returns a list of all n_grams found in the data given the parameters?
     def getNgrams(self,ngram,stopwords,medical,allow_duplicates,allow_duplicates_across_entries,ms_type):
