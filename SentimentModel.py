@@ -210,8 +210,7 @@ class SentimentModel():
             
         dataPts = inputData.loc[inputData["UserId"] == userId]
         if len(dataPts) < minN:
-            print("Insufficient data points!")
-            return
+            raise ValueError("Insufficient data points!")
 
         col = ["UserId", "CompletedDate", "Sent_Neg", "Sent_Neu", "Sent_Pos", "Sent_Comp"]
         sentiments = pd.DataFrame(columns = col)
