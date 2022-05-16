@@ -75,12 +75,14 @@ class SentimentPage:
         #f2_search.grid(row = 1)
         f2_search.place(x = 0, y = 0, width = optionsWidth, relheight=0.2)
         
-        l_searchInstructions = ttk.Label(f2_search, text= "Enter User ID", width=optionsWidth)
+        l_searchInstructions = ttk.Label(f2_search, text= "Enter User ID", width=optionsWidth-10)
         l_searchInstructions.grid(row=0, column = 0, sticky=(E,W)) 
+        # l_searchInstructions.place(x = 5, y= 0)
         
         search_phrase = StringVar()
-        search_box = ttk.Entry(f2_search,textvariable=search_phrase, width=optionsWidth)
-        search_box.grid(row=1, column = 0)
+        search_box = ttk.Entry(f2_search,textvariable=search_phrase, width=optionsWidth-10)
+        # search_box.grid(row=1, column = 0, padx = 10, pady=10)
+        search_box.place(x = 5, y = 30, width=optionsWidth-10, height=24)
         self.searchBox = search_box
         
         
@@ -90,23 +92,23 @@ class SentimentPage:
         f2_options.place(x = 0, rely=0.2, width=optionsWidth, relheight=0.6)
         
         l_options = ttk.Label(f2_options, text = "Options")
-        l_options.grid(row = 0, column = 0)
+        l_options.grid(row = 0, column = 0, sticky="W", padx=10)
         
         self.sa_on = IntVar()
         self.check_sa = ttk.Checkbutton(f2_options, text = "Sentiment Analysis", 
                                    variable=self.sa_on)
-        self.check_sa.grid(row = 1, column = 0)
+        self.check_sa.grid(row = 1, column = 0, sticky="W", padx=10)
 
         
         self.disabl_on = IntVar()
         self.check_disabl = ttk.Checkbutton(f2_options,text = "Disability Score (EDSS)", 
                                        variable=self.disabl_on)
-        self.check_disabl.grid(row = 2, column = 0)
+        self.check_disabl.grid(row = 2, column = 0, sticky="W", padx=10)
         
         self.combine_on = IntVar()
         self.check_combine = ttk.Checkbutton(f2_options, text = "Combine", 
                                         variable=self.combine_on)
-        self.check_combine.grid(row = 4, column = 0)
+        self.check_combine.grid(row = 4, column = 0, sticky="W", padx=10)
         
         
         # ##free text options
@@ -117,7 +119,7 @@ class SentimentPage:
         self.freetxt_on = IntVar()
         ch_freetxt = ttk.Checkbutton(f2_options, text = "List Free Text", 
                                      variable= self.freetxt_on)
-        ch_freetxt.grid(row = 5)
+        ch_freetxt.grid(row = 5, sticky="W", padx=10)
         
         
         ##control footer frame
