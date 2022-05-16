@@ -48,25 +48,35 @@ class MainMenu:
         title.grid(column=1,row=0)
 
         ############# Configure Buttons ################################################
-        chart = PhotoImage(file="images\\chart.png")
+        try:
+            chart = PhotoImage(file="images\\chart.png")
+            magnifying_glass = PhotoImage(file="images\\magnifying glass.png")
+            user = PhotoImage(file="images\\user.png")
+            trend = PhotoImage(file="images\\trend.png")
+        except:
+            chart = PhotoImage(file="images/chart.png")
+            magnifying_glass = PhotoImage(file="images/magnifying glass.png")
+            user = PhotoImage(file="images/user.png")
+            trend = PhotoImage(file="images/trend.png")
+            
         freq_b = Button(self.frame, text="Word Frequency Analysis       ", command=self.freq_page.validateAndInit,
                             image=chart, compound= RIGHT, font=("bold", 12), bg="light blue",borderwidth=2)
         freq_b.image = chart
         freq_b.grid(column=1,row=1,sticky=(N,S,E,W),padx=10,pady=10)
 
-        magnifying_glass = PhotoImage(file="images\\magnifying glass.png")
+        
         search_b = Button(self.frame, text="Search the free text              ", font=("bold",12), image = magnifying_glass, compound= RIGHT,
                             bg="light blue",borderwidth=2,command=self.search_page.validateAndInit)
         search_b.image = magnifying_glass
         search_b.grid(column=1,row=2,sticky=(N,S,E,W),padx=10,pady=10)
         
-        user = PhotoImage(file="images\\user.png")
+        
         sentiment_b = Button(self.frame, text="User Analysis                      ", image=user,bg="light blue",borderwidth=2, 
                                  compound= RIGHT, font=("bold", 12), command= self.sent_page.validateAndInit)
         sentiment_b.image = user
         sentiment_b.grid(column=1,row=3,sticky=(N,S,E,W),padx=10,pady=10)
         
-        trend = PhotoImage(file="images\\trend.png")
+        
         trend_b = Button(self.frame, text="Trend Analysis                 ", image=trend, bg="light blue",
                               borderwidth=2, compound= RIGHT, font=("bold", 12),command= self.trend_page.validateAndInit)
         trend_b.image = trend
