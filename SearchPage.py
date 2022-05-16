@@ -43,19 +43,23 @@ class SearchPage:
         self.search_box = search_box
 
         # Configure search button
-        search_button = ttk.Button(self.frame,text="Search",command= lambda: self.searchButtonClick_sf())
+        search_button = Button(self.frame,text="Search",command= lambda: self.searchButtonClick_sf(),
+                                    bg = "light blue", borderwidth=2, font=("bold", 12))
         search_button.grid(column=0,row=5,sticky=(N,S,E,W),pady=5)
 
         # Configure download button
-        download_b = ttk.Button(self.frame, text="Download results", command= lambda: self.downloadButtonClick_sf())
+        download_b = Button(self.frame, text="Download results", command= lambda: self.downloadButtonClick_sf(),
+                            bg = "light blue", borderwidth=2, font=("bold", 12))
         download_b.grid(column=0, row=6, sticky=(N,S,E,W),pady=5)
 
         # Configure clear button
-        clear_b = ttk.Button(self.frame, text="Clear", command=lambda: self.clearButtonClick_sf())
+        clear_b = Button(self.frame, text="Clear", command=lambda: self.clearButtonClick_sf(),
+                        bg = "light blue", borderwidth=2, font=("bold", 12))
         clear_b.grid(column=0,row=7,sticky=(N,S,E,W),pady=5)
         
         # Configure back button
-        back_b = ttk.Button(self.frame, text="Back", command= lambda: self.app.displayFrame("main frame"))
+        back_b = Button(self.frame, text="Back", command= lambda: self.app.displayFrame("main frame"),
+                        bg = "light blue", borderwidth=2, font=("bold", 12))
         back_b.grid(column=0, row=8, sticky=(N,S,E,W),pady=5)
 
         # Configure search window list
@@ -89,7 +93,7 @@ class SearchPage:
 
         # Configure checkbuttons to allow the user to display additional information from their query
         self.user_id_c_sv = IntVar()
-        user_id_c = ttk.Checkbutton(check_frame,text="User ID",variable=self.user_id_c_sv)
+        user_id_c = ttk.Checkbutton(check_frame,text="User ID",variable=self.user_id_c_sv,)
         user_id_c.grid(column=1,row=6,sticky=W,padx=40)
 
         self.dob_c_sv = IntVar()

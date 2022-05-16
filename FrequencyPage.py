@@ -60,7 +60,7 @@ class FrequencyPage:
         self.freq_box = freq_box
 
         # 'Get phrase frequency' button
-        freq_search_button = ttk.Button(search_frame, 
+        freq_search_button = Button(search_frame, bg = "light blue", borderwidth=2, font=("bold", 12), 
                                         text = "Get phrase frequency", 
                                         command = lambda: self.freqSearchButtonClick())
         freq_search_button.grid(column=1,row=4,sticky=(N,S,E,W),pady=10)
@@ -102,13 +102,13 @@ class FrequencyPage:
         self.most_frequent_list = most_frequent_list
 
         # list freq button
-        list_freq_button = ttk.Button(ngram_frame, 
+        list_freq_button = Button(ngram_frame, bg = "light blue", borderwidth=2, font=("bold", 12), 
                                       text = "List most frequent n-grams", 
                                       command = lambda: self.listMostFrequentNgramsClick())
         list_freq_button.grid(column = 0, row = 8, sticky = (N,S,E,W),padx=10)
 
         # graph/plot freq button
-        graph_freq_button = ttk.Button(ngram_frame, 
+        graph_freq_button = Button(ngram_frame, bg = "light blue", borderwidth=2, font=("bold", 12), 
                                        text = "Plot most frequent n-grams", 
                                        command = lambda: self.graphMostFreqNgramsClick())
         graph_freq_button.grid(column = 1, row = 8, sticky = (N,S,E,W))
@@ -170,7 +170,7 @@ class FrequencyPage:
         
         # BACK BUTTON #
 
-        back_b = ttk.Button(self.frame, 
+        back_b = Button(self.frame, bg = "light blue", borderwidth=2, font=("bold", 12), 
                             text = "Back", 
                             command = lambda: self.backButtonClick())
         back_b.grid(column = 0, row = 15, columnspan=2, pady = 20, sticky=(N,S,E,W))

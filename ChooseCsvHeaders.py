@@ -145,13 +145,13 @@ class ChooseCsvHeaders:
         self.frame.rowconfigure(13, weight = 1)  
         
         # Back button
-        back_b = ttk.Button(self.frame, 
+        back_b = Button(self.frame, bg = "light blue", borderwidth=2, font=("bold", 12),  
                             text = "Back", 
                             command = lambda: self.app.displayFrame("home frame"))
         back_b.grid(column = 0, row = 14, padx=10, sticky = (N,S,E,W))  
         
         # Done button
-        self.done_b = ttk.Button(self.frame, 
+        self.done_b = Button(self.frame, bg = "lightblue", borderwidth=2, font=("bold", 12), 
                             text = "Done", 
                             state = DISABLED, 
                             command = self.doneButtonClick)
