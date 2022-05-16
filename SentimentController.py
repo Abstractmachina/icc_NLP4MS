@@ -97,6 +97,7 @@ class SentimentController:
                         disabl_on, combine_on, height = 0):
         sHist = None
         dHist = None
+        
         if sent_on.get() or combine_on.get():
             sHist = self.model.buildSentimentHistory_single(userId)
         if disabl_on.get() or combine_on.get():

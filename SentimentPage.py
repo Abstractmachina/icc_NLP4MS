@@ -209,7 +209,6 @@ class SentimentPage:
         self.searchBox.delete(0, "end")
         
         #check if user id val
-        
         try:
             self.controller.validateUserId(userId)
         except:
@@ -244,9 +243,13 @@ class SentimentPage:
         #r.place(relx= 0.5, rely = 0.0, relwidth=1.0, anchor="center")
         
         # build graphs   
-        self.controller.buildUserGraphs(userId, self.f2_container, 
-                                        self.sa_on, self.disabl_on,
-                                        self.combine_on, h)
+        try:
+            self.controller.buildUserGraphs(userId, self.f2_container, 
+                                            self.sa_on, self.disabl_on,
+                                            self.combine_on, h)
+        except ValueError as e:
+            print(e)
+            messagebox.showerror("Insufficient Data", "User does not have enough data points to generate graph.")
             
         
         return
