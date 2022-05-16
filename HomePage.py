@@ -40,15 +40,17 @@ class HomePage:
         self.frame.rowconfigure(0,weight=1)
         self.frame.columnconfigure(2,weight=1)
         
-        title = ttk.Label(self.frame, justify=CENTER, text = "Patient\n\nFree Text\n\nExplorer", font=("bold",25))
+        title = ttk.Label(self.frame, justify=CENTER, text = "Patient\n\nFree Text\n\nExplorer", font=("bold",25,"underline"))
         title.grid(column=1, columnspan=1,row=0,rowspan=1)
         self.csv_file_string = StringVar()
         self.csv_file_string.set("The name of your CSV file will appear here")
         csv_name_box = Label(self.frame, textvariable = self.csv_file_string)
         csv_name_box.grid(column = 1, row = 2, sticky="NSEW")
-        load_csv_button = ttk.Button(self.frame, text="Open CSV", command = self.loadCSVClick)
+        load_csv_button = Button(self.frame, text="Open CSV", command = self.loadCSVClick,
+                                     bg = "light blue", borderwidth=2, font=("bold", 12))
         load_csv_button.grid(column=1, row=3,sticky=(N,S,E,W),padx=10,pady=10)
-        instruction_button = ttk.Button(self.frame, text="Instructions", command=self.instructionsClick)
+        instruction_button = Button(self.frame, text="Instructions", command=self.instructionsClick,
+                                        bg = "light blue", borderwidth=2, font=("bold", 12))
         instruction_button.grid(column=1,row=6,sticky=(N,S,E,W),padx=10,pady=10)
         #model_button = ttk.Button(self.frame, text="Predict MS Type", command= lambda: self.app.displayFrame("model frame"))
         #model_button.grid(column=1,row=5,sticky=(N,S,E,W))
@@ -56,7 +58,7 @@ class HomePage:
 
         # Disabled by default
         # Set to normal by ChooseCsvHeaders.chooseCsvHeaders() function
-        self.main_menu_button = ttk.Button(self.frame, 
+        self.main_menu_button = Button(self.frame, bg = "light blue", borderwidth=2, font=("bold", 12), 
                                            text = "Main Menu", 
                                            state = DISABLED, 
                                            command = lambda: self.app.displayFrame("main frame"))
