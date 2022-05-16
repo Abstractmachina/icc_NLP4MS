@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter import filedialog
 
 from ChooseCsvHeaders import ChooseCsvHeaders
+from InstructionPage import InstructionPage
 #from ModelPage import ModelPage
 
 # TODO:
@@ -94,12 +95,7 @@ class HomePage:
         
 
     def instructionsClick(self):
-        
-        """
-        Opens the instruction page which tells the user how to use our software
-
-        """
-        print("Need to display instructions")
+        InstructionPage()
     
 
         
