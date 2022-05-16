@@ -72,14 +72,14 @@ class TrendPage:
         f3_input.place(relx=0, rely=0, relwidth=1, relheight=0.2)
         
         l_options = ttk.Label(f3_input, text = "Options")
-        l_options.grid(row = 0)
+        l_options.grid(row = 0, sticky="W", padx=10)
         
         l_numUsers = ttk.Label(f3_input, text = "Number of Users\n(0 for all)")
-        l_numUsers.grid(row = 1, column= 0)
+        l_numUsers.grid(row = 1, column= 0, sticky="W", padx=10)
         
         numUsers = StringVar()
         self.e_numUsers = ttk.Entry(f3_input, textvariable=numUsers)
-        self.e_numUsers.grid(row=1, column = 1)
+        self.e_numUsers.grid(row=1, column = 1, sticky="EW")
         
         
         ### trend graphs
@@ -88,16 +88,16 @@ class TrendPage:
         f3_trends.place(relx=0, rely=1/3, relwidth=1, relheight=1/3)
 
         l_trends = ttk.Label(f3_trends, text = "Trend Graphs")
-        l_trends.grid(row = 0)
+        l_trends.grid(row = 0,sticky="W", padx=10)
         self.sa_on = IntVar()
         self.check_sa = ttk.Checkbutton(f3_trends, text = "Sentiment Trend", 
                                    variable=self.sa_on)
-        self.check_sa.grid(row = 1)
+        self.check_sa.grid(row = 1, sticky="W", padx=10)
         
         self.disabl_on = IntVar()
         self.check_disabl = ttk.Checkbutton(f3_trends,text = "EDSS Trend", 
                                        variable=self.disabl_on)
-        self.check_disabl.grid(row = 2)
+        self.check_disabl.grid(row = 2, sticky="W", padx=10)
         
     
         ### distribution graphs
@@ -106,32 +106,32 @@ class TrendPage:
         f3_distro.place(relx=0, rely=2/3, relwidth=1, relheight=1/3)
         
         l_distribution = ttk.Label(f3_distro, text = "Distribution Graphs")
-        l_distribution.grid(row = 0)
+        l_distribution.grid(row = 0, sticky="W", padx=10)
         
         self.distroNeg_on = IntVar()
         self.check_distroNeg = ttk.Checkbutton(f3_distro, text="Negative", 
                                           variable=self.distroNeg_on)
-        self.check_distroNeg.grid(row = 1)
+        self.check_distroNeg.grid(row = 1, sticky="W", padx=10)
         
         self.distroNeu_on = IntVar()
         self.check_distroNeu = ttk.Checkbutton(f3_distro, text="Neutral", 
                                           variable=self.distroNeu_on)
-        self.check_distroNeu.grid(row = 2)
+        self.check_distroNeu.grid(row = 2, sticky="W", padx=10)
         
         self.distroPos_on = IntVar()
         self.check_distroPos = ttk.Checkbutton(f3_distro, text="Positive", 
                                           variable=self.distroPos_on)
-        self.check_distroPos.grid(row = 3)
+        self.check_distroPos.grid(row = 3, sticky="W", padx=10)
         
         self.distroComp_on = IntVar()
         self.check_distroComp = ttk.Checkbutton(f3_distro, text="Compound", 
                                           variable=self.distroComp_on)
-        self.check_distroComp.grid(row = 4)
+        self.check_distroComp.grid(row = 4, sticky="W", padx=10)
         
         self.scatter_on = IntVar()
         self.check_scatter = ttk.Checkbutton(f3_distro, text="Scatter", 
                                           variable=self.scatter_on)
-        self.check_scatter.grid(row = 5)
+        self.check_scatter.grid(row = 5, sticky="W", padx=10)
         
         
         ##control footer frame
