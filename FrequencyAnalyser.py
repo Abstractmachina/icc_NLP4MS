@@ -8,7 +8,7 @@ from nltk.probability import FreqDist
 from nltk.util import everygrams
 import nltk
 import os
-
+import gc
 
 class FrequencyAnalyser:
     def __init__(self,df,txt_hd,id_hd,ms_type=None, processed = False, loading_bar = None, loading_window = None):
@@ -563,104 +563,184 @@ class FrequencyAnalyser:
     def createLexiconsOfUniqueUserWords(self):
         
         self.unique_words_all = self.flattenList(list(self.seen_user_words_all.values()))
+        self.seen_user_words_all = None
         self.unique_bigrams_all = self.flattenList(list(self.seen_user_bigrams_all.values()))
+        self.seen_user_bigrams_all = None
         self.unique_trigrams_all = self.flattenList(list(self.seen_user_trigrams_all.values()))
+        self.seen_user_trigrams_all = None
         self.unique_quadgrams_all = self.flattenList(list(self.seen_user_quadgrams_all.values()))
+        self.seen_user_quadgrams_all = None
 
         self.unique_words_no_stop = self.flattenList(list(self.seen_user_words_no_stop.values()))
+        self.seen_user_words_no_stop = None
         self.unique_bigrams_no_stop = self.flattenList(list(self.seen_user_bigrams_no_stop.values()))
+        self.seen_user_bigrams_no_stop = None
         self.unique_trigrams_no_stop = self.flattenList(list(self.seen_user_trigrams_no_stop.values()))
+        self.seen_user_trigrams_no_stop = None
         self.unique_quadgrams_no_stop = self.flattenList(list(self.seen_user_quadgrams_no_stop.values()))
+        self.seen_user_quadgrams_no_stop = None
 
         self.unique_words_all_med = self.flattenList(list(self.seen_user_words_all_med.values()))
+        self.seen_user_words_all_med = None
         self.unique_bigrams_all_med = self.flattenList(list(self.seen_user_bigrams_all_med.values()))
+        self.seen_user_bigrams_all_med = None
         self.unique_trigrams_all_med = self.flattenList(list(self.seen_user_trigrams_all_med.values()))
+        self.seen_user_trigrams_all_med = None
         self.unique_quadgrams_all_med = self.flattenList(list(self.seen_user_quadgrams_all_med.values()))
+        self.seen_user_quadgrams_all_med = None
 
         self.unique_words_no_stop_med = self.flattenList(list(self.seen_user_words_no_stop_med.values()))
+        self.seen_user_words_no_stop_med = None
         self.unique_bigrams_no_stop_med = self.flattenList(list(self.seen_user_bigrams_no_stop_med.values()))
+        self.seen_user_bigrams_no_stop_med = None
         self.unique_trigrams_no_stop_med = self.flattenList(list(self.seen_user_trigrams_no_stop_med.values()))
+        self.seen_user_trigrams_no_stop_med = None
         self.unique_quadgrams_no_stop_med = self.flattenList(list(self.seen_user_quadgrams_no_stop_med.values()))
+        self.seen_user_quadgrams_no_stop_med = None
 
         self.unique_words_all_b = self.flattenList(list(self.seen_user_words_all_b.values()))
+        self.seen_user_words_all_b = None
         self.unique_bigrams_all_b = self.flattenList(list(self.seen_user_bigrams_all_b.values()))
+        self.seen_user_bigrams_all_b = None
         self.unique_trigrams_all_b = self.flattenList(list(self.seen_user_trigrams_all_b.values()))
+        self.seen_user_trigrams_all_b = None
         self.unique_quadgrams_all_b = self.flattenList(list(self.seen_user_quadgrams_all_b.values()))
+        self.seen_user_quadgrams_all_b = None
 
         self.unique_words_no_stop_b = self.flattenList(list(self.seen_user_words_no_stop_b.values()))
+        self.seen_user_words_no_stop_b = None
         self.unique_bigrams_no_stop_b = self.flattenList(list(self.seen_user_bigrams_no_stop_b.values()))
+        self.seen_user_bigrams_no_stop_b = None
         self.unique_trigrams_no_stop_b = self.flattenList(list(self.seen_user_trigrams_no_stop_b.values()))
+        self.seen_user_trigrams_no_stop_b = None
         self.unique_quadgrams_no_stop_b = self.flattenList(list(self.seen_user_quadgrams_no_stop_b.values()))
+        self.seen_user_quadgrams_no_stop_b = None
 
         self.unique_words_all_med_b = self.flattenList(list(self.seen_user_words_all_med_b.values()))
+        self.seen_user_words_all_med_b = None
         self.unique_bigrams_all_med_b = self.flattenList(list(self.seen_user_bigrams_all_med_b.values()))
+        self.seen_user_bigrams_all_med_b = None
         self.unique_trigrams_all_med_b = self.flattenList(list(self.seen_user_trigrams_all_med_b.values()))
+        self.seen_user_trigrams_all_med_b = None
         self.unique_quadgrams_all_med_b = self.flattenList(list(self.seen_user_quadgrams_all_med_b.values()))
+        self.seen_user_quadgrams_all_med_b = None
 
         self.unique_words_no_stop_med_b = self.flattenList(list(self.seen_user_words_no_stop_med_b.values()))
+        self.seen_user_words_no_stop_med_b = None
         self.unique_bigrams_no_stop_med_b = self.flattenList(list(self.seen_user_bigrams_no_stop_med_b.values()))
+        self.seen_user_bigrams_no_stop_med_b = None
         self.unique_trigrams_no_stop_med_b = self.flattenList(list(self.seen_user_trigrams_no_stop_med_b.values()))
+        self.seen_user_trigrams_no_stop_med_b = None
         self.unique_quadgrams_no_stop_med_b = self.flattenList(list(self.seen_user_quadgrams_no_stop_med_b.values()))
+        self.seen_user_quadgrams_no_stop_med_b = None
 
         self.unique_words_all_p = self.flattenList(list(self.seen_user_words_all_p.values()))
+        self.seen_user_words_all_p = None
         self.unique_bigrams_all_p = self.flattenList(list(self.seen_user_bigrams_all_p.values()))
+        self.seen_user_bigrams_all_p = None
         self.unique_trigrams_all_p = self.flattenList(list(self.seen_user_trigrams_all_p.values()))
+        self.seen_user_trigrams_all_p = None
         self.unique_quadgrams_all_p = self.flattenList(list(self.seen_user_quadgrams_all_p.values()))
+        self.seen_user_quadgrams_all_p = None
 
         self.unique_words_no_stop_p = self.flattenList(list(self.seen_user_words_no_stop_p.values()))
+        self.seen_user_words_no_stop_p = None
         self.unique_bigrams_no_stop_p = self.flattenList(list(self.seen_user_bigrams_no_stop_p.values()))
+        self.seen_user_bigrams_no_stop_p = None
         self.unique_trigrams_no_stop_p = self.flattenList(list(self.seen_user_trigrams_no_stop_p.values()))
+        self.seen_user_trigrams_no_stop_p = None
         self.unique_quadgrams_no_stop_p = self.flattenList(list(self.seen_user_quadgrams_no_stop_p.values()))
+        self.seen_user_quadgrams_no_stop_p = None
 
         self.unique_words_all_med_p = self.flattenList(list(self.seen_user_words_all_med_p.values()))
+        self.seen_user_words_all_med_p = None
         self.unique_bigrams_all_med_p = self.flattenList(list(self.seen_user_bigrams_all_med_p.values()))
+        self.seen_user_bigrams_all_med_p = None
         self.unique_trigrams_all_med_p = self.flattenList(list(self.seen_user_trigrams_all_med_p.values()))
+        self.seen_user_trigrams_all_med_p = None
         self.unique_quadgrams_all_med_p = self.flattenList(list(self.seen_user_quadgrams_all_med_p.values()))
+        self.seen_user_quadgrams_all_med_p = None
 
         self.unique_words_no_stop_med_p = self.flattenList(list(self.seen_user_words_no_stop_med_p.values()))
+        self.seen_user_words_no_stop_med_p = None
         self.unique_bigrams_no_stop_med_p = self.flattenList(list(self.seen_user_bigrams_no_stop_med_p.values()))
+        self.seen_user_bigrams_no_stop_med_p = None
         self.unique_trigrams_no_stop_med_p = self.flattenList(list(self.seen_user_trigrams_no_stop_med_p.values()))
+        self.seen_user_trigrams_no_stop_med_p = None
         self.unique_quadgrams_no_stop_med_p = self.flattenList(list(self.seen_user_quadgrams_no_stop_med_p.values()))
+        self.seen_user_quadgrams_no_stop_med_p = None
 
         self.unique_words_all_s = self.flattenList(list(self.seen_user_words_all_s.values()))
+        self.seen_user_words_all_s = None
         self.unique_bigrams_all_s = self.flattenList(list(self.seen_user_bigrams_all_s.values()))
+        self.seen_user_bigrams_all_s = None
         self.unique_trigrams_all_s = self.flattenList(list(self.seen_user_trigrams_all_s.values()))
+        self.seen_user_trigrams_all_s = None
         self.unique_quadgrams_all_s = self.flattenList(list(self.seen_user_quadgrams_all_s.values()))
+        self.seen_user_quadgrams_all_s = None
 
         self.unique_words_no_stop_s = self.flattenList(list(self.seen_user_words_no_stop_s.values()))
+        self.seen_user_words_no_stop_s = None
         self.unique_bigrams_no_stop_s = self.flattenList(list(self.seen_user_bigrams_no_stop_s.values()))
+        self.seen_user_bigrams_no_stop_s = None
         self.unique_trigrams_no_stop_s = self.flattenList(list(self.seen_user_trigrams_no_stop_s.values()))
+        self.seen_user_trigrams_no_stop_s = None
         self.unique_quadgrams_no_stop_s = self.flattenList(list(self.seen_user_quadgrams_no_stop_s.values()))
+        self.seen_user_quadgrams_no_stop_s = None
 
         self.unique_words_all_med_s = self.flattenList(list(self.seen_user_words_all_med_s.values()))
+        self.seen_user_words_all_med_s = None
         self.unique_bigrams_all_med_s = self.flattenList(list(self.seen_user_bigrams_all_med_s.values()))
+        self.seen_user_bigrams_all_med_s = None
         self.unique_trigrams_all_med_s = self.flattenList(list(self.seen_user_trigrams_all_med_s.values()))
+        self.seen_user_trigrams_all_med_s = None
         self.unique_quadgrams_all_med_s = self.flattenList(list(self.seen_user_quadgrams_all_med_s.values()))
+        self.seen_user_quadgrams_all_med_s = None
 
         self.unique_words_no_stop_med_s = self.flattenList(list(self.seen_user_words_no_stop_med_s.values()))
+        self.seen_user_words_no_stop_med_s = None
         self.unique_bigrams_no_stop_med_s = self.flattenList(list(self.seen_user_bigrams_no_stop_med_s.values()))
+        self.seen_user_bigrams_no_stop_med_s = None
         self.unique_trigrams_no_stop_med_s = self.flattenList(list(self.seen_user_trigrams_no_stop_med_s.values()))
+        self.seen_user_trigrams_no_stop_med_s = None
         self.unique_quadgrams_no_stop_med_s = self.flattenList(list(self.seen_user_quadgrams_no_stop_med_s.values()))
+        self.seen_user_quadgrams_no_stop_med_s = None
 
         self.unique_words_all_r = self.flattenList(list(self.seen_user_words_all_r.values()))
+        self.seen_user_words_all_r = None
         self.unique_bigrams_all_r = self.flattenList(list(self.seen_user_bigrams_all_r.values()))
+        self.seen_user_bigrams_all_r = None
         self.unique_trigrams_all_r = self.flattenList(list(self.seen_user_trigrams_all_r.values()))
+        self.seen_user_trigrams_all_r = None
         self.unique_quadgrams_all_r = self.flattenList(list(self.seen_user_quadgrams_all_r.values()))
+        self.seen_user_quadgrams_all_r = None
 
         self.unique_words_no_stop_r = self.flattenList(list(self.seen_user_words_no_stop_r.values()))
+        self.seen_user_words_no_stop_r = None
         self.unique_bigrams_no_stop_r = self.flattenList(list(self.seen_user_bigrams_no_stop_r.values()))
+        self.seen_user_bigrams_no_stop_r = None
         self.unique_trigrams_no_stop_r = self.flattenList(list(self.seen_user_trigrams_no_stop_r.values()))
+        self.seen_user_trigrams_no_stop_r = None
         self.unique_quadgrams_no_stop_r = self.flattenList(list(self.seen_user_quadgrams_no_stop_r.values()))
+        self.seen_user_quadgrams_no_stop_r = None
 
         self.unique_words_all_med_r = self.flattenList(list(self.seen_user_words_all_med_r.values()))
+        self.seen_user_words_all_med_r = None
         self.unique_bigrams_all_med_r = self.flattenList(list(self.seen_user_bigrams_all_med_r.values()))
+        self.seen_user_bigrams_all_med_r = None
         self.unique_trigrams_all_med_r = self.flattenList(list(self.seen_user_trigrams_all_med_r.values()))
+        self.seen_user_trigrams_all_med_r = None
         self.unique_quadgrams_all_med_r = self.flattenList(list(self.seen_user_quadgrams_all_med_r.values()))
+        self.seen_user_quadgrams_all_med_r = None
 
         self.unique_words_no_stop_med_r = self.flattenList(list(self.seen_user_words_no_stop_med_r.values()))
+        self.seen_user_words_no_stop_med_r = None
         self.unique_bigrams_no_stop_med_r = self.flattenList(list(self.seen_user_bigrams_no_stop_med_r.values()))
+        self.seen_user_bigrams_no_stop_med_r = None
         self.unique_trigrams_no_stop_med_r = self.flattenList(list(self.seen_user_trigrams_no_stop_med_r.values()))
+        self.seen_user_trigrams_no_stop_med_r = None
         self.unique_quadgrams_no_stop_med_r = self.flattenList(list(self.seen_user_quadgrams_no_stop_med_r.values()))
+        self.seen_user_quadgrams_no_stop_med_r = None
 
 
     def createLexiconsOfNoDuplicatesPerEntry(self):
@@ -970,7 +1050,11 @@ class FrequencyAnalyser:
         """
 
         self.addTokenizedText()   
+        gc.collect()
+        print("tokenized done")
         self.createNgramsForDf()  
+        print("ngrams done")
+        gc.collect()
 
         self.incrementLoadingBar(30)             
         

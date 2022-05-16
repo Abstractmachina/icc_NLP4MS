@@ -128,7 +128,8 @@ def setTheme(root):
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
     """
-    root.tk.call("source","Azure-ttk-theme-main/azure.tcl")
+    #root.tk.call("source","Azure-ttk-theme-main/azure.tcl")
+    root.tk.call("source","Azure-ttk-theme-main//azure.tcl")
     root.tk.call("set_theme","light") 
 
 
