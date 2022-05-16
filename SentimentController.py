@@ -1,3 +1,6 @@
+
+
+
 import pandas as pd
 from SentimentModel import SentimentModel
 from SentimentGrapher import SentimentGrapher_tk as sg
@@ -71,8 +74,9 @@ class SentimentController:
         self.model.rawData = data
         return
        
-        
-    #region USER PAGE
+    ####################################################################################
+    #region                             USER PAGE
+    
     def validateUserId(self, userId):
         self.model.validateUserId(userId)
         return
@@ -109,12 +113,14 @@ class SentimentController:
         return
     #endregion
     
-
+    ####################################################################################
+    #region                          TREND PAGE
     
-    #region TREND PAGE
+    
     def calcSentiments(self):
         self.model.calcSentiments()
         return
+    
     
     def calcEDSS(self):
         self.model.processEDSS()
