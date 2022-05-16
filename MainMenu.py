@@ -39,15 +39,18 @@ class MainMenu:
         self.frame.columnconfigure(0,weight=1)
         self.frame.rowconfigure(0,weight=1)
         self.frame.columnconfigure(2,weight=1)
+        style = ttk.Style()
+        style.configure("MainMenu.TFrame",background="white")
+        self.frame.config(style="MainMenu.TFrame")
 
         ############# Configure Title ##################################################
-        title = ttk.Label(self.frame, text="Select an analysis tool to use",justify =CENTER,font=("bold",25))
+        title = Label(self.frame, background="white", text="Select an analysis tool to use",justify =CENTER,font=("bold",25,"underline"))
         title.grid(column=1,row=0)
 
         ############# Configure Buttons ################################################
         chart = PhotoImage(file="images\\chart.png")
         freq_b = Button(self.frame, text="Word Frequency Analysis       ", command=self.freq_page.validateAndInit,
-                            image=chart, compound= RIGHT, font=("bold, 12"), bg="light blue",borderwidth=2)
+                            image=chart, compound= RIGHT, font=("bold", 12), bg="light blue",borderwidth=2)
         freq_b.image = chart
         freq_b.grid(column=1,row=1,sticky=(N,S,E,W),padx=10,pady=10)
 
@@ -70,13 +73,13 @@ class MainMenu:
         trend_b.grid(column=1,row=4,sticky=(N,S,E,W),padx=10,pady=10)
 
         # Back button #
-        back_b = ttk.Button(self.frame, 
+        back_b = Button(self.frame, bg = "light blue", borderwidth=2, font=("bold", 12), 
                             text = "Back", 
                             command = lambda: self.app.displayFrame("choose headers"))
         back_b.grid(column = 1, row = 5, sticky = (N,S,E,W),padx=10,pady=10)
         
         # Home button #
-        home_b = ttk.Button(self.frame, 
+        home_b = Button(self.frame, bg = "light blue", borderwidth=2, font=("bold", 12),
                             text = "Home", 
                             command = lambda: self.app.displayFrame("home frame"))
         home_b.grid(column = 1, row = 6, sticky = (N,S,E,W),padx=10,pady=10)
