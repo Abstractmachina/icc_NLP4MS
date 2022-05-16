@@ -14,7 +14,7 @@ class InstructionPage:
  
         info = Toplevel()
         info.title("Instructions Page")
-        info.geometry("900x640+500+150")
+        info.geometry("900x640+0+0")
         info.columnconfigure(0, weight=1)
         info.rowconfigure(0, weight=1)
  

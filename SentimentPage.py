@@ -125,12 +125,12 @@ class SentimentPage:
         #f2_footer.grid(row = 4, column = 0)
         f2_footer.place(x = 0, rely=0.8, relwidth=1.0, relheight=0.2)
         
-        b_generate = ttk.Button(f2_footer, text = "Generate", 
-                                command = lambda: self.generate_click(), style = 'Custom.TButton')
+        b_generate = Button(f2_footer, text = "Generate", bg = "light blue", borderwidth=2, font=("bold", 12),
+                                command = lambda: self.generate_click())
         b_generate.place(x = 5, y= 0, width=optionsWidth-10, relheight=1/2*0.95)
         
-        b_back = ttk.Button(f2_footer, text="Back", 
-                            command= lambda: self.app.displayFrame("main frame"), style = 'Custom.TButton')
+        b_back = Button(f2_footer, text="Back", bg = "light blue", borderwidth=2, font=("bold", 12),
+                            command= lambda: self.app.displayFrame("main frame"))
         #b_back.grid(row=2, column = 0, sticky=(N,S,E,W))
         b_back.place(x = 5, rely=1/2*0.97, width=optionsWidth-10, relheight=1/2*0.95)
         

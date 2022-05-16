@@ -2084,8 +2084,8 @@ class FrequencyAnalyser:
             words,freq = self.getPlotValuesFromFdist(freq_dist,size)
 
             # Reverse the order so that the most frequeent
-            words = words[::-1]
-            freq = freq[::-1]        
+            #words = words[::-1]
+            #freq = freq[::-1]        
 
             fig,ax = plt.subplots()
             

@@ -50,7 +50,7 @@ class HomePage:
         load_csv_button = Button(self.frame, text="Open CSV", command = self.loadCSVClick,
                                      bg = "light blue", borderwidth=2, font=("bold", 12))
         load_csv_button.grid(column=1, row=3,sticky=(N,S,E,W),padx=10,pady=10)
-        instruction_button = Button(self.frame, text="Instructions", command=self.instructionsClick,
+        instruction_button = Button(self.frame, text="Instructions (opens new window)", command=self.instructionsClick,
                                         bg = "light blue", borderwidth=2, font=("bold", 12))
         instruction_button.grid(column=1,row=6,sticky=(N,S,E,W),padx=10,pady=10)
         #model_button = ttk.Button(self.frame, text="Predict MS Type", command= lambda: self.app.displayFrame("model frame"))

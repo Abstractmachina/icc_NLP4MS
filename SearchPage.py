@@ -43,9 +43,9 @@ class SearchPage:
         self.search_box = search_box
 
         # Configure search button
-        search_button = Button(self.frame,text="Search",command= lambda: self.searchButtonClick_sf(),
+        self.search_button = Button(self.frame,text="Search",command= lambda: self.searchButtonClick_sf(),
                                     bg = "light blue", borderwidth=2, font=("bold", 12))
-        search_button.grid(column=0,row=5,sticky=(N,S,E,W),pady=5)
+        self.search_button.grid(column=0,row=5,sticky=(N,S,E,W),pady=5)
 
         # Configure download button
         download_b = Button(self.frame, text="Download results", command= lambda: self.downloadButtonClick_sf(),
@@ -217,6 +217,7 @@ class SearchPage:
         self.display_search_results.delete('1.0','end')
         self.display_search_results.insert("1.0","Search results will appear here")
         self.display_search_results.configure(state="disabled")
+        self.search_button.configure(state="normal")
 
      
     def downloadButtonClick_sf(self):
@@ -285,5 +286,5 @@ class SearchPage:
             start_pos = self.display_search_results.search(search_phrase,tag_end,"end")
 
 
-
+        self.search_button.configure(state="disabled")
         self.display_search_results.configure(state="disabled")
