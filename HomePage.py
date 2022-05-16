@@ -40,6 +40,7 @@ class HomePage:
         self.frame.columnconfigure(0,weight=1)
         self.frame.rowconfigure(0,weight=1)
         self.frame.columnconfigure(2,weight=1)
+
         
         title = ttk.Label(self.frame, justify=CENTER, text = "Patient\n\nFree Text\n\nExplorer", font=("bold",25,"underline"))
         title.grid(column=1, columnspan=1,row=0,rowspan=1)

@@ -129,9 +129,9 @@ def setTheme(root):
     SOFTWARE.
     """
     #root.tk.call("source","Azure-ttk-theme-main/azure.tcl")
-    root.tk.call("source","Azure-ttk-theme-main//azure.tcl")
+    root.tk.call("source","Azure-ttk-theme-main\\azure.tcl")
     try:
-        root.tk.call("source","Azure-ttk-theme-main//azure.tcl")
+        root.tk.call("source","Azure-ttk-theme-main/azure.tcl")
     except:
         print("Already set theme (host PC is likely windows rather than MAC/UNIX")
         
