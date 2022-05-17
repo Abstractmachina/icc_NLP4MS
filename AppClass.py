@@ -130,10 +130,10 @@ def setTheme(root):
     """
     #root.tk.call("source","Azure-ttk-theme-main/azure.tcl")
     try:
-        root.tk.call("source","Azure-ttk-theme-main\\azure.tcl")
+        root.tk.call("source","Azure-ttk-theme-main/azure.tcl")
     except:
             try:
-                root.tk.call("source","Azure-ttk-theme-main/azure.tcl")
+                root.tk.call("source","Azure-ttk-theme-main\\azure.tcl")
             except:
                 print("Error loading theme")
         
