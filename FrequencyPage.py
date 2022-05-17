@@ -102,17 +102,12 @@ class FrequencyPage:
 
         self.most_frequent_list = most_frequent_list
 
-        # list freq button
-        list_freq_button = Button(ngram_frame, bg = "light blue", borderwidth=2, font=("bold", 12), 
-                                      text = "List most frequent n-grams", 
-                                      command = lambda: self.listMostFrequentNgramsClick())
-        list_freq_button.grid(column = 0, row = 8, sticky = (N,S,E,W),padx=10)
 
         # graph/plot freq button
         graph_freq_button = Button(ngram_frame, bg = "light blue", borderwidth=2, font=("bold", 12), 
                                        text = "Plot most frequent n-grams", 
                                        command = lambda: self.graphMostFreqNgramsClick())
-        graph_freq_button.grid(column = 1, row = 8, sticky = (N,S,E,W))
+        graph_freq_button.grid(column = 0, columnspan=2, row = 8, sticky = (N,S,E,W))
         
         # SETTINGS #
         settings_frame = Frame(self.frame,relief=RIDGE,bd=5)
@@ -307,53 +302,7 @@ class FrequencyPage:
         self.display_results.insert('1.0',result)
         self.display_results.configure(state="disabled")
 
-    # Button of same name
-    def listMostFrequentNgramsClick(self):
-
-        ngrams = int(self.ngram_list.get())
-        size = int(self.most_frequent_list.get())
-        ms_type = str(self.ms_type_list.get()) 
-
-        # Build Boolean variables
-        remove_stopwords = False
-        medical_only = False
-        allow_duplicates = True
-        allow_duplicates_across_entries = False
-
-        if self.remove_stopwords.get():
-            remove_stopwords = True
-        if self.medical_only.get():
-            medical_only = True
-        if self.unique_only.get():
-            allow_duplicates = False
-        if self.different_entries_only.get():
-            allow_duplicates_across_entries = True
-
-        if allow_duplicates == False:
-            allow_duplicates_across_entries = False
-
-        frequency_list = self.analyser.getMostFrequentNgrams(ngrams, 
-                                                             size, 
-                                                             remove_stopwords, 
-                                                             medical_only, 
-                                                             allow_duplicates, 
-                                                             allow_duplicates_across_entries, 
-                                                             ms_type)
-        if frequency_list == '':
-            result = "No n-grams found with the given settings."
-        else:
-            result = "Most frequent "
-            result += str(size)
-            result += " "
-            result += str(ngrams)
-            result += " ngrams are: \n"
-            result += frequency_list
-        
-        self.display_results.configure(state="normal")
-        self.display_results.delete('1.0','end')
-        self.display_results.insert('1.0',result)
-        self.display_results.configure(state="disabled")
-
+   
     # Button of 'same' name ('plot _')
     def graphMostFreqNgramsClick(self):
 
