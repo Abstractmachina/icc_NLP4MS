@@ -166,6 +166,13 @@ class FrequencyAnalyser:
         # preprocessed words for that users' free text entry
         self.tokenized_txt = [self.wordTokenize(text) for text in self.df[self.txt_hd]]
 
+        count = 0
+        for entry in self.tokenized_txt:
+            for word in entry:
+                count +=1
+        self.total_words = count
+        
+
         # Generate the same, but with stopwords removed
         self.tokenized_txt_no_stop = [None] * len(self.tokenized_txt)        
         for index,entry in enumerate(self.tokenized_txt):
@@ -2014,7 +2021,11 @@ class FrequencyAnalyser:
         freq_dist = FreqDist(n_grams)
         return freq_dist[phrase]   
 
-
+    def getTotalEntries(self):
+        return len(self.tokenized_txt)
+    
+    def getTotalWords(self):
+        return self.total_words
     
     def getMostFrequentNgrams(self,ngram=1,size=10,stopwords=True,medical=False,allow_duplicates=False,allow_duplicates_across_entries=False,ms_type = "All"):
         """"""

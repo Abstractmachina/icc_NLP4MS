@@ -165,6 +165,8 @@ class ChooseCsvHeaders:
         
         """
         self.app.homepage.main_menu_button['state'] = 'normal'
+        self.app.main_menu.freq_page.clearAnalyser()
+        self.app.main_menu.search_page.clearSearcher()
         self.app.displayFrame("main frame")
     
     def chooseCSVHeaders(self):

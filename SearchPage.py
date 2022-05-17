@@ -170,7 +170,10 @@ class SearchPage:
 
 
         self.app.resizeWindow("900x750")
-        self.app.displayFrame("search frame")      
+        self.app.displayFrame("search frame")  
+
+    def clearSearcher(self):
+        self.searcher = None    
 
     def setupLoadingWindow(self):
         loading_window = Toplevel(self.root)

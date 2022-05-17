@@ -180,6 +180,9 @@ class FrequencyPage:
         self.app.resizeWindow("900x640")
         self.app.displayFrame("main frame")
 
+    def clearAnalyser(self):
+        self.analyser = None
+
     # Loads the Word Frequency Analysis page frame (from Main Menu)
     # Heavy function - creates dictionaries from csv
     def validateAndInit(self):
@@ -244,19 +247,7 @@ class FrequencyPage:
         medical_only = False
         allow_duplicates = True
         allow_duplicates_across_entries = False
-        
-
-        if self.remove_stopwords.get():
-            remove_stopwords = True
-        if self.medical_only.get():
-            medical_only = True
-        if self.unique_only.get():
-            allow_duplicates = False
-        if self.different_entries_only.get():
-            allow_duplicates_across_entries = True
-
-        if allow_duplicates == False:
-            allow_duplicates_across_entries = False
+            
 
         frequency_count = self.analyser.getFrequencyOfNgram(freq_search_phrase, 
                                                             ngrams, 
@@ -266,10 +257,33 @@ class FrequencyPage:
                                                             allow_duplicates_across_entries, 
                                                             ms_type)
 
+        entry_count = self.analyser.getFrequencyOfNgram(freq_search_phrase, 
+                                                            ngrams, 
+                                                            remove_stopwords, 
+                                                            medical_only, 
+                                                            allow_duplicates=False, 
+                                                            allow_duplicates_across_entries=True, 
+                                                            ms_type=ms_type)
+        
+        total_entries = self.analyser.getTotalEntries()
+
+        proportion_of_entries = entry_count/total_entries * 100
+
+        proportion_of_entries = "{:.2f}".format(proportion_of_entries)
+
+
+        
+
         result = "Frequency of the phrase: '"
         result += freq_search_phrase
         result += "' is: "
         result += str(frequency_count)
+        result += "\n\nAppearing in "
+        result += proportion_of_entries
+        result += "% of entries, out of a total of "
+        result += str(total_entries)
+        result += " entries\n\n"
+
 
         self.display_results.configure(state="normal")
         self.display_results.delete('1.0','end')
