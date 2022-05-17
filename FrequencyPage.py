@@ -25,6 +25,7 @@ class FrequencyPage:
     
     # configuration (called on initialisation)
     def configureFreqPage(self):
+        
 
         # RESULTS BOX #
         
@@ -162,11 +163,14 @@ class FrequencyPage:
                                                  variable = self.different_entries_only)
         different_entries_only.grid(column = 0, row = 14, sticky = (N,S,E,W))
         
-        self.plot_by_type = IntVar()
+        self.plot_by_type_var = IntVar()
         plot_by_type = ttk.Checkbutton(settings_frame, 
                                            text = "Plot by MS type", 
-                                           variable = self.plot_by_type)
+                                           variable = self.plot_by_type_var)
         plot_by_type.grid(column=1,row=11, sticky = (N,S,E,W))
+
+        self.plot_by_type = plot_by_type
+
         
         # BACK BUTTON #
 
@@ -195,18 +199,31 @@ class FrequencyPage:
         if self.app.csv_header_combo_boxes[2].get() == "NONE":
             messagebox.showerror("Input Error", "Error: Free Text required")
             return
-        # MS Type
-        if self.app.csv_header_combo_boxes[4].get() == "NONE":
-            messagebox.showerror("Input Error", "Error: MS Type required")
-            return
         # init
+
+        self.ms_type = self.app.csv_header_combo_boxes[4].get()
+
+        if self.ms_type == "NONE":
+            self.ms_type_list.configure(state="disabled")
+            self.plot_by_type.configure(state="disabled")
+        else:
+            self.ms_type_list.configure(state="normal")
+            self.plot_by_type.configure(state="normal")
+
+          
+
         self.app.resizeWindow("900x750")
         if self.analyser == None:
             loading_window,loading_bar = self.setupLoadingWindow()
+
+
+
+            if self.ms_type == "NONE":
+                self.ms_type=None
             self.analyser = FrequencyAnalyser(self.app.df, 
                                             self.app.csv_header_combo_boxes[2].get(), 
                                             self.app.csv_header_combo_boxes[0].get(), 
-                                            self.app.csv_header_combo_boxes[4].get(),
+                                            self.ms_type,
                                             processed= False, loading_bar= loading_bar,
                                             loading_window = loading_window)
             loading_window.destroy()
@@ -342,7 +359,10 @@ class FrequencyPage:
 
         ngrams = int(self.ngram_list.get())
         size = int(self.most_frequent_list.get())
-        ms_type = str(self.ms_type_list.get()) 
+        if self.ms_type != None:
+            ms_type = str(self.ms_type_list.get()) 
+        else:
+            ms_type = "All"
 
         # Build Boolean variables
         remove_stopwords = False
@@ -364,8 +384,9 @@ class FrequencyPage:
 
         plt_by_type = False
 
-        if self.plot_by_type.get():
-            plt_by_type = True
+        if self.ms_type != None:
+            if self.plot_by_type_var.get():
+                plt_by_type = True
 
         self.analyser.graphMostFrequentNgrams(ngrams,size,remove_stopwords,medical_only,allow_duplicates,
                                               allow_duplicates_across_entries,ms_type,plot_by_type=plt_by_type)
