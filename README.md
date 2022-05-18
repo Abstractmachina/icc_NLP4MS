@@ -47,3 +47,5 @@ Our GitLab repo and project contains a few resources that other's have made. As 
 In addition, we have made use of the NLTK's package stopwords, n-gram tool, and VADER sentiment model, which can be found under the NLTK data page at: https://www.nltk.org/nltk_data/
 
 Finally, we have included a couple of publically avaialble CSV test files. The Trump Tweets CSV was scraped by Austin Reese, published under the CC0: Public Domain license, and is avaialble at: https://www.kaggle.com/datasets/austinreese/trump-tweets. The IMDB Reviews dataset was created by Andrew L. Maas et al. Their original paper using the data set is Andrew L. Maas, Raymond E. Daly, Peter T. Pham, Dan Huang, Andrew Y. Ng, and Christopher Potts. (2011). Learning Word Vectors for Sentiment Analysis. The 49th Annual Meeting of the Association for Computational Linguistics (ACL 2011). And can be accessed at: http://ai.stanford.edu/~amaas/papers/wvSent_acl2011.pdf 
+
+Our other test CSVs that we created contain Lorem Ipsum text, text from ShakeSpeare plays, and scraped Wikipedia text.
