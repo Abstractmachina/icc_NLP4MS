@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk
-from turtle import color
 
 import matplotlib
 import matplotlib.pyplot as plt
@@ -82,14 +81,10 @@ class SentimentGrapher_tk (ISentimentGraphAdapter):
         #add to tkinter canvas
         canvas = FigureCanvasTkAgg(figure, tk_frame)
         canvas.draw()
-        #canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
         canvas.get_tk_widget().grid(row=1, column = 0, sticky=(tk.E,tk.W))
-        #canvas.get_tk_widget().place(relx= 0.5, y = height + 10, relwidth=1.0, anchor="center")
-        
-        #matplotlib toolbar not needed atm
+
         toolbar = NavigationToolbar2Tk(canvas, tk_frame)
         toolbar.update()
-        #canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         canvas._tkcanvas.grid(row=1, column = 0, sticky=(tk.E,tk.W))
         return
     
@@ -118,9 +113,6 @@ class SentimentGrapher_tk (ISentimentGraphAdapter):
         canvas = FigureCanvasTkAgg(figure, tk_frame)
         canvas.get_tk_widget().grid(row=0, column = 0)
         
-        #matplotlib tool. not needed atm
-        #toolbar = NavigationToolbar2Tk(canvas, tk_page)
-        #toolbar.update()
         canvas._tkcanvas.grid(row=0, column = 0)
         return
     
@@ -175,9 +167,6 @@ class SentimentGrapher_tk (ISentimentGraphAdapter):
         canvas = FigureCanvasTkAgg(figure, tk_frame)
         canvas.get_tk_widget().grid(row=1, column = 0)
         
-        #matplotlib tool. not needed atm
-        #toolbar = NavigationToolbar2Tk(canvas, tk_page)
-        #toolbar.update()
         canvas._tkcanvas.grid(row=1, column = 0)
         return
     
@@ -235,7 +224,7 @@ class SentimentGrapher_tk (ISentimentGraphAdapter):
                 
         """
         
-        #build matplotlib fifure
+        #build matplotlib figure
         f = Figure(figsize=(6,3), dpi=100)
         ax = f.add_subplot(111)
         sortedPts = sentimentHistory.sort_values(by="CompletedDate")
@@ -244,13 +233,8 @@ class SentimentGrapher_tk (ISentimentGraphAdapter):
         #add to tkinter canvas
         canvas = FigureCanvasTkAgg(f, tk_frame)
         canvas.draw()
-        #canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
         canvas.get_tk_widget().grid(row=1, column = 0)
-        
-        #matplotlib tool. not needed atm
-        #toolbar = NavigationToolbar2Tk(canvas, tk_page)
-        #toolbar.update()
-        #canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+
         canvas._tkcanvas.grid(row=1, column = 0)
         return
     
@@ -274,12 +258,7 @@ class SentimentGrapher_tk (ISentimentGraphAdapter):
             
             sortedPts = dataPts.sort_values(by="CompletedDate")
             ax_sent.plot(sortedPts["CompletedDate"], sortedPts["Sent_Comp"])
-            
-            # if sortedPts.iloc[0]["Sent_Comp"] < sortedPts.iloc[-1]["Sent_Comp"]:
-            #     ax[0].plot(sortedPts["CompletedDate"], sortedPts["Sent_Comp"])
-            # else:
-            #     ax[1].plot(sortedPts["CompletedDate"], sortedPts["Sent_Comp"])
-                
+
         ax_sent.set_title("Sentiment Trend")
         ax_sent.set_ylim(-1, 1)
         ax_sent.set_ylabel("Sentiment Score")
@@ -302,9 +281,6 @@ class SentimentGrapher_tk (ISentimentGraphAdapter):
         canvas.draw()
         canvas.get_tk_widget().grid(row=1, column = 0)
         
-        #matplotlib tool. not needed atm
-        #toolbar = NavigationToolbar2Tk(canvas, tk_page)
-        #toolbar.update()
         canvas._tkcanvas.grid(row=1, column = 0)
         return
     

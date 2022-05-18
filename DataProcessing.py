@@ -4,10 +4,6 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, 
 NavigationToolbar2Tk)
 
-import csv
-import random
-import time
-# import lipsum # for testing purposes only!
 
 #================================================================
 class DataQuery:

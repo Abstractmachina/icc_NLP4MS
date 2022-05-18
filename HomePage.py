@@ -5,10 +5,6 @@ from tkinter import filedialog
 from ChooseCsvHeaders import ChooseCsvHeaders
 from InstructionPage import InstructionPage
 #from ModelPage import ModelPage
-
-# TODO:
-    # Write instructions page
-    # Specify starred imports explicitly
     
 class HomePage:
 
@@ -54,9 +50,6 @@ class HomePage:
         instruction_button = Button(self.frame, text="Instructions (opens new window)", command=self.instructionsClick,
                                         bg = "light blue", borderwidth=2, font=("bold", 12))
         instruction_button.grid(column=1,row=6,sticky=(N,S,E,W),padx=10,pady=10)
-        #model_button = ttk.Button(self.frame, text="Predict MS Type", command= lambda: self.app.displayFrame("model frame"))
-        #model_button.grid(column=1,row=5,sticky=(N,S,E,W))
-
 
         # Disabled by default
         # Set to normal by ChooseCsvHeaders.chooseCsvHeaders() function

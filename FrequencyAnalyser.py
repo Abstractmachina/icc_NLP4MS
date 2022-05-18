@@ -1096,9 +1096,7 @@ class FrequencyAnalyser:
 
         self.addTokenizedText()   
         gc.collect()
-        print("tokenized done")
         self.createNgramsForDf()  
-        print("ngrams done")
         gc.collect()
 
         self.incrementLoadingBar(30)             
@@ -2095,8 +2093,6 @@ class FrequencyAnalyser:
         """"""
         n_grams = self.getNgrams(ngram,stopwords,medical,allow_duplicates,allow_duplicates_across_entries,ms_type)
         freq_dist = FreqDist(n_grams)
-
-        print(plot_by_type)
 
         if self.ms_type != None and plot_by_type == True:
             n_grams_b = self.getNgrams(ngram,stopwords,medical,allow_duplicates,allow_duplicates_across_entries,"Benign")

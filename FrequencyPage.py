@@ -9,7 +9,6 @@ from tkinter import filedialog
 from tkinter import messagebox
 
 import pandas as pd
-import time
 
 from FrequencyAnalyser import FrequencyAnalyser
 
@@ -244,7 +243,6 @@ class FrequencyPage:
         freq_search_phrase = self.freq_box.get().strip()
         # change to read in number entered
         # prevent from moving forward with more than 4 words in a phrase
-        #ngrams = int(self.ngram_list.get())
         ngrams = count_words_in_string(self.freq_phrase.get())
         if ngrams <= 0 or ngrams > 4:
             self.display_results.configure(state = "normal")

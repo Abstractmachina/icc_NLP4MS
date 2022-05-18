@@ -19,17 +19,13 @@ class App:
 
         Sets up a dictionary to store all of the App's pages
 
-        """        
-
-        
+        """                
 
         root.title("Patient free text explorer")
         root.geometry("900x640+500+150")               
         
         root.columnconfigure(0, weight=1)
         root.rowconfigure(0, weight=1)    
-
-
         
         # This will store a list of combo boxes that the user enters the CSV header information in
         # Need to store this in the App class so any other class has access to the user input
@@ -141,8 +137,7 @@ def setTheme(root):
 
 
 
-# Responsible for creating an instance of the app and running the app
-# TODO: should move this into its own main function
+
 if  __name__ == "__main__":
     runApp()
 

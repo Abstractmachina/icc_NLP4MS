@@ -9,8 +9,6 @@ from tkinter import ttk
 
 import pandas as pd
 
-# TODO:
-    # Main Menu button enabled only when 'Done' is pressed
 
 """
 Class for the csv header select page

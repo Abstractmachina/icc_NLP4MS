@@ -58,17 +58,14 @@ class TrendPage:
         #Control frame
         ########################################################################
         f_controls = ttk.Frame(self.frame)
-        # f_controls.grid(column=0, row = 1, sticky = (N,S))
         f_controls.place(x = 0, y = self.headerHeight, width = optionsWidth, height= mainHeight)
         
         ##  options frame
         f2_options = ttk.Frame(f_controls)
-        #f2_options.grid(row =2)
         f2_options.place(x = 0, rely=0.0, width=optionsWidth, relheight=0.8)
         
         ### input
         f3_input = ttk.Frame(f2_options)
-        #f3_input.grid(row = 0)
         f3_input.place(relx=0, rely=0, relwidth=1, relheight=0.2)
         
         l_options = ttk.Label(f3_input, text = "Options")
@@ -84,7 +81,6 @@ class TrendPage:
         
         ### trend graphs
         f3_trends = ttk.Frame(f2_options)
-        #f3_trends.grid(row = 1)
         f3_trends.place(relx=0, rely=1/3, relwidth=1, relheight=1/3)
 
         l_trends = ttk.Label(f3_trends, text = "Trend Graphs")
@@ -102,7 +98,6 @@ class TrendPage:
     
         ### distribution graphs
         f3_distro = ttk.Frame(f2_options)
-        # f3_distro.grid(row = 2)
         f3_distro.place(relx=0, rely=2/3, relwidth=1, relheight=1/3)
         
         l_distribution = ttk.Label(f3_distro, text = "Distribution Graphs")
@@ -136,18 +131,15 @@ class TrendPage:
         
         ##control footer frame
         f2_footer = ttk.Frame(f_controls)
-        #f2_footer.grid(row = 4)
         f2_footer.place(x = 0, rely=0.8, relwidth=1.0, relheight=0.2)
         
         b_generate = ttk.Button(f2_footer, text = "Generate", 
                                 command = lambda: self.generate_click())
-        # b_generate.grid(row = 0)
         b_generate.place(x = 5, y= 0, width=optionsWidth-10, relheight=1/2*0.95)
         
         
         b_back = ttk.Button(f2_footer, text="Back", 
                             command= lambda: self.app.displayFrame("main frame"))
-        # b_back.grid(row=2, sticky=(N,S,E,W))
         b_back.place(x = 5, rely=1/2*0.97, width=optionsWidth-10, relheight=1/2*0.95)
         
         
@@ -155,22 +147,14 @@ class TrendPage:
         #Display frame
         ########################################################################
         f_display = ttk.Frame(self.frame)
-        #f_display.grid(column = 1, row = 1, sticky=(N,S,E))
         f_display.place(x=optionsWidth, y = self.headerHeight, width=displayWidth, height=mainHeight)
-        # results = Text(f_display, width=95, height=20)
-        # results.grid(row=0, column = 0, sticky=(N,S,E, W))
-        # results.insert("1.0","Result will appear here")
-        # results.configure(font="16")
-        # results.configure(state="disabled")
         self.displayFrame = f_display
         
         
         canvas = Canvas(f_display)
-        #canvas.grid(row = 0, column = 0, sticky=(N,S,E, W))
         canvas.place(relx=0, rely=0, relheight=1, relwidth=0.95)
         
         scrollbar = ttk.Scrollbar(f_display, orient=VERTICAL, command=canvas.yview)
-        #scrollbar.grid(row=0, column = 1, sticky=(N,S))
         scrollbar.place(relx=0.95, rely=0, relheight = 1, relwidth = 0.05)
         
         canvas.configure(yscrollcommand=scrollbar.set)
@@ -180,9 +164,6 @@ class TrendPage:
         self.f2_container.place(relx= 0, rely=0,relheight=1, relwidth=1)
         self.f2_container.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
         canvas.create_window((0,0), window=self.f2_container, anchor="nw")
-        
-        # for i in range(50):
-        #      Button(self.f2_container, text=f'Button {1+i} Yoo!', font="arial 20").grid(sticky=(W,E))
 
         results = Text(self.f2_container, width=95)
         results.grid(row=0, column = 0, sticky=(N,S,E,W))
@@ -278,5 +259,4 @@ class TrendPage:
     def isInt(S):
         if S in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
             return True
-        #t3.bell() # .bell() plays that ding sound telling you there was invalid input
         return False

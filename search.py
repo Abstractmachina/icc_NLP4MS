@@ -5,7 +5,6 @@ import nltk
 from nltk.tokenize import word_tokenize
 import os
 
-
 class TextSearcher:
 
     def __init__(self,df,csv_header_combo_boxes,loading_bar=None,loading_window=None):

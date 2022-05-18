@@ -1,6 +1,3 @@
-
-
-
 import pandas as pd
 from SentimentModel import SentimentModel
 from SentimentGrapher import SentimentGrapher_tk as sg
@@ -13,7 +10,6 @@ class SentimentController:
 
     
     def loadCSV(self, filepath):
-        #TODO: need to check that all dates follow "%d/%m/%Y" format
         self.model.importFile(filepath)
     
     
@@ -70,7 +66,6 @@ class SentimentController:
             column = input[csv_headers[8].get()]
             data.insert(idx, headers[8], column)
         
-        print(data)
         self.model.rawData = data
         return
        
@@ -82,7 +77,6 @@ class SentimentController:
         return
     
     def buildUserInfo(self, userId) -> str:
-        #TODO: diagnosis date not imported correctly
         return self.model.getUserInfo(userId)
     
     
