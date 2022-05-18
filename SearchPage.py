@@ -73,7 +73,7 @@ class SearchPage:
         self.window_list = window_list
 
         # Configure the area where query results will be displayed
-        results = Text(self.frame, width=95, height=20)
+        results = Text(self.frame, width=95, height=20,wrap=WORD)
         results.grid(row=0,column=0,rowspan=3,columnspan=3,sticky=(N,S,E,W))
         results.insert("1.0","Search results will appear here")
         results.configure(font="16")
