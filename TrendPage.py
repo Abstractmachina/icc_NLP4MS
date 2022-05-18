@@ -71,12 +71,12 @@ class TrendPage:
         l_options = ttk.Label(f3_input, text = "Options")
         l_options.grid(row = 0, sticky="W", padx=10)
         
-        l_numUsers = ttk.Label(f3_input, text = "Number of Users\n(0 for all)")
+        l_numUsers = ttk.Label(f3_input, text = "Number of Users\n(0 for all, min 20):")
         l_numUsers.grid(row = 1, column= 0, sticky="W", padx=10)
         
         numUsers = StringVar()
         self.e_numUsers = ttk.Entry(f3_input, textvariable=numUsers)
-        self.e_numUsers.grid(row=1, column = 1, sticky="EW")
+        self.e_numUsers.grid(row=2, column = 0, sticky="EW")
         
         
         ### trend graphs
