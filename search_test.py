@@ -9,7 +9,7 @@ class DummyTextSearcher:
 
     def __init__(self):
         # Load in test dataframe:
-        self.df = pd.read_csv("search_test.csv")
+        self.df = pd.read_csv("test_csv_files/search_test.csv")
            
         """
         # Create test combo-boxes:

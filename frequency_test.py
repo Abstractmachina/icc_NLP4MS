@@ -7,7 +7,7 @@ import pandas as pd
 class FrequencyTester:
     def __init__(self):
         # Load in the test data frame
-        self.df = pd.read_csv("freq_test.csv")
+        self.df = pd.read_csv("test_csv_files/freq_test.csv")
 
         self.FreqAnalyser = FrequencyAnalyser(self.df,"free_txt","user_id","ms_type")
 
