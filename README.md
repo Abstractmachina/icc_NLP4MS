@@ -1,22 +1,17 @@
-## Name
+## Project Title
 NLP for MS 
 Developers: Matt Barker, Colin Taylor, Taole Chen, Kaixuan Khoo, Ronan Patrick, Gus Levinson, Jack Cheng
 Supervisors: Chiraag Lala, Rod Middleton, Richard Nicholas 
 ## Description
 MSc Computing 21/22 Group Project Repository
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
 ## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+The project requires Python version 3.8 or later. The required libraries can be found in the requirements.txt file. For the Bag of Words model, an additional requirement of: cython and scikit-learn==0.22.2.post1 is needed (this is no in the final release but has been left in to showcase work mentioned in our presentation).
 
 ## Usage
-Once pulled, insert your desired csv file into the main folder.
-From there, run AppClass.py
+Once downloaded, navigate to the project's directory in a terminal. Then, run AppClass.py to launch the application.
+
+Since the software is designed to analyse CSV files, several example CSV files have been provided in the "test_csv_files" folder, to showcase specific tools of the application. In addition, there are two very large example CSVs, "trump_tweets" and "imdb_reviews". The appropriate license and referencing of these files can be found below in the Licensing section. These two large files are designed to showcase how the search and frequency tools of the application can handle millions of words. Please note that it may take a bit of time to load the first entry into these tools, due to the number and size of the entries in these CSV files. Also note that the IMDB dataset contains start/end of sentence markers "br", which slightly clutter the frequency counts.
 
 ### About the software
 This software contains several tools that are designed to analyse textual data within a CSV file. Whilst the software was originally designed to analyse unprompted free-text entries of medical patients with Multiple Sclerosis (MS), many of the analytical tools will work with any CSV file that contains a column with text entries. 
@@ -44,24 +39,11 @@ This tool allows analysis of a specific user, identified by their user ID. The t
 This tool plots the trend of multiple users’ sentiment and disability scores overtime. A minimum of 20 users is required to use this tool. The trend plots themselves get fairly ‘busy’ with much more than 20 users. What is perhaps more useful is the distribution plots. These plots are bar charts, where the y-axis is the number of entries, and the x-axis is the value of sentiment/disability scores. This is a useful way to gauge the overall sentiment/disability scores of entries in the free text.  
 
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
 ## License
-For open source projects, say how it is licensed.
+We aim to publish the project, at a later date, on a public GitHub repo, under a "free for non-commercial use" license. 
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Our GitLab repo and project contains a few resources that other's have made. As already mentioned and referenced, we have used an open-source medical dictionary to remove medical terms from the text. In addition, we have used a tkinter theme by rdbende, which is avaialble under the MIT license, and can be accessed at: https://github.com/rdbende/Azure-ttk-theme
+
+In addition, we have made use of the NLTK's package stopwords, n-gram tool, and VADER sentiment model, which can be found under the NLTK data page at: https://www.nltk.org/nltk_data/
+
+Finally, we have included a couple of publically avaialble CSV test files. The Trump Tweets CSV was scraped by Austin Reese, published under the CC0: Public Domain license, and is avaialble at: https://www.kaggle.com/datasets/austinreese/trump-tweets. The IMDB Reviews dataset was created by Andrew L. Maas et al. Their original paper using the data set is Andrew L. Maas, Raymond E. Daly, Peter T. Pham, Dan Huang, Andrew Y. Ng, and Christopher Potts. (2011). Learning Word Vectors for Sentiment Analysis. The 49th Annual Meeting of the Association for Computational Linguistics (ACL 2011). And can be accessed at: http://ai.stanford.edu/~amaas/papers/wvSent_acl2011.pdf 
