@@ -133,12 +133,12 @@ class TrendPage:
         f2_footer = ttk.Frame(f_controls)
         f2_footer.place(x = 0, rely=0.8, relwidth=1.0, relheight=0.2)
         
-        b_generate = ttk.Button(f2_footer, text = "Generate", 
+        b_generate = Button(f2_footer, text = "Generate", bg = "light blue", borderwidth=2, font=("bold", 12),
                                 command = lambda: self.generate_click())
         b_generate.place(x = 5, y= 0, width=optionsWidth-10, relheight=1/2*0.95)
         
         
-        b_back = ttk.Button(f2_footer, text="Back", 
+        b_back = Button(f2_footer, text="Back", bg = "light blue", borderwidth=2, font=("bold", 12),
                             command= lambda: self.app.displayFrame("main frame"))
         b_back.place(x = 5, rely=1/2*0.97, width=optionsWidth-10, relheight=1/2*0.95)
         
@@ -160,7 +160,6 @@ class TrendPage:
         canvas.configure(yscrollcommand=scrollbar.set)
 
         self.f2_container = ttk.Frame(canvas)
-        #self.f2_container.grid(sticky=(N,S,E, W))
         self.f2_container.place(relx= 0, rely=0,relheight=1, relwidth=1)
         self.f2_container.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
         canvas.create_window((0,0), window=self.f2_container, anchor="nw")
