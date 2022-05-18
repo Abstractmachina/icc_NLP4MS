@@ -44,6 +44,8 @@ We aim to publish the project, at a later date, on a public GitHub repo, under a
 
 Our GitLab repo and project contains a few resources that other's have made. As already mentioned and referenced, we have used an open-source medical dictionary to remove medical terms from the text. In addition, we have used a tkinter theme by rdbende, which is avaialble under the MIT license, and can be accessed at: https://github.com/rdbende/Azure-ttk-theme
 
+All images used in our application (the four icons on the main menu) have been sourced from "free for non-commercial use" sites. Some icons have been sourced from: https://iconarchive.com/ , whilst others have been sourced from: https://www.pexels.com/. 
+
 In addition, we have made use of the NLTK's package stopwords, n-gram tool, and VADER sentiment model, which can be found under the NLTK data page at: https://www.nltk.org/nltk_data/
 
 Finally, we have included a couple of publically avaialble CSV test files. The Trump Tweets CSV was scraped by Austin Reese, published under the CC0: Public Domain license, and is avaialble at: https://www.kaggle.com/datasets/austinreese/trump-tweets. The IMDB Reviews dataset was created by Andrew L. Maas et al. Their original paper using the data set is Andrew L. Maas, Raymond E. Daly, Peter T. Pham, Dan Huang, Andrew Y. Ng, and Christopher Potts. (2011). Learning Word Vectors for Sentiment Analysis. The 49th Annual Meeting of the Association for Computational Linguistics (ACL 2011). And can be accessed at: http://ai.stanford.edu/~amaas/papers/wvSent_acl2011.pdf 
