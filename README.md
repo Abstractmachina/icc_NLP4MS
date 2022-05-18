@@ -1,6 +1,7 @@
 ## Name
 NLP for MS 
 Developers: Matt Barker, Colin Taylor, Taole Chen, Kaixuan Khoo, Ronan Patrick, Gus Levinson, Jack Cheng
+Supervisors: Chiraag Lala, Rod Middleton, Richard Nicholas 
 ## Description
 MSc Computing 21/22 Group Project Repository
 
