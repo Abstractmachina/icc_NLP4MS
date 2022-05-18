@@ -1,7 +1,6 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
-from numpy import imag
 
 import pandas as pd
 
@@ -9,8 +8,6 @@ from FrequencyPage import FrequencyPage
 from SearchPage import SearchPage
 from SentimentPage import SentimentPage
 from TrendPage import TrendPage
-
-
 
 class MainMenu:
     
@@ -25,8 +22,6 @@ class MainMenu:
         self.trend_page = TrendPage(self.root, self.app.addPageFrame("trend frame", self.root), self.app)
 
         self.configureMainMenu()
-
-        
 
     def configureMainMenu(self):
 
