@@ -112,8 +112,8 @@ class FrequencyPage:
         settings_frame = Frame(self.frame,relief=RIDGE,bd=5)
         settings_frame.grid(column=0,columnspan=3,row=9,rowspan=5)
         
-        settings_header = Label(settings_frame, anchor = CENTER, text = "Settings",font=("bold",12, "underline"))
-        settings_header.grid(column = 0, row = 9, columnspan = 2, pady = 10, sticky = NSEW,padx=388)
+        settings_header = Label(settings_frame, anchor = CENTER, text = "Settings for plotting n-grams",font=("bold",12, "underline"))
+        settings_header.grid(column = 0, row = 9, columnspan = 2, pady = 10, sticky = NSEW,padx=320)
 
         # Configure the ms type list
         ms_type_list_label = ttk.Label(settings_frame, anchor = CENTER, text = "MS Type:")
